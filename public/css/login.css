@@ -1,36 +1,18 @@
-                html, body * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+html, body * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
 
 body {
   background:
     linear-gradient(
-    rgba(246,247,249,0.8),
-    rgba(246,247,249,0.8)),
+    rgba(123, 127, 135, 0.8),
+    rgba(122, 130, 146, 0.8)),
     url(https://dl.dropboxusercontent.com/u/22006283/preview/codepen/sky-clouds-cloudy-mountain.jpg) no-repeat center center fixed;
   background-size: cover;
 } 
 
 .containerIniciar {
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.frame {
-  height: 600px;
-  width: 360px;
-  background:
-    linear-gradient(
-    rgba(35,43,85,0.75),
-    rgba(35,43,85,0.95)),
-    url(https://www.argentinaturismo.com.ar/berisso/img/ciudad.jpg) no-repeat center center;
-  background-size: cover;
-  margin-left: auto;
-  margin-right: auto;
-  border-top: solid 1px rgba(255,255,255,.5);
-  border-radius: 5px;
-  box-shadow: 0px 2px 7px rgba(0,0,0,0.2);
-  overflow: hidden;
-  transition: all .5s ease;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .frame-long {
@@ -101,7 +83,7 @@ body {
 .form-signin {
   width: 360px;
   height: 360px;
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 300;
   padding-left: 37px;
   padding-right: 37px;
@@ -116,9 +98,9 @@ body {
 }
 
 .form-signup {
-  width: 360px;
-  height: 375px;
-	font-size: 16px;
+  width: 375px;
+  height: 360px;
+	font-size: 13px;
 	font-weight: 300;
   padding-left: 37px;
   padding-right: 37px;
@@ -183,7 +165,7 @@ body {
 }
 
 .form-signin input, .form-signup input {
-  color: #ffffff;
+  color: #1f0404;
   font-size: 13px;
 }
 
@@ -213,7 +195,7 @@ label {
 .form-signin input:focus, textarea:focus, .form-signup input:focus, textarea:focus {
     background: rgba(255,255,255,.3);
     border: none; 
-    padding-right: 40px;
+    /* padding-right: 40px; */
     transition: background .5s ease;
  }
 
@@ -319,8 +301,8 @@ label {
 }
 
 .btn-signin {
-    color: #ffffff;
-    background-color: #1059FF;
+  color: #ffffff;
+  background-color: #1059FF;
   float: left;
   padding-top: 8px;
   width: 100%;
@@ -415,8 +397,8 @@ a.btn-signup:hover, a.btn-signin:hover {
   background:
     linear-gradient(
     rgba(35,43,85,0.75),
-    rgba(35,43,85,0.95)),
-    url(https://media-cdn.tripadvisor.com/media/photo-s/16/4c/ba/78/lindo-lugar.jpg);
+    rgba(35,43,85,0.95));
+    /* url(https://media-cdn.tripadvisor.com/media/photo-s/16/4c/ba/78/lindo-lugar.jpg); */
   background-size: cover;
   opacity: 0;
   transition: all 1.5s ease 0.55s;

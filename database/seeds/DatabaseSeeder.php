@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         //  $this->call(EspecialidadesSeeder::class);
         //  $this->call(MedicoSeeder::class);
          $this->call(UsersSeeder::class);
-         $this->call(ReciboSeeder::class);
+        //  $this->call(ReciboSeeder::class);
         //  $this->call(Turno_espec_medicSeeder::class);
     }
 }

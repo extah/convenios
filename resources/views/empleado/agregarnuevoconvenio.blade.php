@@ -5,7 +5,13 @@
 
             <!-- <link rel="stylesheet" href="{{ asset('css/login.css') }}"> -->
             <link href="{{ asset('/assets/bootstrap-datepicker-1.7.1/css/bootstrap-datepicker.min.css') }}" rel="stylesheet"/>
-
+            <style>
+                .formItem{
+                    display: block;
+                    text-align: center;
+                    line-height: 200%;
+                }
+            </style>
 @endsection
 
 @section('content')
@@ -14,35 +20,28 @@
   <div class="col-8 col-sm-6 col-md-6 mx-auto">
     <div class="card text-white bg-info mb-3" style="max-width: 100rem;">
         <div class="card-body text-center">
-          <h4 class="card-title">Menu principal</h4>
+          <h4 class="card-title">Nuevo convenio</h4>
         </div>                  
     </div>
   </div>
 </div>
 
     <article class="container px-4"> 
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="card border-info mb-3">
-            <div class="card-header text-dark"><b>Nuevo convenio</b></div>
-            <div class="card-body text-info">
-              <h5 class="card-title">Agregar un convenio nuevo</h5>
-              <a class="btn btn-success" href="{{route('empleado.agregarnuevoconvenio')}}" role="button">Agregar</a>
+        <div class="col-6 col-sm-6 col-md-6 mx-auto">
+            <div class="form-group">
+                <label class="formItem" for="nro_expediente"> <b>Numero de expediente</b></label>
+                <input  class="form-control text-center" type="text" name="nro_expediente" id="nro_expediente" placeholder="ingresa nro de expediente" required>
             </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="card border-info mb-3">
-            <div class="card-header"><b>Buscar convenio</b></div>
-            <div class="card-body text-info">
-              <h5 class="card-title">Buscar un convenio existente</h5>
-              {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-              <a class="btn btn-info text-white" href="#" role="button">Buscar</a>
+            <div class="form-group">
+                <label class="formItem" for="select_cuenta"> <b>Cuenta bancaria</b></label>
+                <select name="select_cuenta" id="select_cuenta" class="form-control text-center" required>
+                    <option value="">-Seleccion&aacute el tipo de cuenta-</option>
+                    <option value="comun" offset="1">comun</option>
+                    <option value="nueva" offset="1">nueva</option>
+                </select>
             </div>
-          </div>
         </div>
-      </div>
-      
+
     </article>
 
 <br>
@@ -121,16 +120,5 @@
 })()
   </script>
 
-<script>
-    @if ($status_ok)
-            toastr.success("{{ $nombre }}", ' {{  $message }} ', {
-                // "progressBar": true,
-                "closeButton": true,
-                "positionClass": "toast-bottom-right",
-                "progressBar": true,
-                "timeOut": "20000",
-            });   
-    @endif 
-</script>
 
 @endsection

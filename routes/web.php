@@ -35,6 +35,7 @@ Route::group(array('prefix' => 'empleado'), function(){
 	// Route::get('/buscar',	'empleado\EmpleadoController@getBuscarPorMes')->name('empleado.getBuscarPorMes');
 	Route::post('/registrarse',	'empleado\EmpleadoController@registrarse')->name('empleado.registrarse');
 	Route::get('/cerrarsesion',	'empleado\EmpleadoController@cerrarsesion')->name('empleado.cerrarsesion');
+	Route::post('/agregarconvenio',	'empleado\EmpleadoController@agregarconvenio')->name('empleado.agregarconvenio');
 });
 
 Route::group(array('prefix' => 'recibodesueldo'), function(){

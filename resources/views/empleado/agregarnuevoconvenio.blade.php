@@ -54,7 +54,7 @@
            
             <div class="form-group" >
               <div class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
-              <div id='errorRecaptcha' style='color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
+              <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
             </div>
               <div class="d-grid gap-2 col-6 mx-auto">
                 <button type="submit" class="btn btn-primary btn-lg">Iniciar convenio</button>

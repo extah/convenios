@@ -29,13 +29,17 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::post('/',	'empleado\EmpleadoController@home')->name('empleado.home');
 	Route::get('/',	'empleado\EmpleadoController@indexget')->name('empleado.indexget');
 	Route::get('/agregar',	'empleado\EmpleadoController@agregar')->name('empleado.agregarnuevoconvenio');
+	Route::post('/agregarconvenio',	'empleado\EmpleadoController@agregarconvenio')->name('empleado.agregarconvenio');
 	// Route::get('/descargar/{tipo}/{mes}/{anio}',	'empleado\EmpleadoController@descargarPDF')->name('empleado.descargarPDF');
 	// Route::get('/mostrar/{tipo}/{mes}/{anio}',	'empleado\EmpleadoController@mostrarPDF')->name('empleado.mostrarPDF');
 	// Route::post('/buscar',	'empleado\EmpleadoController@buscarPorMes')->name('empleado.buscarPorMes');
-	// Route::get('/buscar',	'empleado\EmpleadoController@getBuscarPorMes')->name('empleado.getBuscarPorMes');
+	Route::get('/buscarconvenios',	'empleado\EmpleadoController@buscarconvenios')->name('empleado.buscarconvenios');
 	Route::post('/registrarse',	'empleado\EmpleadoController@registrarse')->name('empleado.registrarse');
 	Route::get('/cerrarsesion',	'empleado\EmpleadoController@cerrarsesion')->name('empleado.cerrarsesion');
-	Route::post('/agregarconvenio',	'empleado\EmpleadoController@agregarconvenio')->name('empleado.agregarconvenio');
+	Route::post('/tablaconvenios',	'empleado\EmpleadoController@tablaconvenios')->name('empleado.tablaconvenios');
+
+
+	Route::get('/prueba',	'empleado\EmpleadoController@prueba')->name('empleado.prueba');
 });
 
 Route::group(array('prefix' => 'recibodesueldo'), function(){

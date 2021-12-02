@@ -11,8 +11,10 @@
     <!--datables estilo bootstrap 5 CSS-->   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
     {{-- estos van --}}
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.bootstrap5.min.css">
+
     <link href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css' rel='stylesheet' type='text/css'>
 
     @yield('css')
@@ -197,23 +199,32 @@
 </footer>
 </main>
 {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script> --}}
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script> 
+<script src="{{ asset("assets/bootstrap-5.1.0/js/popper.min.js") }}"></script>
+<script src="{{ asset("assets/bootstrap-5.1.0/js/bootstrap.min.js") }}"></script> 
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
-{{-- estos van todos --}}
-{{-- <script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap5.min.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>--}}
-{{-- <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap5.min.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/scroller/2.0.5/js/dataTables.scroller.min.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/colreorder/1.5.4/js/dataTables.colReorder.min.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> --}}
+<script src="{{asset('assets/DataTables-1.10.25/js/jquery-3.5.1.js')}}"></script>
+{{-- <script src="{{asset('assets/DataTables-1.10.25/jquery/jquery-3.3.1.min.js')}}"></script> --}}
+<script src="{{asset('assets/DataTables-1.10.25/popper/popper.min.js')}}"></script>
+<script src="{{asset('assets/bootstrap-4.5.3/js/bootstrap.min.js')}}"></script>
 
-<script src="{{ asset('assets/fontawesome-5.15.3/js/all.js') }}"></script>
+
+
+<script src="{{asset('assets/DataTables-1.10.25/datatables.min.js')}}"></script>
+<script src="{{asset('assets/DataTables-1.10.25/Buttons-1.7.1/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('assets/DataTables-1.10.25/DataTables-1.10.25/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/DataTables-1.10.25/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('assets/DataTables-1.10.25/responsive.bootstrap4.min.js')}}"></script>
+
+<script src="{{asset('assets/DataTables-1.10.25/JSZip-2.5.0/jszip.min.js')}}"></script>
+<script src="{{asset('assets/DataTables-1.10.25/pdfmake-0.1.36/pdfmake.min.js')}}"></script>
+<script src="{{asset('assets/DataTables-1.10.25/pdfmake-0.1.36/vfs_fonts.js')}}"></script>
+<script src="{{asset('assets/DataTables-1.10.25/Buttons-1.7.1/js/buttons.html5.min.js')}}"></script>
+<script src="{{asset('assets/DataTables-1.10.25/jquery.timepicker.min.js')}}"></script>
+
 <script src='{{ asset("assets/toastr/toastr.min.js") }}'></script>
-<script src='{{ asset("assets/sweetalert/sweet-alert.min.js") }}'></script>
+<script src="{{ asset("assets/sweetalert/sweetalert.min.js") }}"></script>
+<script src="{{ asset('assets/fontawesome-5.15.3/js/all.js') }}"></script>
+<script src="{{asset('js/template.js')}}"></script>
 
 
   @yield('js')

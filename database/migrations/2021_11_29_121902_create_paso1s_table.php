@@ -15,6 +15,11 @@ class CreatePaso1sTable extends Migration
     {
         Schema::create('paso1s', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_etapas')->nullable();
+            $table->string('organismo_financiador', 255)->nullable();
+            $table->string('nombre_proyecto', 255)->nullable();
+            $table->double('monto', 15, 2)->default(0)->nullable();
+            $table->string('cuenta_bancaria', 255)->nullable();
             $table->timestamps();
         });
     }

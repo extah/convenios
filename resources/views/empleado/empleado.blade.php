@@ -37,7 +37,7 @@
             <div class="card-body text-info">
               <h5 class="card-title">Buscar un convenio existente</h5>
               {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-              <a class="btn btn-info text-white" href="#" role="button">Buscar</a>
+              <a class="btn btn-info text-white" href="{{route('empleado.buscarconvenios')}}" role="button">Buscar</a>
             </div>
           </div>
         </div>

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Response;
 use PDFVillca;
+use App\PasosEtapas;
+use App\Paso1;
 use Barryvdh\DomPDF\Facade as PDF;
 
 use DB;
@@ -147,8 +149,149 @@ class EmpleadoController extends Controller
         
     }
 
+    public function agregarconvenio(Request $request)
+    {
+        $usuario = $request->session()->get('usuario');
+        $nombre = $request->session()->get('nombre');
+        $result = $this->isUsuario($usuario);
 
+        if($result == "OK")
+        {
+            $nombre_proyecto = $request->nombre_proyecto;
 
+            // DB::insert("insert into pasos_etapas 
+            // (nombre_proyecto, paso1, paso2, paso3, paso4, finalizo)
+            // values('" . $nombre_proyecto . "', 1, 0, 0, 0, 0)");
+
+            $pasosEtapas = new PasosEtapas;
+            $pasosEtapas->nombre_proyecto = $nombre_proyecto;
+            $pasosEtapas->paso1 = "1";
+            $pasosEtapas->paso2 = "0";
+            $pasosEtapas->paso3 = "0";
+            $pasosEtapas->paso4 = "0";
+            $pasosEtapas->finalizo = "0";
+            $pasosEtapas->save();
+
+            $data = PasosEtapas::latest('id')->first();
+
+            $pasos1 = new Paso1;
+            $pasos1->id_etapas = $data->id;
+            $pasos1->organismo_financiador = $request->organismo_financiador;
+            $pasos1->nombre_proyecto = $request->nombre_proyecto;
+            $pasos1->monto = $request->monto;
+            $pasos1->cuenta_bancaria = $request->select_cuenta;
+            $pasos1->save();
+
+            $no_hay_datos = false;
+            $inicio = "";
+            $esEmp = true;
+            $status_ok = true;
+            $nombre = "ÉXITO";
+            $message = "Convenio creado";
+            $status_agregado = true;
+
+            return view('empleado.empleado', compact('status_agregado', 'status_ok', 'esEmp', 'nombre', 'usuario', 'message'));
+        }
+        else
+        {
+			$message = "Inicie sesion";
+			$status_error = false;
+            $status_info = true;
+            $esEmp = false;
+
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }
+    }
+
+    public function buscarconvenios(Request $request)
+    {
+        $usuario = $request->session()->get('usuario');
+        $nombre = $request->session()->get('nombre');
+        $result = $this->isUsuario($usuario);
+
+        if($result == "OK")
+        {
+
+            $no_hay_datos = false;
+            $inicio = "";
+            $esEmp = true;
+            $status_ok = false;
+            // $message = "Bienvenido/a ";
+            // $datos =  DB::select("SELECT DISTINCT apellido, tipo, nombre, cuil, mes, mes_nom, anio FROM recibos_originales where cuil = " . $usuario . " OR numero_documento = " . $usuario . " ORDER BY anio, mes ASC");
+            
+            return view('empleado.buscarconvenios', compact('inicio', 'esEmp', 'nombre', 'usuario',));
+        }
+        else
+        {
+			$message = "Inicie sesion";
+			$status_error = false;
+            $status_info = true;
+            $esEmp = false;
+
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }
+    }
+
+    public function tablaconvenios(Request $request)
+    {
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);       
+            
+        if($result == "OK"){
+            
+            if ($request->opcion == NULL) {
+                $opcion = $request->opcion_buscar;
+            } else {
+                $opcion = $request->opcion;
+            }
+            
+            switch($opcion){
+
+                case 1:
+                
+                    //Agregar  
+
+                    break;    
+                case 2: 
+                    //Actualizar
+
+                    break;
+                case 3: 
+                    //borrar
+
+                    break;
+
+                case 4: 
+                    // $limit = " LIMIT 2000";
+                    $orderby = " ORDER BY pasos_etapas.id DESC ";
+                    $limit = " LIMIT 500"; 
+            
+                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+                    FROM pasos_etapas
+                    WHERE pasos_etapas.finalizo = 0 
+                    ".$orderby." ".$limit));
+                    
+                    break;
+                case 5:
+
+                    // $limit = " LIMIT 2000";        
+                    $orderby = " ORDER BY pasos_etapas.id ASC ";
+                    $limit = " LIMIT 500"; 
+            
+                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+                    FROM pasos_etapas
+                    WHERE pasos_etapas.finalizo = 0 
+                    ".$orderby." ".$limit));
+
+                    break;
+            }
+
+            return json_encode($data, JSON_UNESCAPED_UNICODE);
+
+        }
+    }
 
     public function cerrarsesion(Request $request)
     {
@@ -264,4 +407,20 @@ class EmpleadoController extends Controller
         return "OK";
 
     }
+
+
+
+    public function prueba(Type $var = null)
+    {
+        $orderby = " ORDER BY pasos_etapas.id ASC ";
+        $limit = " LIMIT 500"; 
+    
+        $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+        FROM pasos_etapas
+        WHERE pasos_etapas.finalizo = 0 
+        ".$orderby." ".$limit));
+         return json_encode($data, JSON_UNESCAPED_UNICODE);
+    }
+
+
 }

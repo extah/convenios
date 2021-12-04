@@ -22,8 +22,13 @@
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex flex-column mx-auto p-0 my-2 gap-1">
         <div class="row g-2">
             <div class="col-md-3">
-                <button id="btnBuscarporDNI" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalTurnos">
-                    <i class="fas fa-search"></i> Buscar convenio
+                <button id="btnBuscarporNUMERO" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalTurnos">
+                    <i class="fas fa-search"></i> Buscar convenio por numero
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button id="emma" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalProyecto">
+                    <i class="fas fa-search"></i> Buscar convenio por proyecto
                 </button>
             </div>
         </div>
@@ -31,8 +36,8 @@
     <br>
     <div class="col-lg-12"> 
       <div class="table-responsive">  
-          <table id="tablaTurnos" class="table table-striped table-hover table-bordered display" cellspacing="0" style="width:100%">
-              <meta name="csrf-token_imagenes" content="{{ csrf_token() }}">
+          <table id="tablaConvenios" class="table table-striped table-hover table-bordered display" cellspacing="0" style="width:100%">
+              <meta name="csrf-token_convenios" content="{{ csrf_token() }}">
               <thead class="thead-dark text-center">
                   <tr>
                       <th>N° CONVENIO</th>
@@ -53,33 +58,33 @@
   </div>       
 </div>
 
-<!-- Modal buscar por DNI-->
+<!-- Modal buscar por NUMERO-->
 <div class="modal fade" id="modalTurnos" tabindex="-1" aria-labelledby="modalTurnosLabel" aria-hidden="true" >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="background-color: rgb(54, 105, 199)">
-        <h5 class="modal-title" id="modalTurnosLabel" style="color: blanchedalmond">Buscar turnos por DNI</h5>
+        <h5 class="modal-title" id="modalTurnosLabel" style="color: blanchedalmond">Buscar convenio por su numero</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-          <form action="#" method="POST" id="formTurnos" class="needs-validation" enctype="multipart/form-data">   
+          <form action="{{route('empleado.tablaconvenios')}}" method="POST" id="formTurnos" class="needs-validation" enctype="multipart/form-data">   
               @csrf
               <div class="modal-body">
-                <div class="row">
-                  <div class="col-lg-12 mb-3" style="display:none;">
-                    <!-- <div class="col-lg-12 mb-3"> -->
-                        <div class="form-group">
-                            <label class="formItem" for="opcion_buscar" id="opcion_input"> <b>OPCION</b></label>
-                            <input type="text" class="form-control" id="opcion_buscar" name="opcion_buscar">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="display:none;">
+                        <!-- <div class="col-lg-12 mb-3"> -->
+                            <div class="form-group">
+                                <label class="formItem" for="opcion_buscar" id="opcion_input"> <b>OPCION</b></label>
+                                <input type="text" class="form-control" id="opcion_buscar" name="opcion_buscar">
+                            </div> 
                         </div> 
-                    </div> 
-                    <div class="col-lg-12 mb-3">
-                        <div class="form-group">
-                            <label class="formItem" for="dni"> <b>DNI</b></label>
-                            <input type="number" class="form-control" id="dni" name="dni" required>
-                        </div> 
-                    </div>     
+                        <div class="col-lg-12 mb-3">
+                            <div class="form-group">
+                                <label class="formItem" for="nro_convenio"> <b>N° de convenio</b></label>
+                                <input type="number" class="form-control" id="nro_convenio" name="nro_convenio" required>
+                            </div> 
+                        </div>     
+                    </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" id="btnGuardar" class="btn btn-primary">Buscar</button>
@@ -87,6 +92,41 @@
           </form> 
     </div>
   </div>
+</div>
+
+<!-- Modal buscar por PROYECTO-->
+<div class="modal fade" id="modalProyecto" tabindex="-1" aria-labelledby="proyectoLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: rgb(54, 105, 199)">
+          <h5 class="modal-title" id="proyectoLabel" style="color: blanchedalmond">Buscar convenio por su numero</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="{{route('empleado.tablaconvenios')}}" method="POST" id="formProyecto" class="needs-validation" enctype="multipart/form-data">   
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="display:none;">
+                            <div class="form-group">
+                                <label class="formItem" for="opcion_proyecto" id="opcion_input"> <b>OPCION</b></label>
+                                <input type="text" class="form-control" id="opcion_proyecto" name="opcion_proyecto">
+                            </div> 
+                        </div> 
+                        <div class="col-lg-12 mb-3">
+                            <div class="form-group">
+                                <label class="formItem" for="nombre_proyecto"> <b>Nombre del proyecto</b></label>
+                                <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" required>
+                            </div> 
+                        </div>     
+                    </div>
+                </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                      <button type="submit" id="btnGuardar" class="btn btn-primary">Buscar</button>
+                  </div>
+            </form> 
+      </div>
+    </div>
 </div>
  
 @endsection
@@ -109,11 +149,11 @@ $(document).ready(function() {
   var id, opcion, titulo;
         opcion = 4;
     
-        tablaTurnos = $('#tablaTurnos').DataTable( 
+        tablaConvenios = $('#tablaConvenios').DataTable( 
         {
         //"dom": '<"dt-buttons"Bf><"clear">lirtp',
         "ajax":{            
-                        "headers": { 'X-CSRF-TOKEN': $('meta[name="csrf-token_imagenes"]').attr('content') },    
+                        "headers": { 'X-CSRF-TOKEN': $('meta[name="csrf-token_convenios"]').attr('content') },    
                         "url": "{{route('empleado.tablaconvenios')}}", 
                         "method": 'post', //usamos el metodo POST
                         "data":{
@@ -199,9 +239,9 @@ $(document).ready(function() {
                 },
              ]              
         });    
-            
+        var fila; //captura la fila, para editar o eliminar
 
-        $("#btnBuscarporDNI").click(function(){        
+        $("#btnBuscarporNUMERO").click(function(){        
             fila = $(this).closest("tr");
             opcion = 5; 
             
@@ -209,14 +249,22 @@ $(document).ready(function() {
             $("#opcion_buscar").val('5');
         });
 
-        var fila; //captura la fila, para editar o eliminar
+        $("#emma").click(function(){        
+            fila = $(this).closest("tr");
+            opcion = 6; 
+            
+            $("#formProyecto").trigger("reset");
+            $("#opcion_proyecto").val('6');
+        });
+
+       
 
         //submit para el Alta y Actualizaci�n
         $('#formTurnos').submit(function(e){                         
                 e.preventDefault(); 
                 var form = this;
 
-                $('#tablaTurnos').DataTable().clear().draw(); 
+                $('#tablaConvenios').DataTable().clear().draw(); 
                 $('#modalTurnos').modal('hide');
 
                 $.ajax({
@@ -233,9 +281,36 @@ $(document).ready(function() {
                         var text = data;
                         var data = JSON.parse(text);
 
-                        tablaTurnos.rows.add(data).draw();
+                        tablaConvenios.rows.add(data).draw();
                     },
                 });			        										     			
+        });
+
+        //buscar por nombre del proyecto
+        $('#formProyecto').submit(function(e){                         
+            e.preventDefault(); 
+            var formProyecto = this;
+            // var dato = formProyecto.elements;
+            // console.log(dato["opcion_proyecto"].value);
+            $('#tablaConvenios').DataTable().clear().draw(); 
+            $('#modalProyecto').modal('hide');
+
+            $.ajax({
+                url: $(formProyecto).attr("action"),
+                method: $(formProyecto).attr('method'),
+                data: new FormData(formProyecto), 
+                datatype: "json",   
+                cache:  false,
+                processData:  false,
+                contentType:  false, 
+
+                success: function(data) {
+
+                    var text = data;
+                    var data = JSON.parse(text);
+                    tablaConvenios.rows.add(data).draw();
+                },
+            });			        										     			
         });
 
         //Borrar

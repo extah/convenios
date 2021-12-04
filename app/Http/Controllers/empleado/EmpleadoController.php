@@ -241,10 +241,21 @@ class EmpleadoController extends Controller
             
         if($result == "OK"){
             
-            if ($request->opcion == NULL) {
-                $opcion = $request->opcion_buscar;
+            if (is_null($request->opcion)) {
+
+                if(is_null($request->opcion_buscar)){
+                    
+                    $opcion = $request->opcion_proyecto;
+                } else
+                {
+                    
+                    $opcion = $request->opcion_buscar;
+                }   
+                
             } else {
+                
                 $opcion = $request->opcion;
+
             }
             
             switch($opcion){
@@ -275,17 +286,27 @@ class EmpleadoController extends Controller
                     
                     break;
                 case 5:
-
+                    $nro_convenio = $request->nro_convenio;
                     // $limit = " LIMIT 2000";        
                     $orderby = " ORDER BY pasos_etapas.id ASC ";
                     $limit = " LIMIT 500"; 
             
                     $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
                     FROM pasos_etapas
-                    WHERE pasos_etapas.finalizo = 0 
-                    ".$orderby." ".$limit));
+                    WHERE id = " . $nro_convenio . " " . $orderby." ".$limit));
 
                     break;
+                case 6:
+                    $nombre = $request->nombre_proyecto;
+                    $orderby = " ORDER BY pasos_etapas.id ASC ";
+                    $limit = " LIMIT 500"; 
+            
+                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+                    FROM pasos_etapas
+                    WHERE nombre_proyecto LIKE '%" . $nombre ."%'" 
+                            . $orderby." ".$limit));
+
+                    break;    
             }
 
             return json_encode($data, JSON_UNESCAPED_UNICODE);
@@ -412,13 +433,15 @@ class EmpleadoController extends Controller
 
     public function prueba(Type $var = null)
     {
+        $nombre  = "2";
         $orderby = " ORDER BY pasos_etapas.id ASC ";
         $limit = " LIMIT 500"; 
-    
+
         $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
         FROM pasos_etapas
-        WHERE pasos_etapas.finalizo = 0 
-        ".$orderby." ".$limit));
+        WHERE nombre_proyecto LIKE '%" . $nombre ."%'" 
+        . $orderby." ".$limit));
+
          return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 

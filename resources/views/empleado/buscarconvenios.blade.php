@@ -12,12 +12,21 @@
 @endsection
 
 @section('content')
-
+<br>
 <div class="container">
-  <div class="d-flex justify-content-center">
-      <h1 style="color:#428bca">Listado de turnos Asignados</h1>
+  <div class="col-8 col-sm-6 col-md-6 mx-auto">
+    <div class="card text-white bg-info mb-3" style="max-width: 100rem;">
+        <div class="card-body text-center">
+          <h4 class="card-title">Listado de convenios</h4>
+        </div>                  
+    </div>
   </div>
-  <hr>
+</div>
+<div class="container">
+  {{-- <div class="d-flex justify-content-center">
+      <h1 style="color:#428bca">Listado de convenios</h1>
+  </div> --}}
+  {{-- <hr> --}}
 
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex flex-column mx-auto p-0 my-2 gap-1">
         <div class="row g-2">
@@ -27,8 +36,13 @@
                 </button>
             </div>
             <div class="col-md-3">
-                <button id="emma" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalProyecto">
+                <button id="btnBuscarPorProyecto" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalProyecto">
                     <i class="fas fa-search"></i> Buscar convenio por proyecto
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button id="btnBuscarPorFinalizado" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalFinalizar">
+                    <i class="fas fa-search"></i> Buscar convenios por finalizado
                 </button>
             </div>
         </div>
@@ -47,7 +61,7 @@
                       <th>PASO 3</th>
                       <th>PASO 4</th>
                       <th>FINALIZADO</th>
-                      <th>ACCIONES</th>
+                      <th>VER</th>
                   </tr>    
               </thead>
               <tbody>
@@ -63,7 +77,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="background-color: rgb(54, 105, 199)">
-        <h5 class="modal-title" id="modalTurnosLabel" style="color: blanchedalmond">Buscar convenio por su numero</h5>
+        <h5 class="modal-title" id="modalTurnosLabel" style="color: blanchedalmond">Buscar convenio por numero</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
           <form action="{{route('empleado.tablaconvenios')}}" method="POST" id="formTurnos" class="needs-validation" enctype="multipart/form-data">   
@@ -99,7 +113,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background-color: rgb(54, 105, 199)">
-          <h5 class="modal-title" id="proyectoLabel" style="color: blanchedalmond">Buscar convenio por su numero</h5>
+          <h5 class="modal-title" id="proyectoLabel" style="color: blanchedalmond">Buscar convenio por nombre del proyecto</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
             <form action="{{route('empleado.tablaconvenios')}}" method="POST" id="formProyecto" class="needs-validation" enctype="multipart/form-data">   
@@ -129,6 +143,43 @@
     </div>
 </div>
  
+<!-- Modal buscar por finalizacion-->
+<div class="modal fade" id="modalFinalizar" tabindex="-1" aria-labelledby="finalizarLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: rgb(54, 105, 199)">
+          <h5 class="modal-title" id="finalizarLabel" style="color: blanchedalmond">Buscar convenios por estado de  finalizacion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="{{route('empleado.tablaconvenios')}}" method="POST" id="formFinalizo" class="needs-validation" enctype="multipart/form-data">   
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="display:none;">
+                            <div class="form-group">
+                                <label class="formItem" for="opcion_finalizado" id="opcion_input"> <b>OPCION</b></label>
+                                <input type="text" class="form-control" id="opcion_finalizado" name="opcion_finalizado">
+                            </div> 
+                        </div> 
+                        <div class="col-lg-12 mb-3">
+                            <div class="form-group">
+                                <label class="formItem" for="estado"> <b>Estado del proyecto finalizado</b></label>
+                                <select name="estado" id="estado" class="form-control text-center" required>
+                                    <option value="0">NO</option>
+                                    <option value="1">SI</option>
+                                </select>
+                            </div>
+                        </div>     
+                    </div>
+                </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                      <button type="submit" id="btnGuardar" class="btn btn-primary">Buscar</button>
+                  </div>
+            </form> 
+      </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -169,7 +220,7 @@ $(document).ready(function() {
                         { data: "paso3" },    
                         { data: "paso4" },   
                         { data: "finalizo" },  
-                        {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='fas fa-edit'></i></button><button class='btn btn-danger btn-sm btnBorrar'><i class='fas fa-trash-alt'></i></button></div></div>"},
+                        {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnVer'><i class='fas fa-eye'></i></button></div></div>"},
                         
                     ],
         responsive: {
@@ -213,12 +264,12 @@ $(document).ready(function() {
                         }
                     },   
                 "buttons":[
-                    {
-                    extend:    'copyHtml5',
-                    text:      '<i class="fas fa-copy"></i> COPIAR ',
-                    titleAttr: 'Copiar datos',
-                    className: 'btn btn-dark'
-                },
+                //     {
+                //     extend:    'copyHtml5',
+                //     text:      '<i class="fas fa-copy"></i> COPIAR ',
+                //     titleAttr: 'Copiar datos',
+                //     className: 'btn btn-dark'
+                // },
                 {
                     extend:    'excelHtml5',
                     text:      '<i class="fas fa-file-excel"></i> EXCEL ',
@@ -235,7 +286,7 @@ $(document).ready(function() {
                     extend:    'print',
                     text:      '<i class="fas fa-print"></i> IMPRIMIR',
                     titleAttr: 'Imprimir',
-                    className: 'btn btn-info'
+                    className: 'btn btn-secondary'
                 },
              ]              
         });    
@@ -249,12 +300,20 @@ $(document).ready(function() {
             $("#opcion_buscar").val('5');
         });
 
-        $("#emma").click(function(){        
+        $("#btnBuscarPorProyecto").click(function(){        
             fila = $(this).closest("tr");
             opcion = 6; 
             
             $("#formProyecto").trigger("reset");
             $("#opcion_proyecto").val('6');
+        });
+
+        $("#btnBuscarPorFinalizado").click(function(){        
+            fila = $(this).closest("tr");
+            opcion = 7; 
+            
+            $("#formProyecto").trigger("reset");
+            $("#opcion_finalizado").val('7');
         });
 
        
@@ -313,7 +372,54 @@ $(document).ready(function() {
             });			        										     			
         });
 
+        //buscar por estado fe finalizacion
+        $('#formFinalizo').submit(function(e){                         
+            e.preventDefault(); 
+            var formFinalizo = this;
+            // var dato = formProyecto.elements;
+            // console.log(dato["opcion_proyecto"].value);
+            $('#tablaConvenios').DataTable().clear().draw(); 
+            $('#modalFinalizar').modal('hide');
+
+            $.ajax({
+                url: $(formFinalizo).attr("action"),
+                method: $(formFinalizo).attr('method'),
+                data: new FormData(formFinalizo), 
+                datatype: "json",   
+                cache:  false,
+                processData:  false,
+                contentType:  false, 
+
+                success: function(data) {
+
+                    var text = data;
+                    var data = JSON.parse(text);
+                    tablaConvenios.rows.add(data).draw();
+                },
+            });			        										     			
+        });
+
         //Borrar
+        $(document).on("click", ".btnVer", function(){
+            
+            fila = $(this).closest("tr");         
+
+            if($(this).parents("tr").hasClass('child')){ //vemos si el actual row es child row
+                var id = $(this).parents("tr").prev().find('td:eq(0)').text(); //si es asi, nos regresamos al row anterior, es decir, al padre y obtenemos el id
+                var paciente = $(this).parents("tr").prev().find('td:eq(3)').text();
+                var fecha = $(this).parents("tr").prev().find('td:eq(4)').text();
+                var hora = $(this).parents("tr").prev().find('td:eq(5)').text();
+            } else {
+                var id = $(this).closest("tr").find('td:eq(0)').text(); //si no lo es, seguimos capturando el id del actual row
+                var paciente = $(this).closest("tr").find('td:eq(3)').text();
+                var fecha = $(this).closest("tr").find('td:eq(4)').text();
+                var hora = $(this).closest("tr").find('td:eq(5)').text();
+            }
+
+            var url = "{{route('empleado.verconvenio', '')}}"+"/"+id;
+            window.open(url, "Convenio")
+
+        }) 
 
     });                 
 

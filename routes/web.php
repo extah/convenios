@@ -37,7 +37,7 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::post('/registrarse',	'empleado\EmpleadoController@registrarse')->name('empleado.registrarse');
 	Route::get('/cerrarsesion',	'empleado\EmpleadoController@cerrarsesion')->name('empleado.cerrarsesion');
 	Route::post('/tablaconvenios',	'empleado\EmpleadoController@tablaconvenios')->name('empleado.tablaconvenios');
-
+	Route::get('/verconvenio/{id}',	'empleado\EmpleadoController@verconvenio')->name('empleado.verconvenio');
 
 	Route::get('/prueba',	'empleado\EmpleadoController@prueba')->name('empleado.prueba');
 });

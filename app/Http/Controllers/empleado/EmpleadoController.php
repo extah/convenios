@@ -245,8 +245,17 @@ class EmpleadoController extends Controller
 
                 if(is_null($request->opcion_buscar)){
                     
-                    $opcion = $request->opcion_proyecto;
-                } else
+                    if (is_null($request->opcion_proyecto)) {
+
+                        $opcion = $request->opcion_finalizado;
+                    }else
+                    {
+                        
+                        $opcion = $request->opcion_proyecto;
+                    }   
+                   
+                } 
+                else
                 {
                     
                     $opcion = $request->opcion_buscar;
@@ -307,11 +316,28 @@ class EmpleadoController extends Controller
                             . $orderby." ".$limit));
 
                     break;    
+                case 7:
+                    $estado = $request->estado;
+                    $orderby = " ORDER BY pasos_etapas.id ASC ";
+                    $limit = " LIMIT 500"; 
+            
+                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+                    FROM pasos_etapas
+                    WHERE pasos_etapas.finalizo = " . $estado . " "
+                            . $orderby." ".$limit));
+
+                    break;      
             }
 
             return json_encode($data, JSON_UNESCAPED_UNICODE);
 
         }
+    }
+
+    public function verconvenio($id, Request $request)
+    {
+
+        return $id;
     }
 
     public function cerrarsesion(Request $request)

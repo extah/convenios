@@ -24,7 +24,8 @@
                       <p class="card-text">
                         {{ $paso1[0]->nombre_proyecto }}
                       </p>
-                      <a href="#" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
+                      {{-- <a href="{{route('empleado.verconvenio', '')}}" + "/"+id;" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
+                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso1'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
                       
                     </div>
                   </div>
@@ -38,7 +39,7 @@
                       <p class="card-text">
                         {{ $paso1[0]->nombre_proyecto }}
                       </p>
-                      <a href="#" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
+                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso2'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
                       
                     </div>
                   </div>
@@ -52,7 +53,7 @@
                       <p class="card-text">
                         {{ $paso1[0]->nombre_proyecto }}
                       </p>
-                      <a href="#" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
+                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso3'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
                       
                     </div>
                   </div>
@@ -66,7 +67,7 @@
                       <p class="card-text">
                         {{ $paso1[0]->nombre_proyecto }}
                       </p>
-                      <a href="#" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
+                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso4'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
                       
                     </div>
                   </div>

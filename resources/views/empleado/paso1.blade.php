@@ -33,21 +33,35 @@
           <div class="row g-3">
             <div class="col-md-6">
                 <label for="organismo_financiador" class="form-label"><b>ORGANISMO FINANCIADOR</b></label>
-                <input type="text" class="form-control" id="organismo_financiador" name="organismo_financiador" placeholder="ingrese el organismo que financia el proyecto" required>
+                <input type="text" class="form-control" id="organismo_financiador" name="organismo_financiador"  value="{{ $registro->organismo_financiador }}" placeholder="ingrese el organismo que financia el proyecto" readonly required>
             </div>
             <div class="col-md-6">
                 <label for="nombre_proyecto" class="form-label"><b>NOMBRE DEL PPROYECTO</b></label>
-                <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" placeholder="ingrese el nombre del proyecto" required>
+                <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" value="{{ $registro->nombre_proyecto }}" placeholder="ingrese el nombre del proyecto" readonly required>
             </div>
             <div class="col-md-6">
                 <label for="monto" class="form-label"><b>MONTO</b></label>
-                <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="0.00" placeholder="ingrese el monto" required>
+                <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="{{ $registro->monto }}" placeholder="ingrese el monto" readonly required>
             </div>
             <div class="col-md-6">
-                <label for="dni" class="form-label"><b>CUENTA BANCARIA</b></label>
-                <select name="select_cuenta" id="select_cuenta" class="form-control text-center" required>
-                  <option value="comun" offset="1">comun</option>
-                  <option value="nueva" offset="1">nueva</option>
+                @php $comun = ""; @endphp
+                @php $nueva = ""; @endphp
+
+                @if ("$registro->cuenta_bancaria" == 'comun')
+                    @php $comun = "selected"; @endphp
+                    
+                @endif
+                @if ("$registro->cuenta_bancaria" == 'nueva')
+                    @php $nueva = "selected"; @endphp
+                @endif
+
+                {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
+
+                <label for="select_cuenta" class="form-label"><b>CUENTA BANCARIA</b></label>
+                <select name="select_cuenta" id="select_cuenta" class="form-control text-center" disabled="true" required>
+
+                  <option value="comun" {{ $comun }}>comun</option>
+                  <option value="nueva" {{ $nueva }}>nueva</option>
                 </select>
             </div>
            
@@ -56,7 +70,7 @@
               <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
             </div>
               <div class="d-grid gap-2 col-6 mx-auto">
-                <button type="submit" class="btn btn-primary btn-lg">Iniciar convenio</button>
+                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
               </div>
             
             

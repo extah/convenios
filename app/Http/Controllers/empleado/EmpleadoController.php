@@ -342,7 +342,7 @@ class EmpleadoController extends Controller
         if($result == "OK"){
             $esEmp = true;
             $nombre = $request->session()->get('nombre');
-            $paso1 = DB::select("SELECT organismo_financiador, nombre_proyecto, monto, cuenta_bancaria FROM paso1s where id_etapas = " . $id);
+            $paso1 = DB::select("SELECT id_etapas, organismo_financiador, nombre_proyecto, monto, cuenta_bancaria FROM paso1s where id_etapas = " . $id);
             // return ($paso1);
             return view('empleado.verconvenio', compact('esEmp', 'paso1','nombre',));
         }
@@ -350,6 +350,46 @@ class EmpleadoController extends Controller
 
         }
 
+    }
+
+    public function verconveniopaso($id_etapa, $paso,  Request $request)
+    {
+
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);       
+            
+        if($result == "OK"){
+            $esEmp = true;
+            $nombre = $request->session()->get('nombre');
+
+            if ($paso == 'paso1') {
+
+                $registro  = Paso1::get_registro($id_etapa);
+                // return $registro;
+                return view('empleado.paso1', compact('esEmp', 'registro','nombre',));
+            } else {
+                if ($paso == 'paso2') {
+                    return "vista paso 2";
+                } else {
+                    if ($paso == 'paso3') {
+                        return "vista paso 3";
+                    } else {
+                        if ($paso == 'paso4') {
+                            return "vista paso 4";
+                        } else {
+                            # code...
+                        }
+                    }
+                }
+            }
+        }
+        else{
+
+        }
+
+
+
+        return $id_etapa;
     }
 
     public function cerrarsesion(Request $request)

@@ -2,7 +2,6 @@
 
 @section('css')
 
-
             <!-- <link rel="stylesheet" href="{{ asset('css/login.css') }}"> -->
             <link href="{{ asset('/assets/bootstrap-datepicker-1.7.1/css/bootstrap-datepicker.min.css') }}" rel="stylesheet"/>
 
@@ -20,30 +19,30 @@
   </div>
 </div>
 
-    <article class="container px-4"> 
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="card border-info mb-3">
-            <div class="card-header text-dark"><b>Nuevo convenio</b></div>
-            <div class="card-body text-info">
-              <h5 class="card-title">Agregar un convenio nuevo</h5>
-              <a class="btn btn-success" href="{{route('empleado.agregarnuevoconvenio')}}" role="button">Agregar</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="card border-info mb-3">
-            <div class="card-header"><b>Buscar convenio</b></div>
-            <div class="card-body text-info">
-              <h5 class="card-title">Buscar un convenio existente</h5>
-              {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-              <a class="btn btn-info text-white" href="{{route('empleado.buscarconvenios')}}" role="button">Buscar</a>
-            </div>
-          </div>
+<article class="container px-4"> 
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card border-info mb-3">
+        <div class="card-header text-dark"><b>Nuevo convenio</b></div>
+        <div class="card-body text-info">
+          <h5 class="card-title">Agregar un convenio nuevo</h5>
+          <a class="btn btn-success" href="{{route('empleado.agregarnuevoconvenio')}}" role="button">Agregar</a>
         </div>
       </div>
-      
-    </article>
+    </div>
+    <div class="col-sm-6">
+      <div class="card border-info mb-3">
+        <div class="card-header"><b>Buscar convenio</b></div>
+        <div class="card-body text-info">
+          <h5 class="card-title">Buscar un convenio existente</h5>
+          
+          <a class="btn btn-info text-white" href="{{route('empleado.buscarconvenios')}}" role="button">Buscar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</article>
 
 <br>
 
@@ -56,70 +55,29 @@
 <script>
 
 </script>
+
 <script>
-	$('#fecha_hasta').datepicker({
-		uiLibrary: 'bootstrap4',
-    format: "mm/yyyy",
-    startView: "year", 
-    minViewMode: "months",
-		locale: 'es',
-		language: 'es',
-		autoclose: true,
-		todayHighlight: true,
-		// startDate: sumarDias(new Date()),
-	});
-	$('#fecha_hasta').datepicker("setDate", new Date());
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    'use strict'
 
-	function sumarDias(fecha){
-			fecha.setDate(fecha.getDate());
-			return fecha;
-		}
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
 
-	
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
 </script>
-<script>
-	$('#fecha_desde').datepicker({
-		uiLibrary: 'bootstrap4',
-    format: "mm/yyyy",
-    startView: "year", 
-    minViewMode: "months",
-		locale: 'es',
-		language: 'es',
-		autoclose: true,
-		todayHighlight: true,
-		// startDate: sumarDias(new Date()),
-	});
-	$('#fecha_desde').datepicker("setDate", new Date());
-
-	function sumarDias(fecha){
-			fecha.setDate(fecha.getDate());
-			return fecha;
-		}
-
-	
-</script>
-<script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-
-        form.classList.add('was-validated')
-      }, false)
-    })
-})()
-  </script>
 
 <script>
     @if ($status_ok)

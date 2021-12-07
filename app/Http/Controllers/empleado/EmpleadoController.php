@@ -336,8 +336,20 @@ class EmpleadoController extends Controller
 
     public function verconvenio($id, Request $request)
     {
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);       
+            
+        if($result == "OK"){
+            $esEmp = true;
+            $nombre = $request->session()->get('nombre');
+            $paso1 = DB::select("SELECT organismo_financiador, nombre_proyecto, monto, cuenta_bancaria FROM paso1s where id_etapas = " . $id);
+            // return ($paso1);
+            return view('empleado.verconvenio', compact('esEmp', 'paso1','nombre',));
+        }
+        else{
 
-        return $id;
+        }
+
     }
 
     public function cerrarsesion(Request $request)

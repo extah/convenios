@@ -20,7 +20,7 @@
   <div class="col-8 col-sm-6 col-md-6 mx-auto">
     <div class="card text-white bg-info mb-3" style="max-width: 100rem;">
         <div class="card-body text-center">
-          <h4 class="card-title">Nuevo convenio</h4>
+          <h4 class="card-title">PASO 1</h4>
         </div>                  
     </div>
   </div>
@@ -46,9 +46,8 @@
             <div class="col-md-6">
                 <label for="dni" class="form-label"><b>CUENTA BANCARIA</b></label>
                 <select name="select_cuenta" id="select_cuenta" class="form-control text-center" required>
-                  <option value="">-Seleccion&aacute el tipo de cuenta-</option>
                   <option value="comun" offset="1">comun</option>
-                  <option value="nueva" offset="2">nueva</option>
+                  <option value="nueva" offset="1">nueva</option>
                 </select>
             </div>
            

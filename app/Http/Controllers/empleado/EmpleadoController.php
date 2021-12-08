@@ -100,10 +100,10 @@ class EmpleadoController extends Controller
             $message = "Bienvenido/a ";
             // $datos =  DB::select("SELECT DISTINCT apellido, tipo, nombre, cuil, mes, mes_nom, anio FROM recibos_originales where cuil = " . $usuario . " OR numero_documento = " . $usuario . " ORDER BY anio, mes ASC");
             
-            if(count($datos) == 0)
-            {
-                $no_hay_datos = true;
-            }
+            // if(count($datos) == 0)
+            // {
+            //     $no_hay_datos = true;
+            // }
             return view('empleado.empleado', compact('inicio', 'esEmp', 'nombre', 'usuario', 'status_ok', 'message', 'no_hay_datos'));
         }
         else

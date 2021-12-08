@@ -2,17 +2,23 @@
 
 @section('css')
 
-
-            <!-- <link rel="stylesheet" href="{{ asset('css/login.css') }}"> -->
             <link href="{{ asset('/assets/bootstrap-datepicker-1.7.1/css/bootstrap-datepicker.min.css') }}" rel="stylesheet"/>
 
 @endsection
 
 @section('content')
+<br>
+<div class="container">
+  <div class="col-8 col-sm-6 col-md-6 mx-auto">
+    <div class="card text-white bg-info mb-3" style="max-width: 100rem;">
+        <div class="card-body text-center">
+          <h4 class="card-title">PROYECTO: {{ $paso1[0]->nombre_proyecto }}</h4>
+        </div>                  
+    </div>
+  </div>
+</div>
 
     <article class="container col-12 mx-auto p-0"> 
-
-        <hr>
 
         <div class="row">
               <div class="col-sm-3  p-1">

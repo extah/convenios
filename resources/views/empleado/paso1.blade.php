@@ -69,8 +69,12 @@
               <div class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
               <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
             </div>
+
+            <div class="col-md-6 d-grid gap-2">
+              <button id="boton_editar" type="button" class="btn btn-secondary btn-lg" onclick="sacarReadOnly()">Editar</button>
+            </div>
               <div class="d-grid gap-2 col-6 mx-auto">
-                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                <button id="boton_guardar" type="submit" class="btn btn-primary btn-lg" disabled="true">Guardar</button>
               </div>
             
             
@@ -91,8 +95,16 @@
 <script src="{{ asset('/assets/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}"></script>
 
 <script>
-
+  function sacarReadOnly() {
+  document.getElementById("organismo_financiador").readOnly = false;
+  document.getElementById("nombre_proyecto").readOnly = false;
+  document.getElementById("monto").readOnly = false;
+  document.getElementById("select_cuenta").disabled = false;
+  document.getElementById("boton_guardar").disabled = false;
+  document.getElementById("boton_editar").disabled = true;
+}
 </script>
+
 <script>
 	$('#fecha_hasta').datepicker({
 		uiLibrary: 'bootstrap4',

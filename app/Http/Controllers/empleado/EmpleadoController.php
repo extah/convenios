@@ -97,6 +97,7 @@ class EmpleadoController extends Controller
             $inicio = "";
             $esEmp = true;
             $status_ok = false;
+            $status_convenio=false;
             $message = "Bienvenido/a ";
             // $datos =  DB::select("SELECT DISTINCT apellido, tipo, nombre, cuil, mes, mes_nom, anio FROM recibos_originales where cuil = " . $usuario . " OR numero_documento = " . $usuario . " ORDER BY anio, mes ASC");
             
@@ -104,7 +105,7 @@ class EmpleadoController extends Controller
             // {
             //     $no_hay_datos = true;
             // }
-            return view('empleado.empleado', compact('inicio', 'esEmp', 'nombre', 'usuario', 'status_ok', 'message', 'no_hay_datos'));
+            return view('empleado.empleado', compact('inicio', 'esEmp', 'nombre', 'usuario', 'status_ok', 'status_convenio', 'message', 'no_hay_datos'));
         }
         else
         {
@@ -185,12 +186,13 @@ class EmpleadoController extends Controller
             $no_hay_datos = false;
             $inicio = "";
             $esEmp = true;
-            $status_ok = true;
-            $nombre = "ÉXITO";
+            $status_ok = false;
+            $status_convenio = true;
+            $nombreconvenio = "ÉXITO";
             $message = "Convenio creado";
             $status_agregado = true;
 
-            return view('empleado.empleado', compact('status_agregado', 'status_ok', 'esEmp', 'nombre', 'usuario', 'message'));
+            return view('empleado.empleado', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
         }
         else
         {

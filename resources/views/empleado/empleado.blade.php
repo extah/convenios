@@ -90,5 +90,16 @@
             });   
     @endif 
 </script>
+<script>
+  @if ($status_convenio)
+          toastr.success("{{ $nombreconvenio }}", ' {{  $message }} ', {
+              // "progressBar": true,
+              "closeButton": true,
+              "positionClass": "toast-bottom-right",
+              "progressBar": true,
+              "timeOut": "20000",
+          });   
+  @endif 
+</script>
 
 @endsection

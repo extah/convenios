@@ -63,8 +63,32 @@
                   <option value="comun" {{ $comun }}>comun</option>
                   <option value="nueva" {{ $nueva }}>nueva</option>
                 </select>
+
             </div>
-           
+            <div class="col-md-3">
+              <label for="fecha_desde" class="form-label"><b>FECHA DESDE</b></label>
+              <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" placeholder="ingrese fecha desde" readonly required>
+            </div>
+            <div class="col-md-3">
+              <label for="fecha_hasta" class="form-label"><b>FECHA HASTA</b></label>
+              <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" placeholder="ingrese fecha hasta" readonly required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="condicion_rendicion" class="form-label"><b>CONDICIÓN DE RENDICIÓN</b></label>
+              <input type="text" class="form-control" id="condicion_rendicion" name="condicion_rendicion"  value="" placeholder="ingrese la condición de rendición" readonly required>
+            </div>
+            <div class="col-md-6">
+              <label for="condicion_rendicion" class="form-label"><b>FIRMA CON PDF</b></label>
+              <div class="input-group mb-3">
+                <input type="file" class="form-control" id="pdf" accept=".pdf" disabled="true" required>
+                <label class="input-group-text" for="pdf">Subir</label>
+              </div>
+            </div>
+
+
+
+
             <div class="form-group" >
               <div class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
               <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
@@ -101,52 +125,15 @@
   document.getElementById("monto").readOnly = false;
   document.getElementById("select_cuenta").disabled = false;
   document.getElementById("boton_guardar").disabled = false;
+  document.getElementById("fecha_desde").readOnly = false;
+  document.getElementById("fecha_hasta").readOnly = false;
+  document.getElementById("condicion_rendicion").readOnly = false;
+  document.getElementById("pdf").disabled = false;
+
   document.getElementById("boton_editar").disabled = true;
 }
 </script>
 
-<script>
-	$('#fecha_hasta').datepicker({
-		uiLibrary: 'bootstrap4',
-    format: "mm/yyyy",
-    startView: "year", 
-    minViewMode: "months",
-		locale: 'es',
-		language: 'es',
-		autoclose: true,
-		todayHighlight: true,
-		// startDate: sumarDias(new Date()),
-	});
-	$('#fecha_hasta').datepicker("setDate", new Date());
-
-	function sumarDias(fecha){
-			fecha.setDate(fecha.getDate());
-			return fecha;
-		}
-
-	
-</script>
-<script>
-	$('#fecha_desde').datepicker({
-		uiLibrary: 'bootstrap4',
-    format: "mm/yyyy",
-    startView: "year", 
-    minViewMode: "months",
-		locale: 'es',
-		language: 'es',
-		autoclose: true,
-		todayHighlight: true,
-		// startDate: sumarDias(new Date()),
-	});
-	$('#fecha_desde').datepicker("setDate", new Date());
-
-	function sumarDias(fecha){
-			fecha.setDate(fecha.getDate());
-			return fecha;
-		}
-
-	
-</script>
 <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (function () {

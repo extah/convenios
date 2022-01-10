@@ -24,7 +24,7 @@
               <div class="col-sm-3  p-1">
                   <div class="card">
                     
-                    <div class="card-header"  style="background-color: #3f4348; color:beige">Paso 1</div>
+                    <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio Firmado</div>
                     <div class="card-body">
                       <h5 class="card-title">{{ $paso1[0]->organismo_financiador }}</h5>
                       <p class="card-text">
@@ -39,7 +39,7 @@
               <div class="col-sm-3  p-1">
                   <div class="card">
                     
-                    <div class="card-header"  style="background-color: #3f4348; color:beige">Paso 2</div>
+                    <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio en Ejecucion</div>
                     <div class="card-body">
                       <h5 class="card-title">{{ $paso1[0]->organismo_financiador }}</h5>
                       <p class="card-text">
@@ -53,7 +53,7 @@
               <div class="col-sm-3  p-1">
                   <div class="card">
                     
-                    <div class="card-header"  style="background-color: #3f4348; color:beige">Paso 3</div>
+                    <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio pendiente de Rendicion</div>
                     <div class="card-body">
                       <h5 class="card-title">{{ $paso1[0]->organismo_financiador }}</h5>
                       <p class="card-text">
@@ -67,7 +67,7 @@
               <div class="col-sm-3  p-1">
                   <div class="card">
                     
-                    <div class="card-header"  style="background-color: #3f4348; color:beige">Paso 4</div>
+                    <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio finalizado Rendido</div>
                     <div class="card-body">
                       <h5 class="card-title">{{ $paso1[0]->organismo_financiador }}</h5>
                       <p class="card-text">

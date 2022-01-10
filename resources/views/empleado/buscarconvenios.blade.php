@@ -55,12 +55,12 @@
               <thead class="thead-dark text-center">
                   <tr>
                       <th>N° CONVENIO</th>
-                      <th>PROYECTO</th>
-                      <th>PASO 1</th>
-                      <th>PASO 2</th>
-                      <th>PASO 3</th>
-                      <th>PASO 4</th>
-                      <th>FINALIZADO</th>
+                      <th>NOMBRE DEL PROYECTO</th>
+                      <th>CONVENIO FIRMADO</th>
+                      <th>CONVENIO EN EJECUCION</th>
+                      <th>CONVENIO PENDIENTE DE RENDICION</th>
+                      <th>CONVENIO RENDIDO</th>
+                      <th>CONVENIO FINALIZADO</th>
                       <th>VER</th>
                   </tr>    
               </thead>
@@ -165,8 +165,8 @@
                             <div class="form-group">
                                 <label class="formItem" for="estado"> <b>Estado del proyecto finalizado</b></label>
                                 <select name="estado" id="estado" class="form-control text-center" required>
-                                    <option value="0">NO</option>
-                                    <option value="1">SI</option>
+                                    <option value="NO">NO</option>
+                                    <option value="SI">SI</option>
                                 </select>
                             </div>
                         </div>     

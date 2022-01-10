@@ -165,11 +165,11 @@ class EmpleadoController extends Controller
 
             $pasosEtapas = new PasosEtapas;
             $pasosEtapas->nombre_proyecto = $nombre_proyecto;
-            $pasosEtapas->paso1 = "1";
-            $pasosEtapas->paso2 = "0";
-            $pasosEtapas->paso3 = "0";
-            $pasosEtapas->paso4 = "0";
-            $pasosEtapas->finalizo = "0";
+            $pasosEtapas->paso1 = "NO";
+            $pasosEtapas->paso2 = "NO";
+            $pasosEtapas->paso3 = "NO";
+            $pasosEtapas->paso4 = "NO";
+            $pasosEtapas->finalizo = "NO";
             $pasosEtapas->save();
 
             $data = PasosEtapas::latest('id')->first();
@@ -323,7 +323,7 @@ class EmpleadoController extends Controller
             
                     $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
                     FROM pasos_etapas
-                    WHERE pasos_etapas.finalizo = " . $estado . " "
+                    WHERE pasos_etapas.finalizo = '" . $estado . "' "
                             . $orderby." ".$limit));
 
                     break;      

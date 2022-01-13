@@ -28,7 +28,7 @@
 
     <article class="container col-12 mx-auto p-0">
       <div class="col-11 col-sm-11 col-md-10 col-lg-10 d-flex flex-column mx-auto p-0 my-4 gap-3">
-        <form id="form_editardatos" onsubmit="return miFuncion(this)" class="needs-validation" novalidate method="post" action="{{ url('empleado/agregarconvenio') }}">
+        <form id="form_editardatos" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/editarconvenio') }}">
           @csrf
           <div class="row g-3">
             <div class="col-md-6">
@@ -67,32 +67,30 @@
             </div>
             <div class="col-md-3">
               <label for="fecha_desde" class="form-label"><b>FECHA DESDE</b></label>
-              <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" placeholder="ingrese fecha desde" readonly required>
+              <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" placeholder="ingrese fecha desde" value="{{ $registro->fecha_desde }}" readonly required>
             </div>
             <div class="col-md-3">
               <label for="fecha_hasta" class="form-label"><b>FECHA HASTA</b></label>
-              <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" placeholder="ingrese fecha hasta" readonly required>
+              <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" placeholder="ingrese fecha hasta" value="{{ $registro->fecha_hasta }}" readonly required>
             </div>
 
             <div class="col-md-6">
               <label for="condicion_rendicion" class="form-label"><b>CONDICIÓN DE RENDICIÓN</b></label>
-              <input type="text" class="form-control" id="condicion_rendicion" name="condicion_rendicion"  value="" placeholder="ingrese la condición de rendición" readonly required>
+              <input type="text" class="form-control" id="condicion_rendicion" name="condicion_rendicion"  value="{{ $registro->condicion_rendicion }}" placeholder="ingrese la condición de rendición" readonly required>
             </div>
             <div class="col-md-6">
               <label for="condicion_rendicion" class="form-label"><b>FIRMA CON PDF</b></label>
               <div class="input-group mb-3">
-                <input type="file" class="form-control" id="pdf" accept=".pdf" disabled="true" required>
+                <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" disabled="true" required>
                 <label class="input-group-text" for="pdf">Subir</label>
               </div>
             </div>
 
-
-
-
             <div class="form-group" >
-              <div class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
+              <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-' style='display:none;'></div>
               <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
             </div>
+
 
             <div class="col-md-6 d-grid gap-2">
               <button id="boton_editar" type="button" class="btn btn-secondary btn-lg" onclick="sacarReadOnly()">Editar</button>
@@ -101,12 +99,24 @@
                 <button id="boton_guardar" type="submit" class="btn btn-primary btn-lg" disabled="true">Guardar</button>
               </div>
             
-            
+              <input id="id_etapas" name="id_etapas" type="hidden" value="{{ $registro->id_etapas}}">        
             
             
           </div>
-        </form>           
+        </form>  
+        @if ("$registro->nombre_archivo" != '')
+          <div class="col-md-6">
+            <label for="firma" class="form-label"><b>VER CONVENIO FIRMADO POR PDF</b></label>
+            <div class="mb-3 mx-auto">
+              {{-- <button id="firma" class="btn btn-primary btn-lg" ><i class="fas fa-eye"></i> VER CONVENIO</button> --}}
+              <a href="{{url('empleado/verconvenio',['id' => $registro->id_etapas, 'paso' => 'paso1', 'pdf' => $registro->nombre_archivo])}}" target="_blank" class="btn btn-primary btn-lg">
+                <i class="fas fa-eye" aria-hidden="true" ></i> VER CONVENIO
+           </a>
+            </div>
+          </div>
+        @endif         
     </div>	
+
   </article>
 
 <br>
@@ -129,6 +139,7 @@
   document.getElementById("fecha_hasta").readOnly = false;
   document.getElementById("condicion_rendicion").readOnly = false;
   document.getElementById("pdf").disabled = false;
+  $("#captcha").show();
 
   document.getElementById("boton_editar").disabled = true;
 }

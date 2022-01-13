@@ -30,6 +30,7 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::get('/',	'empleado\EmpleadoController@indexget')->name('empleado.indexget');
 	Route::get('/agregar',	'empleado\EmpleadoController@agregar')->name('empleado.agregarnuevoconvenio');
 	Route::post('/agregarconvenio',	'empleado\EmpleadoController@agregarconvenio')->name('empleado.agregarconvenio');
+	Route::post('/editarconvenio',	'empleado\EmpleadoController@editarconvenio')->name('empleado.editarconvenio');
 	// Route::get('/descargar/{tipo}/{mes}/{anio}',	'empleado\EmpleadoController@descargarPDF')->name('empleado.descargarPDF');
 	// Route::get('/mostrar/{tipo}/{mes}/{anio}',	'empleado\EmpleadoController@mostrarPDF')->name('empleado.mostrarPDF');
 	// Route::post('/buscar',	'empleado\EmpleadoController@buscarPorMes')->name('empleado.buscarPorMes');
@@ -39,6 +40,7 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::post('/tablaconvenios',	'empleado\EmpleadoController@tablaconvenios')->name('empleado.tablaconvenios');
 	Route::get('/verconvenio/{id}',	'empleado\EmpleadoController@verconvenio')->name('empleado.verconvenio');
 	Route::get('/verconvenio/{id}/{paso}',	'empleado\EmpleadoController@verconveniopaso')->name('empleado.verconveniopaso');
+	Route::get('/verconvenio/{id}/{paso}/{pdf}',	'empleado\EmpleadoController@verpdfconvenio')->name('empleado.verpdfconvenio');
 
 	Route::get('/prueba',	'empleado\EmpleadoController@prueba')->name('empleado.prueba');
 });

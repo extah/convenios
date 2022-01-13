@@ -52,6 +52,15 @@
                 </select>
             </div>
            
+            <div class="col-md-3">
+              <label for="fecha_desde" class="form-label"><b>FECHA DESDE</b></label>
+              <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" placeholder="ingrese fecha desde" required>
+            </div>
+            <div class="col-md-3">
+              <label for="fecha_hasta" class="form-label"><b>FECHA HASTA</b></label>
+              <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" placeholder="ingrese fecha hasta" required>
+            </div>
+
             <div class="form-group" >
               <div class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
               <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
@@ -77,48 +86,7 @@
 <script>
 
 </script>
-<script>
-	$('#fecha_hasta').datepicker({
-		uiLibrary: 'bootstrap4',
-    format: "mm/yyyy",
-    startView: "year", 
-    minViewMode: "months",
-		locale: 'es',
-		language: 'es',
-		autoclose: true,
-		todayHighlight: true,
-		// startDate: sumarDias(new Date()),
-	});
-	$('#fecha_hasta').datepicker("setDate", new Date());
 
-	function sumarDias(fecha){
-			fecha.setDate(fecha.getDate());
-			return fecha;
-		}
-
-	
-</script>
-<script>
-	$('#fecha_desde').datepicker({
-		uiLibrary: 'bootstrap4',
-    format: "mm/yyyy",
-    startView: "year", 
-    minViewMode: "months",
-		locale: 'es',
-		language: 'es',
-		autoclose: true,
-		todayHighlight: true,
-		// startDate: sumarDias(new Date()),
-	});
-	$('#fecha_desde').datepicker("setDate", new Date());
-
-	function sumarDias(fecha){
-			fecha.setDate(fecha.getDate());
-			return fecha;
-		}
-
-	
-</script>
 <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (function () {

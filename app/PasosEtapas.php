@@ -13,9 +13,9 @@ class PasosEtapas extends Model
 
     //metodos
 
-    public static function get_registro($id_etapas)
+    public static function get_registro($id)
     {
-        $row = self::find($id_etapas);
+        $row = self::find($id);
         return $row;       
     }
 }

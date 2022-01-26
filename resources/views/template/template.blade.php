@@ -5,17 +5,19 @@
 	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name') }}</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="{{ asset("assets/bootstrap-5.1.0/css/bootstrap.min.css") }}">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"> --}}
     <link href='{{ asset("css/inicio.css") }}' rel="stylesheet">
     <!--datables estilo bootstrap 5 CSS-->   
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
-    {{-- estos van --}}
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.bootstrap5.min.css">
 
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css' rel='stylesheet' type='text/css'>
+    <!--datables estilo bootstrap 5 CSS-->   
+    <link rel="stylesheet" href="{{ asset("assets/bootstrap-5.1.0/css/bootstrap-ajax-twitter.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("assets/bootstrap-5.1.0/css/dataTables.bootstrap5.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("assets/bootstrap-5.1.0/css/responsive.bootstrap5.min.css") }}">
+    <link href='{{ asset("assets/bootstrap-5.1.0/css/toastr.min.css") }}' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ asset("assets/bootstrap-5.1.0/css/select.bootstrap5.min.css") }}">
+
+    {{-- <link href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css' rel='stylesheet' type='text/css'> --}}
 
     @yield('css')
 

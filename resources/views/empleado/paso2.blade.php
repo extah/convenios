@@ -41,7 +41,7 @@
                 </div>
             @endif 
         @endif 
-        <form id="form_editardatos" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/editarconvenio') }}">
+        <form id="form_editardatos" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
           @csrf
           <div class="row g-3">
             <div class="col-md-6">
@@ -130,6 +130,7 @@
   $("#captcha").show();
   
   document.getElementById("monto_pagado").disabled = false;
+  document.getElementById("boton_guardar").disabled = false;
   document.getElementById("boton_editar").disabled = true;
 }
 </script>

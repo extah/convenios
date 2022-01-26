@@ -8,6 +8,9 @@ use Response;
 use PDFVillca;
 use App\PasosEtapas;
 use App\Paso1;
+use App\Paso2;
+use App\Paso3;
+use App\Paso4;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Storage;
 
@@ -452,6 +455,7 @@ class EmpleadoController extends Controller
         if($result == "OK"){
             $esEmp = true;
             $nombre = $request->session()->get('nombre');
+            
 
             if ($paso == 'paso1') {
 
@@ -460,13 +464,20 @@ class EmpleadoController extends Controller
                 return view('empleado.paso1', compact('esEmp', 'registro','nombre',));
             } else {
                 if ($paso == 'paso2') {
-                    return "vista paso 2";
+                    // $registro  = Paso1::get_registro($id_etapa);
+                    $registro  = Paso2::get_registro($id_etapa);
+                    // return $registro;
+                    return view('empleado.paso2', compact('esEmp', 'registro','nombre',));
                 } else {
                     if ($paso == 'paso3') {
-                        return "vista paso 3";
+                        $registro  = Paso3::get_registro($id_etapa);
+                        // return $registro;
+                         return view('empleado.paso3', compact('esEmp', 'registro','nombre',));
                     } else {
                         if ($paso == 'paso4') {
-                            return "vista paso 4";
+                            $registro  = Paso4::get_registro($id_etapa);
+                            // return $registro;
+                             return view('empleado.paso4', compact('esEmp', 'registro','nombre',));
                         } else {
                             # code...
                         }

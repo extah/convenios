@@ -20,7 +20,7 @@
   <div class="col-8 col-sm-6 col-md-6 mx-auto">
     <div class="card text-white bg-info mb-3" style="max-width: 100rem;">
         <div class="card-body text-center">
-          <h4 class="card-title">PASO 1</h4>
+          <h4 class="card-title">CONVENIO FIRMADO</h4>
         </div>                  
     </div>
   </div>
@@ -28,6 +28,17 @@
 
     <article class="container col-12 mx-auto p-0">
       <div class="col-11 col-sm-11 col-md-10 col-lg-10 d-flex flex-column mx-auto p-0 my-4 gap-3">
+        @if ("$registro->nombre_archivo" != '')
+        <div class="col-md-6">
+          <label for="firma" class="form-label"><b>VER CONVENIO FIRMADO POR PDF</b></label>
+          <div class="mb-3 mx-auto">
+            {{-- <button id="firma" class="btn btn-primary btn-lg" ><i class="fas fa-eye"></i> VER CONVENIO</button> --}}
+            <a href="{{url('empleado/verconvenio',['id' => $registro->id_etapas, 'paso' => 'paso1', 'pdf' => $registro->nombre_archivo])}}" target="_blank" class="btn btn-primary btn-lg">
+              <i class="fas fa-eye" aria-hidden="true" ></i> VER CONVENIO
+         </a>
+          </div>
+        </div>
+      @endif 
         <form id="form_editardatos" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/editarconvenio') }}">
           @csrf
           <div class="row g-3">
@@ -104,17 +115,7 @@
             
           </div>
         </form>  
-        @if ("$registro->nombre_archivo" != '')
-          <div class="col-md-6">
-            <label for="firma" class="form-label"><b>VER CONVENIO FIRMADO POR PDF</b></label>
-            <div class="mb-3 mx-auto">
-              {{-- <button id="firma" class="btn btn-primary btn-lg" ><i class="fas fa-eye"></i> VER CONVENIO</button> --}}
-              <a href="{{url('empleado/verconvenio',['id' => $registro->id_etapas, 'paso' => 'paso1', 'pdf' => $registro->nombre_archivo])}}" target="_blank" class="btn btn-primary btn-lg">
-                <i class="fas fa-eye" aria-hidden="true" ></i> VER CONVENIO
-           </a>
-            </div>
-          </div>
-        @endif         
+        
     </div>	
 
   </article>

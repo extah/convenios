@@ -230,7 +230,7 @@ class EmpleadoController extends Controller
             $pasos1->fecha_hasta = $request->fecha_hasta;
             $pasos1->condicion_rendicion = $request->condicion_rendicion;
 
-            $nombre_carpeta = 'pdf/'. $request->nombre_proyecto;
+            $nombre_carpeta = 'pdf/'. $request->nombre_proyecto . '/firma';
             $path = storage_path($nombre_carpeta);
 
             if (!file_exists($path)) {
@@ -278,7 +278,6 @@ class EmpleadoController extends Controller
             $message = "Convenio creado";
             $status_agregado = true;
 
-            // return view('empleado.empleado', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
             $esEmp = true;
             $paso1 = DB::select("SELECT id_etapas, organismo_financiador, nombre_proyecto, monto, cuenta_bancaria, fecha_desde, fecha_hasta, condicion_rendicion, nombre_archivo FROM paso1s where id_etapas = " . $request->id_etapas);
             // return ($paso1);
@@ -311,9 +310,7 @@ class EmpleadoController extends Controller
             $inicio = "";
             $esEmp = true;
             $status_ok = false;
-            // $message = "Bienvenido/a ";
-            // $datos =  DB::select("SELECT DISTINCT apellido, tipo, nombre, cuil, mes, mes_nom, anio FROM recibos_originales where cuil = " . $usuario . " OR numero_documento = " . $usuario . " ORDER BY anio, mes ASC");
-            
+
             return view('empleado.buscarconvenios', compact('inicio', 'esEmp', 'nombre', 'usuario',));
         }
         else
@@ -450,7 +447,8 @@ class EmpleadoController extends Controller
     {
 
         $usuario = $request->session()->get('usuario');
-        $result = $this->isUsuario($usuario);       
+        $result = $this->isUsuario($usuario);    
+        $id_etapas = $id_etapa;   
             
         if($result == "OK"){
             $esEmp = true;
@@ -466,8 +464,9 @@ class EmpleadoController extends Controller
                 if ($paso == 'paso2') {
                     // $registro  = Paso1::get_registro($id_etapa);
                     $registro  = Paso2::get_registro($id_etapa);
+                    // return $id_etapas;
                     // return $registro;
-                    return view('empleado.paso2', compact('esEmp', 'registro','nombre',));
+                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas'));
                 } else {
                     if ($paso == 'paso3') {
                         $registro  = Paso3::get_registro($id_etapa);
@@ -498,13 +497,97 @@ class EmpleadoController extends Controller
         // $path = storage_path($filename);
         $pasos1  = Paso1::get_registro($id_etapa);
         // return $pasos1;
-        $filename = 'pdf/'. $pasos1->nombre_proyecto . '/' . $pdf;
+        $filename = 'pdf/'. $pasos1->nombre_proyecto . '/firma'. '/' . $pdf;
         $path = storage_path($filename);
 
         return Response::make(file_get_contents($path), 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="'.$filename.'"'
         ]);
+    }
+
+    public function ejecucionconvenio(Request $request)
+    {     
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);  
+
+        if($result == "OK"){
+            $select_ejecucion = $request->select_ejecucion;
+            $select_entrega_producto = $request->select_entrega_producto;
+            $monto_pagado = $request->monto_pagado;
+            $id_etapas = $request->id_etapas;
+
+            $esEmp = true;
+            $nombre = $request->session()->get('nombre');
+
+            //buscar el nombre de la carpeta
+            $pasosEtapas  = PasosEtapas::get_registro($id_etapas);
+
+            $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/ejecucion';
+            $path = storage_path($nombre_carpeta);
+
+            if (!file_exists($path)) {
+                mkdir($path, 0775, true);
+            }
+
+            if($request->hasFile("pdf")){
+                $file=$request->file("pdf");
+                
+                // $nombre = "pdf_".time().".".$file->guessExtension();
+                $nombrepdfproducto = "acta_de_entrega.";
+                if($select_entrega_producto != "municipalidad")
+                {
+                    $nombrepdfproducto = "remito.";
+                }
+
+                $nombre_pdf = $nombrepdfproducto . $file->guessExtension();
+                $ruta = $path . "/" . $nombre_pdf;
+                
+
+                if($file->guessExtension()=="pdf"){
+                    if (file_exists($pasosEtapas->nombre_proyecto)) {
+                        //File::delete($image_path);
+                        unlink($nombre_pdf);
+                    }
+                    copy($file, $ruta);
+                    $pasosEtapas->nombre_proyecto = $nombre_pdf;
+                    // return $ruta;
+                }else{
+                    dd("NO ES UN PDF");
+                }
+                
+    
+    
+            }
+    
+            // $pasos1->save();
+
+            $pasosEtapas->paso2 = "SI";
+            $pasosEtapas->save();
+
+            $pasos2 = new Paso2;
+            $pasos2->id_etapas = $data->id;
+            $pasos2->organismo_financiador = $request->organismo_financiador;
+            $pasos2->nombre_proyecto = $request->nombre_proyecto;
+            $pasos2->monto = $request->monto;
+            $pasos1->cuenta_bancaria = $request->select_cuenta;
+            $pasos1->fecha_desde = $request->fecha_desde;
+            $pasos1->fecha_hasta = $request->fecha_hasta;
+            $pasos2->save();
+
+
+            return $request->id_etapas;
+            // $paso1 = DB::select("SELECT id_etapas, organismo_financiador, nombre_proyecto, monto, cuenta_bancaria, fecha_desde, fecha_hasta, condicion_rendicion, nombre_archivo FROM paso1s where id_etapas = " . $id);
+            // return ($paso1);
+            // return view('empleado.paso2', compact('esEmp', 'paso1','nombre',));
+        }
+        else{
+
+        }
+
+
+
+        return $request;
     }
 
     public function cerrarsesion(Request $request)

@@ -41,7 +41,7 @@
                 </div>
             @endif 
         @endif 
-        <form id="form_editardatos" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
+        <form id="form_guardardatos" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
           @csrf
           <div class="row g-3">
             <div class="col-md-6">
@@ -102,7 +102,9 @@
               </div>
               @if (!empty($registro))
                 <input id="id_etapas" name="id_etapas" type="hidden" value="{{ $registro->id_etapas}}">        
-              @endif 
+              @else 
+                <input id="id_etapas" name="id_etapas" type="hidden" value="{{ $id_etapas }}">  
+              @endif
             
           </div>
         </form>  

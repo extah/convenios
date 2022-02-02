@@ -510,6 +510,7 @@ class EmpleadoController extends Controller
     {     
         $usuario = $request->session()->get('usuario');
         $result = $this->isUsuario($usuario);  
+        // return $request;
 
         if($result == "OK"){
             $select_ejecucion = $request->select_ejecucion;
@@ -535,6 +536,7 @@ class EmpleadoController extends Controller
                 
                 // $nombre = "pdf_".time().".".$file->guessExtension();
                 $nombrepdfproducto = "acta_de_entrega.";
+                
                 if($select_entrega_producto != "municipalidad")
                 {
                     $nombrepdfproducto = "remito.";
@@ -550,7 +552,7 @@ class EmpleadoController extends Controller
                         unlink($nombre_pdf);
                     }
                     copy($file, $ruta);
-                    $pasosEtapas->nombre_proyecto = $nombre_pdf;
+                    // $pasosEtapas->nombre_proyecto = $nombre_pdf;
                     // return $ruta;
                 }else{
                     dd("NO ES UN PDF");
@@ -566,13 +568,11 @@ class EmpleadoController extends Controller
             $pasosEtapas->save();
 
             $pasos2 = new Paso2;
-            $pasos2->id_etapas = $data->id;
-            $pasos2->organismo_financiador = $request->organismo_financiador;
-            $pasos2->nombre_proyecto = $request->nombre_proyecto;
-            $pasos2->monto = $request->monto;
-            $pasos1->cuenta_bancaria = $request->select_cuenta;
-            $pasos1->fecha_desde = $request->fecha_desde;
-            $pasos1->fecha_hasta = $request->fecha_hasta;
+            $pasos2->id_etapas = $id_etapas;
+            $pasos2->condicion_rendicion = $request->select_ejecucion;
+            $pasos2->receptor = $request->select_entrega_producto;
+            $pasos2->nombre_archivo = $nombre_pdf;
+            // $pasos1->created_at = $request->select_cuenta;
             $pasos2->save();
 
 

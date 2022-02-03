@@ -171,6 +171,7 @@ class EmpleadoController extends Controller
 
             $pasosEtapas = new PasosEtapas;
             $pasosEtapas->nombre_proyecto = $nombre_proyecto;
+            $pasosEtapas->creado = $nombre;
             $pasosEtapas->paso1 = "NO";
             $pasosEtapas->paso2 = "NO";
             $pasosEtapas->paso3 = "NO";
@@ -379,7 +380,7 @@ class EmpleadoController extends Controller
                     $orderby = " ORDER BY pasos_etapas.id DESC ";
                     $limit = " LIMIT 500"; 
             
-                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.creado,pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
                     FROM pasos_etapas
                     WHERE pasos_etapas.finalizo = 0 
                     ".$orderby." ".$limit));
@@ -469,7 +470,7 @@ class EmpleadoController extends Controller
                     return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas'));
                 } else {
                     if ($paso == 'paso3') {
-                        $registro  = Paso3::get_registro($id_etapa);
+                        // $registro  = Paso3::get_registro($id_etapa);
                         // return $registro;
                          return view('empleado.paso3', compact('esEmp', 'registro','nombre',));
                     } else {
@@ -495,9 +496,20 @@ class EmpleadoController extends Controller
 
         // $filename = 'test.pdf';
         // $path = storage_path($filename);
-        $pasos1  = Paso1::get_registro($id_etapa);
+        $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
+        if($paso == "paso1")
+        {
+            // $pasos  = Paso1::get_registro($id_etapa);
+            $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/firma'. '/' . $pdf;
+        }
+        elseif($paso == "paso2")
+        {
+            // $pasos  = Paso2::get_registro($id_etapa);
+            $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/ejecucion'. '/' . $pdf;
+        }
+       
         // return $pasos1;
-        $filename = 'pdf/'. $pasos1->nombre_proyecto . '/firma'. '/' . $pdf;
+        // $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/ejecucion'. '/' . $pdf;
         $path = storage_path($filename);
 
         return Response::make(file_get_contents($path), 200, [
@@ -576,10 +588,10 @@ class EmpleadoController extends Controller
             $pasos2->save();
 
 
-            return $request->id_etapas;
-            // $paso1 = DB::select("SELECT id_etapas, organismo_financiador, nombre_proyecto, monto, cuenta_bancaria, fecha_desde, fecha_hasta, condicion_rendicion, nombre_archivo FROM paso1s where id_etapas = " . $id);
-            // return ($paso1);
-            // return view('empleado.paso2', compact('esEmp', 'paso1','nombre',));
+            $registro  = Paso2::get_registro($id_etapas);
+            // return $id_etapas;
+            // return $registro;
+            return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas'));
         }
         else{
 

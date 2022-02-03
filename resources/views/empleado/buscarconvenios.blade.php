@@ -56,6 +56,7 @@
                   <tr>
                       <th>N° CONVENIO</th>
                       <th>NOMBRE DEL PROYECTO</th>
+                      <th>CONVENIO CREADO POR</th>
                       <th>CONVENIO FIRMADO</th>
                       <th>CONVENIO EN EJECUCION</th>
                       <th>CONVENIO PENDIENTE DE RENDICION</th>
@@ -215,6 +216,7 @@ $(document).ready(function() {
         "columns": [
                         { data: "id" },
                         { data: "proyecto"},
+                        { data: "creado"},
                         { data: "paso1" },
                         { data: "paso2" },
                         { data: "paso3" },    

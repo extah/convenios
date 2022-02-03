@@ -31,10 +31,10 @@
         @if (!empty($registro))
             @if ("$registro->nombre_archivo" != '')
                 <div class="col-md-6">
-                <label for="firma" class="form-label"><b>VER PAGOS POR PDF</b></label>
+                <label for="pagos" class="form-label"><b>VER PAGOS POR PDF</b></label>
                 <div class="mb-3 mx-auto">
                     {{-- <button id="firma" class="btn btn-primary btn-lg" ><i class="fas fa-eye"></i> VER CONVENIO</button> --}}
-                    <a href="{{url('empleado/verconvenio',['id' => $registro->id_etapas, 'paso' => 'paso1', 'pdf' => $registro->nombre_archivo])}}" target="_blank" class="btn btn-primary btn-lg">
+                    <a href="{{url('empleado/verconvenio',['id' => $registro->id_etapas, 'paso' => 'paso2', 'pdf' => $registro->nombre_archivo])}}" target="_blank" class="btn btn-primary btn-lg">
                     <i class="fas fa-eye" aria-hidden="true" ></i> VER PAGO
                 </a>
                 </div>

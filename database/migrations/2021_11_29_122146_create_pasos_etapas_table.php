@@ -22,6 +22,7 @@ class CreatePasosEtapasTable extends Migration
             $table->string('paso4', 2)->nullable();
             $table->string('finalizo', 2)->nullable();
             $table->string('creado', 50)->nullable();
+            $table->string('tipo_rendicion', 50)->nullable();
             // $table->bigInteger('creado')->nullable();
             $table->timestamps();
         });

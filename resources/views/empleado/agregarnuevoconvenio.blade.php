@@ -51,15 +51,33 @@
                   <option value="nueva" offset="2">nueva</option>
                 </select>
             </div>
-           
+            <div class="col-md-6">
+              {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
+
+              <label for="select_ejecucion" class="form-label"><b>TIPO DE EJECUCIÓN</b></label>
+              <select name="select_ejecucion" id="select_ejecucion" class="form-control text-center" required>
+                <option value="obra">Obra</option>
+                <option value="producto" >Entrega de producto</option>          
+              </select>
+
+          </div>
+            {{-- <div class="col-md-3">
+              <label for="fecha_carga" class="form-label"><b>FECHA CARGA</b></label>
+              <input type="datetime-local" class="form-control" id="fecha_carga" name="fecha_carga" placeholder="ingrese fecha de carga" required>
+            </div> --}}
             <div class="col-md-3">
-              <label for="fecha_desde" class="form-label"><b>FECHA DESDE</b></label>
-              <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" placeholder="ingrese fecha desde" required>
+              <label for="fecha_inicio" class="form-label"><b>FECHA INICIO</b></label>
+              <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" placeholder="ingrese fecha de inicio">
             </div>
             <div class="col-md-3">
-              <label for="fecha_hasta" class="form-label"><b>FECHA HASTA</b></label>
-              <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" placeholder="ingrese fecha hasta" required>
+              <label for="fecha_finalizacion" class="form-label"><b>FECHA FINALIZACIÓN</b></label>
+              <input type="date" class="form-control" id="fecha_finalizacion" name="fecha_finalizacion" placeholder="ingrese fecha de finalizacón">
             </div>
+            <div class="col-md-3">
+              <label for="fecha_rendicion" class="form-label"><b>FECHA RENDICION</b></label>
+              <input type="date" class="form-control" id="fecha_rendicion" name="fecha_rendicion" placeholder="ingrese fecha de rendición">
+            </div>
+
 
             <div class="form-group" >
               <div class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>

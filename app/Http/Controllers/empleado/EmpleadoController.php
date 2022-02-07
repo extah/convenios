@@ -177,6 +177,7 @@ class EmpleadoController extends Controller
             $pasosEtapas->paso3 = "NO";
             $pasosEtapas->paso4 = "NO";
             $pasosEtapas->finalizo = "NO";
+            $pasosEtapas->tipo_rendicion = $request->select_ejecucion;
             $pasosEtapas->save();
 
             $data = PasosEtapas::latest('id')->first();
@@ -187,8 +188,10 @@ class EmpleadoController extends Controller
             $pasos1->nombre_proyecto = $request->nombre_proyecto;
             $pasos1->monto = $request->monto;
             $pasos1->cuenta_bancaria = $request->select_cuenta;
-            $pasos1->fecha_desde = $request->fecha_desde;
-            $pasos1->fecha_hasta = $request->fecha_hasta;
+            $pasos1->fecha_inicio = $request->fecha_inicio;
+            $pasos1->fecha_rendicion = $request->fecha_rendicion;
+            $pasos1->fecha_finalizacion =  $request->fecha_finalizacin;
+            $pasos1->tipo_rendicion = $request->select_ejecucion;
             $pasos1->save();
 
             $no_hay_datos = false;
@@ -227,8 +230,9 @@ class EmpleadoController extends Controller
             $pasos1->nombre_proyecto = $request->nombre_proyecto;
             $pasos1->monto = $request->monto;
             $pasos1->cuenta_bancaria = $request->select_cuenta;
-            $pasos1->fecha_desde = $request->fecha_desde;
-            $pasos1->fecha_hasta = $request->fecha_hasta;
+            $pasos1->fecha_inicio = $request->fecha_inicio;
+            $pasos1->fecha_rendicion = $request->fecha_rendicion;
+            $pasos1->fecha_finalizacion =  $request->fecha_finalizacion;
             $pasos1->condicion_rendicion = $request->condicion_rendicion;
 
             $nombre_carpeta = 'pdf/'. $request->nombre_proyecto . '/firma';
@@ -280,7 +284,7 @@ class EmpleadoController extends Controller
             $status_agregado = true;
 
             $esEmp = true;
-            $paso1 = DB::select("SELECT id_etapas, organismo_financiador, nombre_proyecto, monto, cuenta_bancaria, fecha_desde, fecha_hasta, condicion_rendicion, nombre_archivo FROM paso1s where id_etapas = " . $request->id_etapas);
+            $paso1 = DB::select("SELECT id_etapas, organismo_financiador, nombre_proyecto, monto, cuenta_bancaria, fecha_inicio, fecha_rendicion, fecha_finalizacion, tipo_rendicion, nombre_archivo FROM paso1s where id_etapas = " . $request->id_etapas);
             // return ($paso1);
             // 'empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso1']
             return redirect()->route('empleado.verconveniopaso', ['id' => $request->id_etapas, 'paso' => 'paso1']);
@@ -434,7 +438,7 @@ class EmpleadoController extends Controller
         if($result == "OK"){
             $esEmp = true;
             $nombre = $request->session()->get('nombre');
-            $paso1 = DB::select("SELECT id_etapas, organismo_financiador, nombre_proyecto, monto, cuenta_bancaria, fecha_desde, fecha_hasta, condicion_rendicion, nombre_archivo FROM paso1s where id_etapas = " . $id);
+            $paso1 = DB::select("SELECT id_etapas, organismo_financiador, nombre_proyecto, monto, cuenta_bancaria, fecha_inicio, fecha_rendicion, fecha_finalizacion, tipo_rendicion, nombre_archivo, created_at FROM paso1s where id_etapas = " . $id);
             // return ($paso1);
             return view('empleado.verconvenio', compact('esEmp', 'paso1','nombre',));
         }

@@ -76,18 +76,29 @@
                 </select>
 
             </div>
+
             <div class="col-md-3">
-              <label for="fecha_desde" class="form-label"><b>FECHA DESDE</b></label>
-              <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" placeholder="ingrese fecha desde" value="{{ $registro->fecha_desde }}" readonly required>
+              <label for="fecha_carga" class="form-label"><b>FECHA CARGA</b></label>
+              <input type="datetime" placeholder="dd-MM-dd HH:mm:ss" class="form-control" id="fecha_carga" name="fecha_carga" value="{{ $registro->created_at->format('d-m-Y H:i:s') }}" readonly>
+            </div>
+
+            <div class="col-md-3">
+              <label for="fecha_inicio" class="form-label"><b>FECHA INICIO</b></label>
+              <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" placeholder="ingrese fecha desde" value="{{ $registro->fecha_inicio }}" readonly required>
             </div>
             <div class="col-md-3">
-              <label for="fecha_hasta" class="form-label"><b>FECHA HASTA</b></label>
-              <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" placeholder="ingrese fecha hasta" value="{{ $registro->fecha_hasta }}" readonly required>
+              <label for="fecha_finalizacion" class="form-label"><b>FECHA FINALIZACIÓN</b></label>
+              <input type="date" class="form-control" id="fecha_finalizacion" name="fecha_finalizacion" placeholder="ingrese fecha de finalización" value="{{ $registro->fecha_finalizacion }}" readonly required>
             </div>
+            <div class="col-md-3">
+              <label for="fecha_rendicion" class="form-label"><b>FECHA RENDICIÓN</b></label>
+              <input type="date" class="form-control" id="fecha_rendicion" name="fecha_rendicion" placeholder="ingrese fecha de rendición" value="{{ $registro->fecha_rendicion }}" readonly required>
+            </div>
+
 
             <div class="col-md-6">
               <label for="condicion_rendicion" class="form-label"><b>CONDICIÓN DE RENDICIÓN</b></label>
-              <input type="text" class="form-control" id="condicion_rendicion" name="condicion_rendicion"  value="{{ $registro->condicion_rendicion }}" placeholder="ingrese la condición de rendición" readonly required>
+              <input type="text" class="form-control" id="condicion_rendicion" name="condicion_rendicion"  value="{{ $registro->tipo_rendicion }}" placeholder="ingrese la condición de rendición" readonly required>
             </div>
             <div class="col-md-6">
               <label for="condicion_rendicion" class="form-label"><b>FIRMA CON PDF</b></label>
@@ -136,9 +147,9 @@
   document.getElementById("monto").readOnly = false;
   document.getElementById("select_cuenta").disabled = false;
   document.getElementById("boton_guardar").disabled = false;
-  document.getElementById("fecha_desde").readOnly = false;
-  document.getElementById("fecha_hasta").readOnly = false;
-  document.getElementById("condicion_rendicion").readOnly = false;
+  document.getElementById("fecha_inicio").readOnly = false;
+  document.getElementById("fecha_finalizacion").readOnly = false;
+  document.getElementById("fecha_rendicion").readOnly = false;
   document.getElementById("pdf").disabled = false;
   $("#captcha").show();
 

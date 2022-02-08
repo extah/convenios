@@ -11,6 +11,13 @@
                     text-align: center;
                     line-height: 200%;
                 }
+                
+                /* .visible {
+                  display: hide;
+                } */
+                .invisible {
+                  display: none;
+                }
             </style>
 @endsection
 
@@ -41,6 +48,87 @@
                 </div>
             @endif 
         @endif 
+
+
+              <div class="d-grid gap-2 col-6 mx-auto">
+                  <button type="button" id="desplegarcompra" class="btn btn-outline-info btn-lg text-start" onclick="desplegarCompra()"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>COMPRA</b></button>
+                  <button type="button" id="replegarcompra" class="btn btn-outline-info btn-lg text-start" onclick="replegarCompra()" style ="display: none;"> <i class="far fa-minus-square" style='font-size:23px;color:red'></i>    <b>COMPRA</b></button>
+              </div>                  
+                  <!-- COMPRA -->
+                  <form id="form_compra" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
+                      @csrf
+                        <div class="row g-3">
+
+                          <div class="col-md-6">
+                              <label for="orden_compra" class="form-label"><b>ORDEN DE COMPRA</b></label>
+                              <input type="text" class="form-control" id="orden_compra" name="orden_compra"  value="" placeholder="ingrese la orden de compra" required>
+                          </div>
+
+                          <div id="elegir_archivos" class="col-md-6">
+                            <label id="obra" for="pdf" class="form-label"><b>SUBIR PDF ORDEN DE COMPRA</b></label>
+                            <div class="input-group mb-3">
+                              <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
+                              <label class="input-group-text" for="pdf">Subir</label>
+                            </div>
+
+                          </div>
+                          <div class="form-group" >
+                            <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
+                            <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
+                          </div>
+                          <div class="d-grid gap-2 col-md-10 mx-auto">
+                            <button id="boton_guardar" type="submit" class="btn btn-primary btn-lg" >Guardar</button>
+                          </div>
+                        </div>
+                    </form>
+
+
+
+                  <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="button" class="btn btn-outline-warning btn-lg text-start"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>CONTABILIDAD</b></button>
+                    <button type="button" class="btn btn-outline-warning btn-lg text-start" style="display: none;"> <i class="far fa-minus-square"  style='font-size:23px;color:red'></i>    <b>CONTABILIDAD</b></button>
+                  </div> 
+
+                    <!-- CONTABILIDAD -->
+                    <form id="form_contabilidad" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
+                      @csrf
+                        <div class="row g-3">
+
+                          <div class="col-md-6">
+                              <label for="num_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
+                              <input type="text" class="form-control" id="num_factura" name="num_factura"  value="" placeholder="ingrese número de la factura" required>
+                          </div>
+
+                          <div class="col-md-3">
+                            <label for="fecha_emision" class="form-label"><b>FECHA EMISIÓN</b></label>
+                            <input type="datetime" placeholder="dd-MM-dd HH:mm:ss" class="form-control" id="fecha_emision" name="fecha_emision"  required>
+                          </div>
+                          <div class="col-md-6">
+                              <label for="num_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
+                              <input type="text" class="form-control" id="num_factura" name="num_factura"  value="" placeholder="ingrese número de la factura" required>
+                          </div>
+
+                          <div id="elegir_archivos" class="col-md-6">
+                            <label id="obra" for="pdf" class="form-label"><b>SUBIR PDF ORDEN DE COMPRA</b></label>
+                            <div class="input-group mb-3">
+                              <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
+                              <label class="input-group-text" for="pdf">Subir</label>
+                            </div>
+
+                          </div>
+
+                        </div>
+                    </form>
+
+                  <div class="d-grid gap-2 col-6 mx-auto">
+                    <!-- <i class="far fa-plus-square" style='font-size:48px;color:red'></i> -->
+                    <button type="button" class="btn btn-outline-danger btn-lg text-start"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>TESORERIA</b></button>
+                    <button type="button" class="btn btn-outline-danger btn-lg text-start invisible"> <i class="far fa-minus-square"  style='font-size:23px;color:red'></i>    <b>TESORERIA</b></button>
+                  </div>
+
+
+
+
         <form id="form_guardardatos" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
           @csrf
           <div class="row g-3">
@@ -122,7 +210,28 @@
 <script src="{{ asset('/assets/bootstrap-datepicker-1.7.1/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('/assets/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}"></script>
 
+<script>
+function desplegarCompra() {
+  var desplegarcompra = document.getElementById('desplegarcompra');
+  var replegarcompra = document.getElementById('replegarcompra');
+  var form_compra = document.getElementById('form_compra');
+  
+    desplegarcompra.style.display = 'none';
+    replegarcompra.style.display = 'inline';
+    form_compra.style.display = 'inline';
 
+
+}
+function replegarCompra(){
+  var desplegarcompra = document.getElementById('desplegarcompra');
+  var replegarcompra = document.getElementById('replegarcompra');
+  var form_compra = document.getElementById('form_compra');
+  
+    desplegarcompra.style.display = 'inline';
+    replegarcompra.style.display = 'none';
+    form_compra.style.display = 'none';
+}
+</script>
 <script>
   function sacarReadOnly() {
     

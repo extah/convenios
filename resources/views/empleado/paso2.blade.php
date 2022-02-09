@@ -94,8 +94,8 @@
                       @csrf
                         <div class="row g-3">
 
-                          <div class="col-md-6">
-                              <label for="num_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
+                          <div class="col-md-3">
+                              <label fior="num_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
                               <input type="text" class="form-control" id="num_factura" name="num_factura"  value="" placeholder="ingrese número de la factura" required>
                           </div>
 
@@ -104,14 +104,30 @@
                             <input type="date"  class="form-control" id="fecha_emision" name="fecha_emision"  required>
                           </div>
                           <div class="col-md-6">
-                              <label for="num_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
-                              <input type="text" class="form-control" id="num_factura" name="num_factura"  value="" placeholder="ingrese número de la factura" required>
+                              <label for="beneficiario" class="form-label"><b>BENEFICIARIO</b></label>
+                              <input type="text" class="form-control" id="beneficiario" name="beneficiario"  value="" placeholder="ingrese el beneficiario" required>
+                          </div>
+                          <div class="col-md-3">
+                              <label for="cuit" class="form-label"><b>CUIT/CUIL</b></label>
+                              <input type="number" class="form-control" id="cuit" name="cuit"  value="" placeholder="ingrese el cuit o cuil" min="10000000000" max="99999999999" required>
+                          </div>
+                          <div class="col-md-3">
+                              <label for="importe" class="form-label"><b>IMPORTE</b></label>
+                              <input type="number" step=".01" class="form-control" id="importe" name="importe" min="0" value="0.00" placeholder="ingrese el importe" required>
+                          </div>
+                          <div class="col-md-3">
+                              <label for="cae" class="form-label"><b>CAE</b></label>
+                              <input type="number" class="form-control" id="cae" name="cae" min="0" placeholder="ingrese el numero CAE" required>
+                          </div>
+                          <div class="col-md-3">
+                              <label for="nro_pago" class="form-label"><b>N° DE PAGO</b></label>
+                              <input type="number" class="form-control" id="nro_pago" name="nro_pago" min="0" placeholder="ingrese el numero de pago" required>
                           </div>
 
                           <div id="elegir_archivos" class="col-md-6">
-                            <label id="obra" for="pdf" class="form-label"><b>SUBIR PDF ORDEN DE COMPRA</b></label>
+                            <label for="pdf_pago" class="form-label"><b>SUBIR PDF DEL PAGO</b></label>
                             <div class="input-group mb-3">
-                              <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
+                              <input type="file" class="form-control" id="pdf_pago" name="pdf_pago" accept=".pdf" required>
                               <label class="input-group-text" for="pdf">Subir</label>
                             </div>
 

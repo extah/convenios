@@ -67,10 +67,10 @@
                   </div>
 
                   <div id="elegir_archivos" class="col-md-6">
-                    <label id="obra" for="pdf" class="form-label"><b>SUBIR PDF CERTIFICADO DE OBRA</b></label>
+                    <label id="obra" for="pdf" class="form-label"><b>ADJUNTAR PDF CERTIFICADO DE OBRA</b></label>
                     <div class="input-group mb-3">
                       <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
-                      <label class="input-group-text" for="pdf">Subir</label>
+                      <label class="input-group-text" for="pdf">SUBIR</label>
                     </div>
                   </div>
 
@@ -102,13 +102,13 @@
       
                   <div id="elegir_archivos" class="col-md-6">
                     <div id="producto">
-                      <label id="producto_municipalidad" for="pdf" class="form-label" ><b>SUBIR REMITO</b></label>
+                      <label id="producto_municipalidad" for="pdf" class="form-label" ><b>ADJUNTAR PDF REMITO</b></label>
                       <label id="producto_beneficiario" for="pdf" class="form-label" style="display: none;"><b>SUBIR ACTA DE ENTREGA</b></label>
                     </div>
       
                     <div class="input-group mb-3">
                       <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" multiple required>
-                      <label class="input-group-text" for="pdf">Subir</label>
+                      <label class="input-group-text" for="pdf">SUBIR</label>
                     </div>
       
                   </div>
@@ -149,10 +149,10 @@
                           </div>
 
                           <div id="elegir_archivos" class="col-md-6">
-                            <label id="obra" for="pdf" class="form-label"><b>SUBIR PDF ORDEN DE COMPRA</b></label>
+                            <label id="obra" for="pdf" class="form-label"><b>ADJUNTAR PDF ORDEN DE COMPRA</b></label>
                             <div class="input-group mb-3">
                               <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
-                              <label class="input-group-text" for="pdf">Subir</label>
+                              <label class="input-group-text" for="pdf">SUBIR</label>
                             </div>
 
                           </div>
@@ -209,18 +209,18 @@
                           </div>
 
                           <div id="elegir_archivos" class="col-md-6">
-                            <label for="pdf_pago" class="form-label"><b>SUBIR PDF DEL PAGO</b></label>
+                            <label for="pdf_pago" class="form-label"><b>ADJUNTAR PDF DEL PAGO</b></label>
                             <div class="input-group mb-3">
                               <input type="file" class="form-control" id="pdf_pago" name="pdf_pago" accept=".pdf" required>
-                              <label class="input-group-text" for="pdf">Subir</label>
+                              <label class="input-group-text" for="pdf">SUBIR</label>
                             </div>
                           </div>
                           
                           <div id="elegir_archivos" class="col-md-6">
-                            <label for="pdf_afip" class="form-label"><b>SUBIR PDF DEL COMPROBANTE AFIP</b></label>
+                            <label for="pdf_afip" class="form-label"><b>ADJUNTAR PDF DEL COMPROBANTE AFIP</b></label>
                             <div class="input-group mb-3">
                               <input type="file" class="form-control" id="pdf_afip" name="pdf_afip" accept=".pdf" required>
-                              <label class="input-group-text" for="pdf_afip">Subir</label>
+                              <label class="input-group-text" for="pdf_afip">SUBIR</label>
                             </div>
                           </div>
 
@@ -251,10 +251,10 @@
                           </div>
 
                           <div class="col-md-6">
-                            <label id="recibo_pago" for="recibo_pago" class="form-label"><b>SUBIR PDF DEL RECIBO DE PAGO</b></label>
+                            <label id="recibo_pago" for="recibo_pago" class="form-label"><b>ADJUNTAR PDF DEL RECIBO DE PAGO</b></label>
                             <div class="input-group mb-3">
                               <input type="file" class="form-control" id="recibo_pago" name="recibo_pago" accept=".pdf" required>
-                              <label class="input-group-text" for="recibo_pago">Subir</label>
+                              <label class="input-group-text" for="recibo_pago">SUBIR</label>
                             </div>
 
                           </div>
@@ -305,7 +305,7 @@
 
               <div class="input-group mb-3">
                 <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" multiple disabled="true" required>
-                <label class="input-group-text" for="pdf">Subir</label>
+                <label class="input-group-text" for="pdf">SUBIR</label>
               </div>
 
             </div>

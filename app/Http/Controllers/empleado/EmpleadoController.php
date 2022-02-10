@@ -233,7 +233,7 @@ class EmpleadoController extends Controller
             $pasos1->fecha_inicio = $request->fecha_inicio;
             $pasos1->fecha_rendicion = $request->fecha_rendicion;
             $pasos1->fecha_finalizacion =  $request->fecha_finalizacion;
-            $pasos1->condicion_rendicion = $request->condicion_rendicion;
+            $pasos1->tipo_rendicion = $request->condicion_rendicion;
 
             $nombre_carpeta = 'pdf/'. $request->nombre_proyecto . '/firma';
             $path = storage_path($nombre_carpeta);

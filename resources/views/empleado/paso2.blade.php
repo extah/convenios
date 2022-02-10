@@ -34,7 +34,7 @@
 </div>
 
     <article class="container col-12 mx-auto p-0">
-      <div class="col-11 col-sm-11 col-md-10 col-lg-10 d-flex flex-column mx-auto p-0 my-4 gap-3">
+      <div class="col-11 col-sm-11 col-md-10 col-lg-10 d-flex flex-column mx-auto p-0 my-4 gap-4">
         @if (!empty($registro))
             @if ("$registro->nombre_archivo" != '')
                 <div class="col-md-6">
@@ -48,6 +48,90 @@
                 </div>
             @endif 
         @endif 
+       <div>
+         <input id="tipo_rendicion" type="text" value="{{$pasos_etapas->tipo_rendicion}}" style ="display: none;">
+       </div> 
+            <!-- FISICA -->
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="button" id="desplegarfisica" class="btn btn-outline-dark btn-lg text-start" onclick="desplegarFisica()"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>FISICA</b></button>
+                <button type="button" id="replegarfisica" class="btn btn-outline-dark btn-lg text-start" onclick="replegarFisica()" style ="display: none;"> <i class="far fa-minus-square" style='font-size:23px;color:red'></i>    <b>FISICA</b></button>
+            </div>
+            {{-- OBRA --}}
+            <form id="form_obra_fisica" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
+              @csrf
+                <div class="row g-3">
+
+                  <div class="col-md-6">
+                      <label for="nro_certificado" class="form-label"><b>N° DE CERTIFICADO</b></label>
+                      <input type="text" class="form-control" id="nro_certificado" name="nro_certificado"  value="" placeholder="ingrese el numero de certificado" required>
+                  </div>
+
+                  <div id="elegir_archivos" class="col-md-6">
+                    <label id="obra" for="pdf" class="form-label"><b>SUBIR PDF CERTIFICADO DE OBRA</b></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
+                      <label class="input-group-text" for="pdf">Subir</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="avance_obra" class="form-label"><b>PORCENTAJE DEL AVANCE DE OBRA</b></label>
+                    <input type="number" class="form-control" id="avance_obra" name="avance_obra"  value="0" placeholder="ingrese el porcentaje de la obra" required>
+                  </div>
+
+                  <div class="form-group" >
+                    <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
+                    <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
+                  </div>
+                  <div class="d-grid gap-2 col-md-10 mx-auto">
+                    <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" >Guardar</button>
+                  </div>
+                </div>
+            </form> 
+            {{-- PRODUCTO ENTREGA --}}
+            <form id="form_entrega_fisica" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
+              @csrf
+                <div class="row g-3">
+                  <div id="entrega_producto" class="col-md-6">      
+                    <label for="select_entrega_producto" class="form-label"><b>PRODUCTO ENTREGADO</b></label>
+                    <select name="select_entrega_producto" id="select_entrega_producto" class="form-control text-center" onchange="showproducto(this)" required>
+                      <option value="municipalidad">Municipalidad</option>
+                      <option value="beneficiario" >Otro beneficiario</option>          
+                    </select>
+                </div>
+      
+                  <div id="elegir_archivos" class="col-md-6">
+                    <div id="producto">
+                      <label id="producto_municipalidad" for="pdf" class="form-label" ><b>SUBIR REMITO</b></label>
+                      <label id="producto_beneficiario" for="pdf" class="form-label" style="display: none;"><b>SUBIR ACTA DE ENTREGA</b></label>
+                    </div>
+      
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" multiple required>
+                      <label class="input-group-text" for="pdf">Subir</label>
+                    </div>
+      
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="pord_producto_entregado" class="form-label"><b>PORCENTAJE DEL PRODUCTO ENTREGADO</b></label>
+                    <input type="number" class="form-control" id="pord_producto_entregado" name="pord_producto_entregado"  value="0" placeholder="ingrese el porcentaje del producto entregado" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="porc_producto_recibido" class="form-label"><b>PORCENTAJE DEL PRODUCTO RECIBIDO</b></label>
+                    <input type="number" class="form-control" id="porc_producto_recibido" name="porc_producto_recibido"  value="0" placeholder="ingrese el porcentaje del producto recibido" required>
+                  </div>
+
+                  <div class="form-group" >
+                    <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
+                    <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
+                  </div>
+                  <div class="d-grid gap-2 col-md-10 mx-auto">
+                    <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" >Guardar</button>
+                  </div>
+                </div>
+            </form> 
 
               <!-- COMPRA -->
               <div class="d-grid gap-2 col-6 mx-auto">
@@ -85,8 +169,8 @@
 
                   <!-- CONTABILIDAD -->
                   <div class="d-grid gap-2 col-6 mx-auto">
-                    <button id="desplegarcontabilidad" type="button" class="btn btn-outline-warning btn-lg text-start" onclick="desplegarContabilidad()"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>CONTABILIDAD</b></button>
-                    <button id="replegarcontabilidad" type="button" class="btn btn-outline-warning btn-lg text-start" onclick="replegarContabilidad()" style="display: none;"> <i class="far fa-minus-square"  style='font-size:23px;color:red'></i>    <b>CONTABILIDAD</b></button>
+                    <button id="desplegarcontabilidad" type="button" class="btn btn-outline-primary btn-lg text-start" onclick="desplegarContabilidad()"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>CONTABILIDAD</b></button>
+                    <button id="replegarcontabilidad" type="button" class="btn btn-outline-primary btn-lg text-start" onclick="replegarContabilidad()" style="display: none;"> <i class="far fa-minus-square"  style='font-size:23px;color:red'></i>    <b>CONTABILIDAD</b></button>
                   </div> 
 
                     
@@ -130,14 +214,22 @@
                               <input type="file" class="form-control" id="pdf_pago" name="pdf_pago" accept=".pdf" required>
                               <label class="input-group-text" for="pdf">Subir</label>
                             </div>
-
                           </div>
+                          
+                          <div id="elegir_archivos" class="col-md-6">
+                            <label for="pdf_afip" class="form-label"><b>SUBIR PDF DEL COMPROBANTE AFIP</b></label>
+                            <div class="input-group mb-3">
+                              <input type="file" class="form-control" id="pdf_afip" name="pdf_afip" accept=".pdf" required>
+                              <label class="input-group-text" for="pdf_afip">Subir</label>
+                            </div>
+                          </div>
+
                           <div class="form-group" >
                             <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
                             <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
                           </div>
                           <div class="d-grid gap-2 col-md-10 mx-auto">
-                            <button id="boton_guardar" type="submit" class="btn btn-warning btn-lg" >Guardar</button>
+                            <button id="boton_guardar" type="submit" class="btn btn-primary btn-lg" >Guardar</button>
                           </div>
                         </div>
                     </form>
@@ -145,33 +237,24 @@
 
                   <!-- TESORERIA -->
                   <div class="d-grid gap-2 col-6 mx-auto">
-                    <button id="desplegartesoreria" type="button" class="btn btn-outline-danger btn-lg text-start" onclick="desplegarTesoreria()"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>TESORERIA</b></button>
-                    <button id="replegartesoreria" type="button" class="btn btn-outline-danger btn-lg text-start" onclick="replegarTesoreria()" style="display: none;"> <i class="far fa-minus-square"  style='font-size:23px;color:red'></i>    <b>TESORERIA</b></button>
+                    <button id="desplegartesoreria" type="button" class="btn btn-outline-warning btn-lg text-start" onclick="desplegarTesoreria()"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>TESORERIA</b></button>
+                    <button id="replegartesoreria" type="button" class="btn btn-outline-warning btn-lg text-start" onclick="replegarTesoreria()" style="display: none;"> <i class="far fa-minus-square"  style='font-size:23px;color:red'></i>    <b>TESORERIA</b></button>
                   </div>
 
                   <form id="form_tesoreria" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
                       @csrf
                         <div class="row g-3">
 
-                          <div class="col-md-6">
-                              <label for="num_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
-                              <input type="text" class="form-control" id="num_factura" name="num_factura"  value="" placeholder="ingrese número de la factura" required>
-                          </div>
-
                           <div class="col-md-3">
-                            <label for="fecha_emision" class="form-label"><b>FECHA EMISIÓN</b></label>
-                            <input type="datetime" placeholder="dd-MM-dd HH:mm:ss" class="form-control" id="fecha_emision" name="fecha_emision"  required>
-                          </div>
-                          <div class="col-md-6">
-                              <label for="num_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
-                              <input type="text" class="form-control" id="num_factura" name="num_factura"  value="" placeholder="ingrese número de la factura" required>
+                            <label for="fecha_pago" class="form-label"><b>FECHA DE PAGO</b></label>
+                            <input type="date" class="form-control" id="fecha_pago" name="fecha_pago"  required>
                           </div>
 
-                          <div id="elegir_archivos" class="col-md-6">
-                            <label id="obra" for="pdf" class="form-label"><b>SUBIR PDF ORDEN DE COMPRA</b></label>
+                          <div class="col-md-6">
+                            <label id="recibo_pago" for="recibo_pago" class="form-label"><b>SUBIR PDF DEL RECIBO DE PAGO</b></label>
                             <div class="input-group mb-3">
-                              <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
-                              <label class="input-group-text" for="pdf">Subir</label>
+                              <input type="file" class="form-control" id="recibo_pago" name="recibo_pago" accept=".pdf" required>
+                              <label class="input-group-text" for="recibo_pago">Subir</label>
                             </div>
 
                           </div>
@@ -180,7 +263,7 @@
                             <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
                           </div>
                           <div class="d-grid gap-2 col-md-10 mx-auto">
-                            <button id="boton_guardar" type="submit" class="btn btn-danger btn-lg" >Guardar</button>
+                            <button id="boton_guardar" type="submit" class="btn btn-warning btn-lg" >Guardar</button>
                           </div>
 
                         </div>
@@ -232,8 +315,6 @@
 
               <label for="monto_pagado" class="form-label"><b>MONTO ABONADO</b></label>
               <input type="number" class="form-control" id="monto_pagado" name="monto_pagado" min="0" step="0.01" value="0.00" disabled="true" required/>
-
-
             </div>
 
             <div class="form-group" >
@@ -339,6 +420,54 @@
     form_tesoreria.style.display = 'none';
   }
 </script>
+
+{{-- FISICA --}}
+<script>
+
+  function desplegarFisica() {
+    
+      // var x = document.getElementById("tipo_rendicion");
+      var tipo_rendicion = document.getElementById("tipo_rendicion").value;
+      var desplegarfisica = document.getElementById('desplegarfisica');
+      var replegarfisica = document.getElementById('replegarfisica');
+      var form_obra_fisica = document.getElementById('form_obra_fisica');
+      var form_entrega_fisica = document.getElementById('form_entrega_fisica');
+
+      desplegarfisica.style.display = 'none';
+      replegarfisica.style.display = 'inline';
+
+      if(tipo_rendicion == "obra")
+      {
+        form_obra_fisica.style.display = 'inline';
+      }
+      else{
+        form_entrega_fisica.style.display = 'inline';
+      }
+
+      
+
+
+    }
+  function replegarFisica(){
+    var tipo_rendicion = document.getElementById("tipo_rendicion").value;
+      var desplegarfisica = document.getElementById('desplegarfisica');
+      var replegarfisica = document.getElementById('replegarfisica');
+      var form_obra_fisica = document.getElementById('form_obra_fisica');
+      var form_entrega_fisica = document.getElementById('form_entrega_fisica');
+    
+    desplegarfisica.style.display = 'inline';
+    replegarfisica.style.display = 'none';
+
+    if(tipo_rendicion == "obra")
+      {
+        form_obra_fisica.style.display = 'none';
+      }
+      else{
+        form_entrega_fisica.style.display = 'none';
+      }
+  }
+</script>
+
 
 <script>
   function sacarReadOnly() {

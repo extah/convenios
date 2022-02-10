@@ -469,9 +469,10 @@ class EmpleadoController extends Controller
                 if ($paso == 'paso2') {
                     // $registro  = Paso1::get_registro($id_etapa);
                     $registro  = Paso2::get_registro($id_etapa);
-                    // return $id_etapas;
+                    $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
+                    // return $pasos_etapas->tipo_rendicion;
                     // return $registro;
-                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas'));
+                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas'));
                 } else {
                     if ($paso == 'paso3') {
                         // $registro  = Paso3::get_registro($id_etapa);

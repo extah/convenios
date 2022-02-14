@@ -8,7 +8,7 @@ class Paso1 extends Model
 {
    
     protected $fillable = [
-        'id_etapas', 'organismo_financiador', 'nombre_proyecto','monto','cuenta_bancaria', 'fecha_inicio', 'fecha_rendicion', 'fecha_finalizacion', 'tipo_rendicion', 'nombre_archivo',
+        'id_etapas', 'organismo_financiador', 'nombre_proyecto','monto','cuenta_bancaria', 'fecha_inicio', 'fecha_rendicion', 'fecha_finalizacion', 'tipo_rendicion', 'monto_recibido', 'nombre_archivo',
     ];
     public $timestamps  = true;
 

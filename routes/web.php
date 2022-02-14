@@ -32,6 +32,7 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::post('/agregarconvenio',	'empleado\EmpleadoController@agregarconvenio')->name('empleado.agregarconvenio');
 	Route::post('/editarconvenio',	'empleado\EmpleadoController@editarconvenio')->name('empleado.editarconvenio');
 	Route::post('/ejecucionconvenio',	'empleado\EmpleadoController@ejecucionconvenio')->name('empleado.ejecucionconvenio');
+	Route::post('/ejecucionconveniocompra',	'empleado\EmpleadoController@ejecucionconveniocompra')->name('empleado.ejecucionconveniocompra');
 	// Route::get('/descargar/{tipo}/{mes}/{anio}',	'empleado\EmpleadoController@descargarPDF')->name('empleado.descargarPDF');
 	// Route::get('/mostrar/{tipo}/{mes}/{anio}',	'empleado\EmpleadoController@mostrarPDF')->name('empleado.mostrarPDF');
 	// Route::post('/buscar',	'empleado\EmpleadoController@buscarPorMes')->name('empleado.buscarPorMes');

@@ -24,6 +24,7 @@ class CreatePaso1sTable extends Migration
             $table->date('fecha_rendicion', 0)->nullable();
             $table->date('fecha_finalizacion', 0)->nullable();
             $table->string('tipo_rendicion', 255)->nullable();
+            $table->double('monto_recibido', 15, 2)->default(0)->nullable(); 
             $table->string('nombre_archivo', 255)->nullable();
             $table->timestamps();
         });

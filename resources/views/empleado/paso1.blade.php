@@ -51,7 +51,7 @@
                 <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" value="{{ $registro->nombre_proyecto }}" placeholder="ingrese el nombre del proyecto" readonly required>
             </div>
             <div class="col-md-6">
-                <label for="monto" class="form-label"><b>MONTO</b></label>
+                <label for="monto" class="form-label"><b>MONTO TOTAL</b></label>
                 <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="{{ $registro->monto }}" placeholder="ingrese el monto" readonly required>
             </div>
             <div class="col-md-6">
@@ -96,14 +96,18 @@
             </div>
 
 
-            <div class="col-md-6">
+            <div class="col-md-3">
               <label for="condicion_rendicion" class="form-label"><b>CONDICIÓN DE RENDICIÓN</b></label>
               <input type="text" class="form-control" id="condicion_rendicion" name="condicion_rendicion"  value="{{ $registro->tipo_rendicion }}" placeholder="ingrese la condición de rendición" readonly required>
+            </div>
+            <div class="col-md-3">
+              <label for="monto_recibido" class="form-label"><b>MONTO RECIBIDO</b></label>
+              <input type="number" step=".01" class="form-control" id="monto_recibido" name="monto_recibido" min="0" value="0.00" placeholder="ingrese el monto recibido" readonly required>
             </div>
             <div class="col-md-6">
               <label for="condicion_rendicion" class="form-label"><b>FIRMA CON PDF</b></label>
               <div class="input-group mb-3">
-                <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" disabled="true" required>
+                <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" disabled="true">
                 <label class="input-group-text" for="pdf">Subir</label>
               </div>
             </div>
@@ -145,12 +149,15 @@
   document.getElementById("organismo_financiador").readOnly = false;
   document.getElementById("nombre_proyecto").readOnly = false;
   document.getElementById("monto").readOnly = false;
-  document.getElementById("select_cuenta").disabled = false;
-  document.getElementById("boton_guardar").disabled = false;
+  document.getElementById("monto_recibido").readOnly = false;
   document.getElementById("fecha_inicio").readOnly = false;
   document.getElementById("fecha_finalizacion").readOnly = false;
   document.getElementById("fecha_rendicion").readOnly = false;
+
+  document.getElementById("select_cuenta").disabled = false;
+  document.getElementById("boton_guardar").disabled = false;
   document.getElementById("pdf").disabled = false;
+  
   $("#captcha").show();
 
   document.getElementById("boton_editar").disabled = true;

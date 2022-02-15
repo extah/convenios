@@ -16,7 +16,7 @@ class Compra extends Model
      public static function get_registro($id_etapas)
      {
         //  $row = self::find($id_etapas);
-         $row = Compra::where('id_etapas', '=', $id_etapas)->first();
+         $row = Compra::where('id_etapas', '=', $id_etapas)->get();
          return $row;       
      }
 }

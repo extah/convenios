@@ -73,17 +73,17 @@
                     <input type="file" class="form-control" id="pdf_orden_compra" name="pdf_orden_compra" accept=".pdf" required>
                     <label class="input-group-text" for="pdf">SUBIR</label>
                   </div>
-
                 </div>
 
                 <div>
-                  <input id="id_etapas" name="id_etapas" type="text" value="{{$id_etapas}}" >
+                  <input id="id_etapas" name="id_etapas" type="text" value="{{$id_etapas}}" style ="display: none;">
                 </div> 
 
                 <div class="form-group" >
                   <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
                   <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
                 </div>
+
                 <div class="d-grid gap-2 col-md-10 mx-auto">
                   <button id="boton_guardar" type="submit" class="btn btn-info btn-lg" >Guardar</button>
                 </div>
@@ -96,10 +96,19 @@
               <button type="button" id="replegarfisica" class="btn btn-outline-dark btn-lg text-start" onclick="replegarFisica()" style ="display: none;"> <i class="far fa-minus-square" style='font-size:23px;color:red'></i>    <b>FISICA</b></button>
           </div>
           {{-- OBRA --}}
-          <form id="form_obra_fisica" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
+          <form id="form_obra_fisica" style ="display: none;" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconveniofisicaobra') }}">
             @csrf
             
             <div class="row g-3">
+
+                <div class="col-md-6">
+                  <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                  <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                    @foreach ( $compra  as $key)
+                        <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                    @endforeach
+                  </select>
+                </div>
 
               <div class="col-md-6">
                   <label for="nro_certificado" class="form-label"><b>N° DE CERTIFICADO</b></label>
@@ -119,7 +128,7 @@
                 <input type="number" class="form-control" id="avance_obra" name="avance_obra"  value="0" placeholder="ingrese el porcentaje de la obra" required>
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <label for="monto" class="form-label"><b>MONTO</b></label>
                 <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="00.0" placeholder="ingrese el monto" required>
               </div>

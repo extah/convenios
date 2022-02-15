@@ -467,8 +467,8 @@ class EmpleadoController extends Controller
     {
 
         $usuario = $request->session()->get('usuario');
-        $result = $this->isUsuario($usuario);    
-        $id_etapas = $id_etapa;   
+        $result = $this->isUsuario($usuario);
+        $id_etapas = $id_etapa;
             
         if($result == "OK"){
             $esEmp = true;
@@ -485,8 +485,9 @@ class EmpleadoController extends Controller
                     // $registro  = Paso1::get_registro($id_etapa);
                     $registro  = Paso2::get_registro($id_etapa);
                     $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
-
-                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas'));
+                    $compra  = Compra::get_registro($id_etapa);
+                    // return $compra;
+                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
                 } else {
                     if ($paso == 'paso3') {
                         // $registro  = Paso3::get_registro($id_etapa);
@@ -547,9 +548,6 @@ class EmpleadoController extends Controller
         // return $request;
         if($result == "OK")
         {
-            // DB::insert("insert into pasos_etapas 
-            // (nombre_proyecto, paso1, paso2, paso3, paso4, finalizo)
-            // values('" . $nombre_proyecto . "', 1, 0, 0, 0, 0)");
             $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);
 
             $compras = new Compra;
@@ -590,13 +588,84 @@ class EmpleadoController extends Controller
 
             $compras->save();
 
+            $no_hay_datos = false;
+            $inicio = "";
+            $esEmp = true;
+            $status_ok = false;
+            $status_convenio = true;
+            $nombreconvenio = "ÉXITO";
+            $message = "Convenio creado";
+            $status_agregado = true;
 
+            // return view('empleado.paso1', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+            $id_etapas = $request->id_etapas;
 
+            $registro  = Paso2::get_registro($id_etapas);
+            $pasos_etapas  = PasosEtapas::get_registro($id_etapas);
+            $compra  = Compra::get_registro($id_etapas);
+            
 
+            return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
+        }
+        else
+        {
+            $message = "Inicie sesion";
+            $status_error = false;
+            $status_info = true;
+            $esEmp = false;
 
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }
+    }
 
+    public function ejecucionconveniofisicaobra(Request $request)
+    {
+        $usuario = $request->session()->get('usuario');
+        $nombre = $request->session()->get('nombre');
+        $result = $this->isUsuario($usuario);
+        
+        return $request;
+        if($result == "OK")
+        {
+            $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);
 
+            $compras = new Compra;
+            $compras->id_etapas = $request->id_etapas;
+            $compras->orden_compra = $request->orden_compra;
 
+            $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/compras';
+            $path = storage_path($nombre_carpeta);
+
+            if (!file_exists($path)) {
+                mkdir($path, 0775, true);
+            }
+
+            if($request->hasFile("pdf_orden_compra")){
+                $file=$request->file("pdf_orden_compra");
+                
+                // $nombre = "pdf_".time().".".$file->guessExtension();
+                $nombre_pdf = $file->getClientOriginalName() ;
+                $ruta = $path . "/" . $nombre_pdf;
+                
+
+                if($file->guessExtension()=="pdf"){
+                    if (file_exists($pasosEtapas->nombre_archivo)) {
+                        //File::delete($image_path);
+                        unlink($nombre_pdf);
+                    }
+                    copy($file, $ruta);
+                    $compras->nombre_archivo = $nombre_pdf;
+                    // return $ruta;
+                }else{
+                    dd("NO ES UN PDF");
+                }
+    
+    
+    
+            }
+
+            $compras->save();
 
             $no_hay_datos = false;
             $inicio = "";
@@ -607,7 +676,15 @@ class EmpleadoController extends Controller
             $message = "Convenio creado";
             $status_agregado = true;
 
-            return view('empleado.empleado', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+            // return view('empleado.paso1', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+            $id_etapas = $request->id_etapas;
+
+            $registro  = Paso2::get_registro($id_etapas);
+            $pasos_etapas  = PasosEtapas::get_registro($id_etapas);
+            $compra  = Compra::get_registro($id_etapas);
+            
+
+            return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
         }
         else
         {

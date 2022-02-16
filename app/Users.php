@@ -19,4 +19,11 @@ class Users extends Model
         protected $hidden = [
             'contrasena', 'remember_token',
         ];
+
+        public static function get_registro($cuit)
+        {
+           //  $row = self::find($id_etapas);
+            $row = Users::where('cuit', '=', $cuit)->first();
+            return $row;       
+        }
 }

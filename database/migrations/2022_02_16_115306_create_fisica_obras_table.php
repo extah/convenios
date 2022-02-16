@@ -16,9 +16,9 @@ class CreateFisicaObrasTable extends Migration
         Schema::create('fisica_obras', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_etapas')->nullable();
-            $table->bigInteger('compra')->nullable();
+            $table->bigInteger('id_compra')->nullable();
             $table->bigInteger('nro_certificado')->nullable();
-            $table->bigInteger('procentaje')->nullable();
+            $table->bigInteger('porcentaje')->nullable();
             $table->double('monto', 15, 2)->default(0)->nullable();
             $table->string('nombre_archivo', 255)->nullable();
             $table->timestamps();

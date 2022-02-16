@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Response;
 use PDFVillca;
+use App\Users;
 use App\PasosEtapas;
 use App\Paso1;
 use App\Paso2;
 use App\Paso3;
 use App\Paso4;
 use App\Compra;
+use App\Fisica_obra;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Storage;
 
@@ -65,13 +67,7 @@ class EmpleadoController extends Controller
                 session(['usuario'=>$login[0]->cuit, 'nombre'=>$login[0]->nombreyApellido]);
                 $nombre = $login[0]->nombreyApellido;
                 $cuit = $login[0]->cuit;
-                // $datos =  DB::select("SELECT DISTINCT apellido, tipo, nombre, cuil, mes, mes_nom, anio FROM recibos_originales where cuil = " . $usuario . " OR numero_documento = '" . $usuario . "'" . " ORDER BY anio, mes ASC");
-                // $datos =  DB::select("SELECT DISTINCT apellido, tipo, nombre, cuil, mes, mes_nom, anio FROM recibos_originales where cuil = '" . $cuit . "'". " ORDER BY anio, mes ASC");
-                
-                // if(count( $datos) == 0)
-                // {
-                //     $no_hay_datos = true;
-                // }
+
                 return view('empleado.empleado', compact('inicio', 'esEmp', 'nombre', 'status_ok', 'status_convenio', 'message', ));
                 
             }
@@ -93,11 +89,13 @@ class EmpleadoController extends Controller
     {
         
         $usuario = $request->session()->get('usuario');
-        $nombre = $request->session()->get('nombre');
+        // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
 
         if($result == "OK")
         {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
 
             $no_hay_datos = false;
             $inicio = "";
@@ -128,11 +126,13 @@ class EmpleadoController extends Controller
     public function agregar(Request $request)
     {
         $usuario = $request->session()->get('usuario');
-        $nombre = $request->session()->get('nombre');
+        // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
 
         if($result == "OK")
         {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
 
             $no_hay_datos = false;
             $inicio = "";
@@ -159,11 +159,14 @@ class EmpleadoController extends Controller
     public function agregarconvenio(Request $request)
     {
         $usuario = $request->session()->get('usuario');
-        $nombre = $request->session()->get('nombre');
+        // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
 
         if($result == "OK")
         {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
+
             $nombre_proyecto = $request->nombre_proyecto;
 
             // DB::insert("insert into pasos_etapas 
@@ -221,11 +224,14 @@ class EmpleadoController extends Controller
     public function editarconvenio(Request $request)
     {
         $usuario = $request->session()->get('usuario');
-        $nombre = $request->session()->get('nombre');
+        // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
         // return $request;
         if($result == "OK")
         {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
+
             $pasos1  = Paso1::get_registro($request->id_etapas);
 
             if($request->monto_recibido != '0')
@@ -320,11 +326,13 @@ class EmpleadoController extends Controller
     public function buscarconvenios(Request $request)
     {
         $usuario = $request->session()->get('usuario');
-        $nombre = $request->session()->get('nombre');
+        // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
 
         if($result == "OK")
         {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
 
             $no_hay_datos = false;
             $inicio = "";
@@ -542,12 +550,15 @@ class EmpleadoController extends Controller
     public function ejecucionconveniocompra(Request $request)
     {
         $usuario = $request->session()->get('usuario');
-        $nombre = $request->session()->get('nombre');
+        // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
-        
+        // dd ($request);
         // return $request;
         if($result == "OK")
         {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
+
             $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);
 
             $compras = new Compra;
@@ -605,7 +616,9 @@ class EmpleadoController extends Controller
             $compra  = Compra::get_registro($id_etapas);
             
 
-            return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
+            // return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
+            // return $nombre;
+            return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra,]);
         }
         else
         {
@@ -619,40 +632,37 @@ class EmpleadoController extends Controller
         }
     }
 
+
+    // fisica obra
     public function ejecucionconveniofisicaobra(Request $request)
     {
         $usuario = $request->session()->get('usuario');
-        $nombre = $request->session()->get('nombre');
+        // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
-        
-        return $request;
-
-// borrar
-
-// "orden_compra": "1",
-// "nro_certificado": "23232323",
-// "avance_obra": "50",
-// "monto": "25.0",
-// "pdf_certificado_obra":
-
 
         if($result == "OK")
         {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
+
             $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);
 
-            $compras = new Compra;
-            $compras->id_etapas = $request->id_etapas;
-            $compras->orden_compra = $request->orden_compra;
+            $fisica_obra = new Fisica_obra;
+            $fisica_obra->id_etapas = $request->id_etapas;
+            $fisica_obra->id_compra = $request->orden_compra;
+            $fisica_obra->nro_certificado = $request->nro_certificado;
+            $fisica_obra->porcentaje = $request->avance_obra;
+            $fisica_obra->monto = $request->monto;
 
-            $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/compras';
+            $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/fisica_obra';
             $path = storage_path($nombre_carpeta);
 
             if (!file_exists($path)) {
                 mkdir($path, 0775, true);
             }
 
-            if($request->hasFile("pdf_orden_compra")){
-                $file=$request->file("pdf_orden_compra");
+            if($request->hasFile("pdf_certificado_obra")){
+                $file=$request->file("pdf_certificado_obra");
                 
                 // $nombre = "pdf_".time().".".$file->guessExtension();
                 $nombre_pdf = $file->getClientOriginalName() ;
@@ -665,7 +675,7 @@ class EmpleadoController extends Controller
                         unlink($nombre_pdf);
                     }
                     copy($file, $ruta);
-                    $compras->nombre_archivo = $nombre_pdf;
+                    $fisica_obra->nombre_archivo = $nombre_pdf;
                     // return $ruta;
                 }else{
                     dd("NO ES UN PDF");
@@ -675,7 +685,7 @@ class EmpleadoController extends Controller
     
             }
 
-            $compras->save();
+            $fisica_obra->save();
 
             $no_hay_datos = false;
             $inicio = "";
@@ -694,7 +704,9 @@ class EmpleadoController extends Controller
             $compra  = Compra::get_registro($id_etapas);
             
 
-            return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
+            // return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
+
+            return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra,]);
         }
         else
         {

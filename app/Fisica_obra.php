@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Fisica_obra extends Model
 {
     protected $fillable = [
-        'id_etapas', 'compra', 'nro_certificado','procentaje','monto', 'nombre_archivo',
+        'id_etapas', 'id_compra', 'nro_certificado','porcentaje','monto', 'nombre_archivo',
     ];
     public $timestamps  = true;
 

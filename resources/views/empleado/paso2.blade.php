@@ -115,10 +115,10 @@
                   <input type="text" class="form-control" id="nro_certificado" name="nro_certificado"  value="" placeholder="ingrese el numero de certificado" required>
               </div>
 
-              <div id="elegir_archivos" class="col-md-6">
-                <label id="obra" for="pdf" class="form-label"><b>ADJUNTAR PDF CERTIFICADO DE OBRA</b></label>
+              <div class="col-md-6">
+                <label for="pdf_certificado_obra" class="form-label"><b>ADJUNTAR PDF CERTIFICADO DE OBRA</b></label>
                 <div class="input-group mb-3">
-                  <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
+                  <input type="file" class="form-control" id="pdf_certificado_obra" name="pdf_certificado_obra" accept=".pdf" required>
                   <label class="input-group-text" for="pdf">SUBIR</label>
                 </div>
               </div>
@@ -133,10 +133,10 @@
                 <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="00.0" placeholder="ingrese el monto" required>
               </div>
 
-              <div class="form-group" >
+              {{-- <div class="form-group" >
                 <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
                 <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
-              </div>
+              </div> --}}
               <div class="d-grid gap-2 col-md-10 mx-auto">
                 <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" >Guardar</button>
               </div>

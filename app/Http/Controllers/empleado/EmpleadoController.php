@@ -626,6 +626,16 @@ class EmpleadoController extends Controller
         $result = $this->isUsuario($usuario);
         
         return $request;
+
+// borrar
+
+// "orden_compra": "1",
+// "nro_certificado": "23232323",
+// "avance_obra": "50",
+// "monto": "25.0",
+// "pdf_certificado_obra":
+
+
         if($result == "OK")
         {
             $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);

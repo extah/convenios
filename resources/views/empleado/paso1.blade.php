@@ -102,7 +102,7 @@
             </div>
             <div class="col-md-3">
               <label for="monto_recibido" class="form-label"><b>MONTO RECIBIDO</b></label>
-              <input type="number" step=".01" class="form-control" id="monto_recibido" name="monto_recibido" min="0" value="0.00" placeholder="ingrese el monto recibido" readonly required>
+              <input type="number" step=".01" class="form-control" id="monto_recibido" name="monto_recibido" min="0" value="{{ $registro->monto_recibido }}" placeholder="ingrese el monto recibido" readonly required>
             </div>
             <div class="col-md-6">
               <label for="condicion_rendicion" class="form-label"><b>FIRMA CON PDF</b></label>

@@ -59,7 +59,9 @@
         </div>                  
           
         <form id="form_compra" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconveniocompra') }}">
-            @csrf
+          @csrf
+          <div class="card" style="background-color: #adb5bd;  border-width: 3px; border-style: solid; border-color: #0dcaf0;">
+            <div class="card-body">
               <div class="row g-3">
 
                 <div class="col-md-6">
@@ -85,73 +87,86 @@
                 </div> 
 
                 <div class="d-grid gap-2 col-md-10 mx-auto">
-                  <button id="boton_guardar" type="submit" class="btn btn-info btn-lg" >Guardar</button>
+                  <button id="boton_guardar" type="submit" class="btn btn-info btn-lg" ><b>Guardar</b></button>
                 </div>
-              </div>
-          </form>
-
-          <!-- FISICA -->
-          <div class="d-grid gap-2 col-6 mx-auto">
-              <button type="button" id="desplegarfisica" class="btn btn-outline-dark btn-lg text-start" onclick="desplegarFisica()"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>FISICA</b></button>
-              <button type="button" id="replegarfisica" class="btn btn-outline-dark btn-lg text-start" onclick="replegarFisica()" style ="display: none;"> <i class="far fa-minus-square" style='font-size:23px;color:red'></i>    <b>FISICA</b></button>
-          </div>
-          {{-- OBRA --}}
-          <form id="form_obra_fisica" style ="display: none;" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconveniofisicaobra') }}">
-            @csrf
-            
-            <div class="row g-3">
-
-                <div class="col-md-6">
-                  <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
-                  <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
-                    @foreach ( $compra  as $key)
-                        <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
-                    @endforeach
-                  </select>
-                </div>
-
-              <div class="col-md-6">
-                  <label for="nro_certificado" class="form-label"><b>N° DE CERTIFICADO</b></label>
-                  <input type="text" class="form-control" id="nro_certificado" name="nro_certificado"  value="" placeholder="ingrese el numero de certificado" required>
-              </div>
-
-              <div class="col-md-6">
-                <label for="pdf_certificado_obra" class="form-label"><b>ADJUNTAR PDF CERTIFICADO DE OBRA</b></label>
-                <div class="input-group mb-3">
-                  <input type="file" class="form-control" id="pdf_certificado_obra" name="pdf_certificado_obra" accept=".pdf" required>
-                  <label class="input-group-text" for="pdf">SUBIR</label>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="avance_obra" class="form-label"><b>PORCENTAJE DEL AVANCE DE OBRA</b></label>
-                <input type="number" class="form-control" id="avance_obra" name="avance_obra"  value="0" placeholder="ingrese el porcentaje de la obra" required>
-              </div>
-
-              <div class="col-md-6">
-                <label for="monto" class="form-label"><b>MONTO</b></label>
-                <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="00.0" placeholder="ingrese el monto" required>
-              </div>
-
-              {{-- <div class="form-group" >
-                <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
-                <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
-              </div> --}}
-              <div>
-                <input id="id_etapas" name="id_etapas" type="text" value="{{$id_etapas}}" style ="display: none;">
-              </div> 
-
-              <div class="d-grid gap-2 col-md-10 mx-auto">
-                <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" >Guardar</button>
               </div>
             </div>
+          </div>    
+        </form>
+
+        <!-- FISICA -->
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="button" id="desplegarfisica" class="btn btn-outline-dark btn-lg text-start" onclick="desplegarFisica()"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>FISICA</b></button>
+            <button type="button" id="replegarfisica" class="btn btn-outline-dark btn-lg text-start" onclick="replegarFisica()" style ="display: none;"> <i class="far fa-minus-square" style='font-size:23px;color:red'></i>    <b>FISICA</b></button>
+        </div>
+        {{-- OBRA --}}
+        <form id="form_obra_fisica" style ="display: none;" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconveniofisicaobra') }}">
+          @csrf
+          <div class="card" style="background-color: #adb5bd;  border-width: 3px; border-style: solid; border-color: #212529;">
+            <div class="card-body">
+              <div class="row g-3">
+
+                  <div class="col-md-6">
+                    <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                    <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                      @foreach ( $compra  as $key)
+                          <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+
+                <div class="col-md-6">
+                    <label for="nro_certificado" class="form-label"><b>N° DE CERTIFICADO</b></label>
+                    <input type="text" class="form-control" id="nro_certificado" name="nro_certificado"  value="" placeholder="ingrese el numero de certificado" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="pdf_certificado_obra" class="form-label"><b>ADJUNTAR PDF CERTIFICADO DE OBRA</b></label>
+                  <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="pdf_certificado_obra" name="pdf_certificado_obra" accept=".pdf" required>
+                    <label class="input-group-text" for="pdf">SUBIR</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="avance_obra" class="form-label"><b>PORCENTAJE DEL AVANCE DE OBRA</b></label>
+                  <input type="number" class="form-control" id="avance_obra" name="avance_obra"  value="0" placeholder="ingrese el porcentaje de la obra" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="monto" class="form-label"><b>MONTO</b></label>
+                  <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="00.0" placeholder="ingrese el monto" required>
+                </div>
+
+                {{-- <div class="form-group" >
+                  <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
+                  <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
+                </div> --}}
+                <div>
+                  <input id="id_etapas" name="id_etapas" type="text" value="{{$id_etapas}}" style ="display: none;">
+                </div> 
+
+                <div class="d-grid gap-2 col-md-10 mx-auto">
+                  <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" ><b>Guardar</b></button>
+                </div>
+              </div>
+            </div>
+          </div>      
         </form> 
         {{-- PRODUCTO ENTREGA --}}
         <form id="form_entrega_fisica" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
           @csrf
           
           <div class="row g-3">
-            
+            <div class="col-md-6">
+              <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+              <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                @foreach ( $compra  as $key)
+                    <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                @endforeach
+              </select>
+            </div>
+
               <div class="col-sm-6">
                 <form action="">
                   <div class="card text-white bg-secondary">
@@ -187,7 +202,7 @@
                       </div>
                       <br>
                       <div class="d-grid gap-2 col-md-10 mx-auto">
-                        <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" >Guardar</button>
+                        <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" ><b>Guardar</b></button>
                       </div>
 
                     </div>
@@ -235,7 +250,7 @@
                       </div>
                       <br>
                       <div class="d-grid gap-2 col-md-10 mx-auto">
-                        <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" >Guardar</button>
+                        <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" ><b>Guardar</b></button>
                       </div>
 
                     </div>
@@ -253,64 +268,82 @@
         </div> 
 
           
-          <form id="form_contabilidad" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
+          <form id="form_contabilidad" style ="display: none;" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconveniocontabilidad') }}">
             @csrf
-              <div class="row g-3">
 
-                <div class="col-md-3">
-                    <label fior="num_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
-                    <input type="text" class="form-control" id="num_factura" name="num_factura"  value="" placeholder="ingrese número de la factura" required>
-                </div>
+            <div class="card" style="background-color: #adb5bd;  border-width: 3px; border-style: solid; border-color: #0d6efd;">
+              <div class="card-body">
+                <div class="row g-3">
 
-                <div class="col-md-3">
-                  <label for="fecha_emision" class="form-label"><b>FECHA EMISIÓN</b></label>
-                  <input type="date"  class="form-control" id="fecha_emision" name="fecha_emision"  required>
-                </div>
-                <div class="col-md-6">
-                    <label for="beneficiario" class="form-label"><b>BENEFICIARIO</b></label>
-                    <input type="text" class="form-control" id="beneficiario" name="beneficiario"  value="" placeholder="ingrese el beneficiario" required>
-                </div>
-                <div class="col-md-3">
-                    <label for="cuit" class="form-label"><b>CUIT/CUIL</b></label>
-                    <input type="number" class="form-control" id="cuit" name="cuit"  value="" placeholder="ingrese el cuit o cuil" min="10000000000" max="99999999999" required>
-                </div>
-                <div class="col-md-3">
-                    <label for="importe" class="form-label"><b>IMPORTE</b></label>
-                    <input type="number" step=".01" class="form-control" id="importe" name="importe" min="0" value="0.00" placeholder="ingrese el importe" required>
-                </div>
-                <div class="col-md-3">
-                    <label for="cae" class="form-label"><b>CAE</b></label>
-                    <input type="number" class="form-control" id="cae" name="cae" min="0" placeholder="ingrese el numero CAE" required>
-                </div>
-                <div class="col-md-3">
-                    <label for="nro_pago" class="form-label"><b>N° DE PAGO</b></label>
-                    <input type="number" class="form-control" id="nro_pago" name="nro_pago" min="0" placeholder="ingrese el numero de pago" required>
-                </div>
-
-                <div id="elegir_archivos" class="col-md-6">
-                  <label for="pdf_pago" class="form-label"><b>ADJUNTAR PDF DE LA FACTURA</b></label>
-                  <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="pdf_pago" name="pdf_pago" accept=".pdf" required>
-                    <label class="input-group-text" for="pdf">SUBIR</label>
+                  <div class="col-md-6">
+                    <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                    <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                      @foreach ( $compra  as $key)
+                          <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                      @endforeach
+                    </select>
                   </div>
-                </div>
-                
-                <div id="elegir_archivos" class="col-md-6">
-                  <label for="pdf_afip" class="form-label"><b>ADJUNTAR PDF DEL COMPROBANTE AFIP</b></label>
-                  <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="pdf_afip" name="pdf_afip" accept=".pdf" required>
-                    <label class="input-group-text" for="pdf_afip">SUBIR</label>
-                  </div>
-                </div>
 
-                <div class="form-group" >
-                  <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
-                  <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
-                </div>
-                <div class="d-grid gap-2 col-md-10 mx-auto">
-                  <button id="boton_guardar" type="submit" class="btn btn-primary btn-lg" >Guardar</button>
+                  <div class="col-md-3">
+                      <label fior="nro_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
+                      <input type="text" class="form-control" id="nro_factura" name="nro_factura"  value="" placeholder="ingrese número de la factura" required>
+                  </div>
+
+                  <div class="col-md-3">
+                    <label for="fecha_emision" class="form-label"><b>FECHA EMISIÓN</b></label>
+                    <input type="date"  class="form-control" id="fecha_emision" name="fecha_emision"  required>
+                  </div>
+                  <div class="col-md-6">
+                      <label for="beneficiario" class="form-label"><b>BENEFICIARIO</b></label>
+                      <input type="text" class="form-control" id="beneficiario" name="beneficiario"  value="" placeholder="ingrese el beneficiario" required>
+                  </div>
+                  <div class="col-md-3">
+                      <label for="cuit" class="form-label"><b>CUIT/CUIL</b></label>
+                      <input type="number" class="form-control" id="cuit" name="cuit"  value="" placeholder="ingrese el cuit o cuil" min="10000000000" max="99999999999" required>
+                  </div>
+                  <div class="col-md-3">
+                      <label for="importe" class="form-label"><b>IMPORTE</b></label>
+                      <input type="number" step=".01" class="form-control" id="importe" name="importe" min="0" value="0.00" placeholder="ingrese el importe" required>
+                  </div>
+                  <div class="col-md-3">
+                      <label for="cae" class="form-label"><b>CAE</b></label>
+                      <input type="number" class="form-control" id="cae" name="cae" min="0" placeholder="ingrese el numero CAE" required>
+                  </div>
+                  <div class="col-md-3">
+                      <label for="nro_pago" class="form-label"><b>N° DE PAGO</b></label>
+                      <input type="number" class="form-control" id="nro_pago" name="nro_pago" min="0" placeholder="ingrese el numero de pago" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="pdf_factura" class="form-label"><b>ADJUNTAR PDF DE LA FACTURA</b></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="pdf_factura" name="pdf_factura" accept=".pdf" required>
+                      <label class="input-group-text" for="pdf_factura">SUBIR</label>
+                    </div>
+                  </div>
+                  
+                  <div id="elegir_archivos" class="col-md-6">
+                    <label for="pdf_afip" class="form-label"><b>ADJUNTAR PDF DEL COMPROBANTE AFIP</b></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="pdf_afip" name="pdf_afip" accept=".pdf" required>
+                      <label class="input-group-text" for="pdf_afip">SUBIR</label>
+                    </div>
+                  </div>
+
+                  {{-- <div class="form-group" >
+                    <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
+                    <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
+                  </div> --}}
+                  <div>
+                    <input id="id_etapas" name="id_etapas" type="text" value="{{$id_etapas}}" style ="display: none;">
+                  </div> 
+
+                  <div class="d-grid gap-2 col-md-10 mx-auto">
+                    <button id="boton_guardar" type="submit" class="btn btn-primary btn-lg" ><b>Guardar</b></button>
+                  </div>
                 </div>
               </div>
+            </div>    
           </form>
 
 
@@ -320,32 +353,49 @@
             <button id="replegartesoreria" type="button" class="btn btn-outline-warning btn-lg text-start" onclick="replegarTesoreria()" style="display: none;"> <i class="far fa-minus-square"  style='font-size:23px;color:red'></i>    <b>TESORERIA</b></button>
           </div>
 
-          <form id="form_tesoreria" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
-              @csrf
-                <div class="row g-3">
+          <form id="form_tesoreria" style ="display: none;" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconveniotesoreria') }}">
+              @csrf 
+              <div class="card" style="background-color: #adb5bd;  border-width: 3px; border-style: solid; border-color: #ffc107;">
+                <div class="card-body">
+                  <div class="row g-3">
 
-                  <div class="col-md-3">
-                    <label for="fecha_pago" class="form-label"><b>FECHA DE PAGO</b></label>
-                    <input type="date" class="form-control" id="fecha_pago" name="fecha_pago"  required>
-                  </div>
+                    <div class="col-md-6">
+                      <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                      <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                        @foreach ( $compra  as $key)
+                            <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                        @endforeach
+                      </select>
+                    </div>
 
-                  <div class="col-md-6">
-                    <label id="recibo_pago" for="recibo_pago" class="form-label"><b>ADJUNTAR PDF DEL RECIBO DE PAGO</b></label>
-                    <div class="input-group mb-3">
-                      <input type="file" class="form-control" id="recibo_pago" name="recibo_pago" accept=".pdf" required>
-                      <label class="input-group-text" for="recibo_pago">SUBIR</label>
+                    <div class="col-md-6">
+                      <label for="fecha_pago" class="form-label"><b>FECHA DE PAGO</b></label>
+                      <input type="date" class="form-control" id="fecha_pago" name="fecha_pago"  required>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label id="pdf_recibo_pago" for="recibo_pago" class="form-label"><b>ADJUNTAR PDF DEL RECIBO DE PAGO</b></label>
+                      <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="pdf_recibo_pago" name="pdf_recibo_pago" accept=".pdf" required>
+                        <label class="input-group-text" for="pdf_recibo_pago">SUBIR</label>
+                      </div>
+
+                    </div>
+                    {{-- <div class="form-group" >
+                      <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
+                      <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
+                    </div> --}}
+                    <div>
+                      <input id="id_etapas" name="id_etapas" type="text" value="{{$id_etapas}}" style ="display: none;">
+                    </div> 
+
+                    <div class="d-grid gap-2 col-md-10 mx-auto">
+                      <button id="boton_guardar" type="submit" class="btn btn-warning btn-lg" ><b>Guardar</b></button>
                     </div>
 
                   </div>
-                  <div class="form-group" >
-                    <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
-                    <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
-                  </div>
-                  <div class="d-grid gap-2 col-md-10 mx-auto">
-                    <button id="boton_guardar" type="submit" class="btn btn-warning btn-lg" >Guardar</button>
-                  </div>
-
                 </div>
+              </div>      
             </form>
 
 

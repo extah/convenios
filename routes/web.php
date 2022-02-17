@@ -34,6 +34,8 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::post('/ejecucionconvenio',	'empleado\EmpleadoController@ejecucionconvenio')->name('empleado.ejecucionconvenio');
 	Route::post('/ejecucionconveniocompra',	'empleado\EmpleadoController@ejecucionconveniocompra')->name('empleado.ejecucionconveniocompra');
 	Route::post('/ejecucionconveniofisicaobra',	'empleado\EmpleadoController@ejecucionconveniofisicaobra')->name('empleado.ejecucionconveniofisicaobra');
+	Route::post('/ejecucionconveniocontabilidad',	'empleado\EmpleadoController@ejecucionconveniocontabilidad')->name('empleado.ejecucionconveniocontabilidad');
+	Route::post('/ejecucionconveniotesoreria',	'empleado\EmpleadoController@ejecucionconveniotesoreria')->name('empleado.ejecucionconveniotesoreria');
 	// Route::get('/descargar/{tipo}/{mes}/{anio}',	'empleado\EmpleadoController@descargarPDF')->name('empleado.descargarPDF');
 	// Route::get('/mostrar/{tipo}/{mes}/{anio}',	'empleado\EmpleadoController@mostrarPDF')->name('empleado.mostrarPDF');
 	// Route::post('/buscar',	'empleado\EmpleadoController@buscarPorMes')->name('empleado.buscarPorMes');
@@ -44,6 +46,13 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::get('/verconvenio/{id}',	'empleado\EmpleadoController@verconvenio')->name('empleado.verconvenio');
 	Route::get('/verconvenio/{id}/{paso}',	'empleado\EmpleadoController@verconveniopaso')->name('empleado.verconveniopaso');
 	Route::get('/verconvenio/{id}/{paso}/{pdf}',	'empleado\EmpleadoController@verpdfconvenio')->name('empleado.verpdfconvenio');
+
+
+	Route::get('/verdatosdelconvenio/{id}',	'empleado\EmpleadoController@verdatosdelconvenio')->name('empleado.verdatosdelconvenio');
+	Route::post('/datosdelconvenio',	'empleado\EmpleadoController@datosdelconvenio')->name('empleado.datosdelconvenio');
+
+	Route::get('/verdatosdelconvenio2/{id}',	'empleado\EmpleadoController@verdatosdelconvenio2')->name('empleado.verdatosdelconvenio2');
+	Route::post('/datosdelconvenio2',	'empleado\EmpleadoController@datosdelconvenio2')->name('empleado.datosdelconvenio2');
 
 	Route::get('/prueba',	'empleado\EmpleadoController@prueba')->name('empleado.prueba');
 });

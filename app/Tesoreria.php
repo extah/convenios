@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Fisica_obra extends Model
+class Tesoreria extends Model
 {
     protected $fillable = [
-        'id_etapas', 'id_compra', 'nro_certificado','porcentaje','monto', 'nombre_archivo',
+        'id_etapas', 'id_compra', 'fecha_pago','nombre_archivo_pago',
     ];
     public $timestamps  = true;
 
@@ -16,7 +16,7 @@ class Fisica_obra extends Model
      public static function get_registro($id_etapas)
      {
         //  $row = self::find($id_etapas);
-         $row = Fisica_obra::where('id_etapas', '=', $id_etapas)->get();
+         $row = Tesoreria::where('id_etapas', '=', $id_etapas)->get();
          return $row;       
      }
 }

@@ -931,6 +931,13 @@ class EmpleadoController extends Controller
 
             $contabilidad->save();
 
+
+            
+            $paso1  = Paso1::get_registro($request->id_etapas);
+            $sumar = $paso1->monto_recibido + $request->importe;
+            $paso1->monto_recibido = $sumar;
+            $paso1->save();
+
             $no_hay_datos = false;
             $inicio = "";
             $esEmp = true;

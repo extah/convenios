@@ -135,7 +135,7 @@
 
                 <div class="col-md-6">
                   <label for="monto" class="form-label"><b>MONTO</b></label>
-                  <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="00.0" placeholder="ingrese el monto" required>
+                  <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="0.00" placeholder="ingrese el monto" required>
                 </div>
 
                 {{-- <div class="form-group" >

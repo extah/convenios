@@ -17,51 +17,62 @@
   <div class="col-8 col-sm-6 col-md-6 mx-auto">
     <div class="card text-white bg-info mb-3" style="max-width: 100rem;">
         <div class="card-body text-center">
-          <h4 class="card-title">Listado de convenios</h4>
+          <h4 class="card-title">Datos del convenio</h4>
         </div>                  
     </div>
   </div>
 </div>
 <div class="container">
-  {{-- <div class="d-flex justify-content-center">
-      <h1 style="color:#428bca">Listado de convenios</h1>
-  </div> --}}
-  {{-- <hr> --}}
+    <article class="container col-12 mx-auto p-0">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="conve_id" class="form-label"><b>CONVENIO ID</b></label>
+                    <input type="text" class="form-control" id="conve_id" name="conve_id"  value="{{ $registro->id }}"  readonly required>
+                </div>
+                <div class="col-md-6">
+                    <label for="organismo_financiador" class="form-label"><b>ORGANISMO FINANCIADOR</b></label>
+                    <input type="text" class="form-control" id="organismo_financiador" name="organismo_financiador"  value="{{ $registro->organismo_financiador }}"  readonly required>
+                </div>
+                <div class="col-md-6">
+                    <label for="nombre_proyecto" class="form-label"><b>NOMBRE DEL PPROYECTO</b></label>
+                    <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" value="{{ $registro->nombre_proyecto }}" readonly required>
+                </div>
+                <div class="col-md-6">
+                    <label for="tipo_rendicion" class="form-label"><b>TIPO DE RENDICIÓN</b></label>
+                    <input type="text" step=".01" class="form-control" id="tipo_rendicion" name="tipo_rendicion" min="0" value="{{ $registro->tipo_rendicion }}"  readonly required>
+                </div>    
+                <div class="col-md-6">
+                    <label for="monto" class="form-label"><b>MONTO TOTAL</b></label>
+                    <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="{{ $registro->monto }}" readonly required>
+                </div>   
+                <div class="col-md-6">
+                    <label for="monto_recibido" class="form-label"><b>MONTO RECIBIDO</b></label>
+                    <input type="number" step=".01" class="form-control" id="monto_recibido" name="monto_recibido" min="0" value="{{ $registro->monto_recibido }}"readonly required>
+                </div>               
 
-    {{-- <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex flex-column mx-auto p-0 my-2 gap-1">
-        <div class="row g-2">
-            <div class="col-md-3">
-                <button id="btnBuscarporNUMERO" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalTurnos">
-                    <i class="fas fa-search"></i> Buscar convenio por numero
-                </button>
-            </div>
-            <div class="col-md-3">
-                <button id="btnBuscarPorProyecto" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalProyecto">
-                    <i class="fas fa-search"></i> Buscar convenio por proyecto
-                </button>
-            </div>
-            <div class="col-md-3">
-                <button id="btnBuscarPorFinalizado" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalFinalizar">
-                    <i class="fas fa-search"></i> Buscar convenios por finalizado
-                </button>
-            </div>
-        </div>
-    </div>
-    <br> --}}
+            </div> 	
+  
+    </article>
+
+    <br>
+
     <div class="col-lg-12"> 
       <div class="table-responsive">  
           <table id="tablaConvenios" class="table table-striped table-hover table-bordered display" cellspacing="0" style="width:100%">
               <meta name="csrf-token_convenios" content="{{ csrf_token() }}">
               <thead class="thead-dark text-center">
                   <tr>
-                      <th>ORGANISMO FINANCIADOR</th>
-                      <th>NOMBRE DEL PROYECTO</th>
-                      <th>MONTO</th>
-                      <th>MONTO RECIBIDO</th>
-                      <th>TIPO DE RENDICION</th>
-                      <th>FECHA INICIO</th>
-                      <th>FECHA FIN</th>
-                      <th>VER FIRMA</th>
+                      <th>ORDEN DE COMPRA</th>
+                      <th>IMPORTE ORDEN COMPRA</th>
+                      <th>N° FACTURA</th>
+                      <th>FECHA EMISION</th>
+                      <th>BENEFICIARIO</th>
+                      <th>CUIT</th>
+                      <th>IMPORTE</th>
+                      <th>CAE</th>
+                      <th>N° DE PAGO</th>
+                      <th>FECHA DE PAGO</th>
+                      <th>VER</th>
                   </tr>    
               </thead>
               <tbody>
@@ -90,8 +101,8 @@
 
 $(document).ready(function() {
 
-  var id, opcion, titulo;
-        opcion = 4;
+  var id, opcion;
+        opcion = document.getElementById("conve_id").value;
     
         tablaConvenios = $('#tablaConvenios').DataTable( 
         {
@@ -106,14 +117,16 @@ $(document).ready(function() {
                         "dataSrc":""
                     },
         "columns": [
-                        { data: "organismo_financiador"},
-                        { data: "proyecto"},
-                        { data: "monto"},
-                        { data: "monto_recibido" },
-                        { data: "tipo_rendicion" },
-                        { data: "fecha_inicio" },    
-                        { data: "fecha_finalizacion" },
-
+                        { data: "orden_compra"},
+                        { data: "importe_compra"},
+                        { data: "nro_factura"},
+                        { data: "fecha_emision"},
+                        { data: "beneficiario" },
+                        { data: "cuit" },
+                        { data: "importe" },
+                        { data: "cae" },    
+                        { data: "nro_pago" },
+                        { data: "fecha_pago" },
                         {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnVer'><i class='fas fa-eye'></i></button></div></div>"},
                         
                     ],
@@ -122,7 +135,7 @@ $(document).ready(function() {
         select: true,
         colReorder: true,
         "autoWidth": false,
-         "order": [[ 0, "asc" ]],
+         "order": [[ 0, "DES" ]],
          "paging":   true,
          "ordering": true,
          "info":     false,

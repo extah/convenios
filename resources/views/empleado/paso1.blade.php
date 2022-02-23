@@ -84,15 +84,15 @@
 
             <div class="col-md-3">
               <label for="fecha_inicio" class="form-label"><b>FECHA INICIO</b></label>
-              <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" placeholder="ingrese fecha desde" value="{{ $registro->fecha_inicio }}" readonly required>
+              <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" placeholder="ingrese fecha desde" value="{{ $registro->fecha_inicio }}" readonly>
             </div>
             <div class="col-md-3">
               <label for="fecha_finalizacion" class="form-label"><b>FECHA FINALIZACIÓN</b></label>
-              <input type="date" class="form-control" id="fecha_finalizacion" name="fecha_finalizacion" placeholder="ingrese fecha de finalización" value="{{ $registro->fecha_finalizacion }}" readonly required>
+              <input type="date" class="form-control" id="fecha_finalizacion" name="fecha_finalizacion" placeholder="ingrese fecha de finalización" value="{{ $registro->fecha_finalizacion }}" readonly>
             </div>
             <div class="col-md-3">
               <label for="fecha_rendicion" class="form-label"><b>FECHA RENDICIÓN</b></label>
-              <input type="date" class="form-control" id="fecha_rendicion" name="fecha_rendicion" placeholder="ingrese fecha de rendición" value="{{ $registro->fecha_rendicion }}" readonly required>
+              <input type="date" class="form-control" id="fecha_rendicion" name="fecha_rendicion" placeholder="ingrese fecha de rendición" value="{{ $registro->fecha_rendicion }}" readonly>
             </div>
 
 

@@ -505,8 +505,46 @@ class EmpleadoController extends Controller
                 } else {
                     if ($paso == 'paso3') {
                         // $registro  = Paso3::get_registro($id_etapa);
-                        // return $registro;
-                         return view('empleado.paso3', compact('esEmp', 'registro','nombre',));
+                        $compra  = Compra::get_registro($id_etapa);
+                        $paso1 = DB::select(DB::raw("SELECT paso1s.monto, paso1s.fecha_inicio, paso1s.fecha_finalizacion, paso1s.fecha_rendicion, paso1s.monto_recibido, paso1s.nombre_archivo
+                        FROM paso1s
+                        WHERE paso1s.id_etapas = '" . $id_etapa . "' "));
+                        // return $paso1;
+                        if(count($paso1) > 0)
+                        {
+                            $datos_paso1 = array();
+                            if($paso1[0]->monto > $paso1[0]->monto_recibido)
+                            {
+                                $faltante = $paso1[0]->monto - $paso1[0]->monto_recibido;
+                                $datos_paso1['monto_faltante'] = "Falta recibir un total de $" . $faltante;
+                            }
+
+                            if($paso1[0]->fecha_inicio == null)
+                            {
+                                $datos_paso1['fecha_inicio'] = "La fecha de inicio se encuentra vacia";
+                            }
+
+                            if($paso1[0]->fecha_rendicion == null)
+                            {
+                                $datos_paso1['fecha_rendicion'] = "La fecha de rendición se encuentra vacia";
+                            }
+
+                            if($paso1[0]->fecha_finalizacion == null)
+                            {
+                                $datos_paso1['fecha_finalizacion'] = "La fecha de finalización se encuentra vacia";
+                            }
+
+                            if($paso1[0]->nombre_archivo == null)
+                            {
+                                $datos_paso1['nombre_archivo'] = "Cargar el convenio firmado en PDF";
+                            }
+                            
+                        }
+
+                        // $paso1  = Paso1::get_registro($id_etapa);
+                        // return $paso1;
+
+                         return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1'));
                     } else {
                         if ($paso == 'paso4') {
                             $registro  = Paso4::get_registro($id_etapa);
@@ -533,13 +571,13 @@ class EmpleadoController extends Controller
         {
             $user_login  = Users::get_registro($usuario);
             $nombre = $user_login->nombreyApellido;
-
+            $registro  = Paso1::get_registro($param_id_etapa);
             $no_hay_datos = false;
             $inicio = "";
             $esEmp = true;
             $status_ok = false;
 
-            return view('empleado.datosconvenio', compact('inicio', 'esEmp', 'nombre', 'usuario',));
+            return view('empleado.datosconvenio', compact('inicio', 'esEmp', 'nombre', 'usuario', 'registro'));
         }
         else
         {
@@ -557,83 +595,21 @@ class EmpleadoController extends Controller
     {
         $usuario = $request->session()->get('usuario');
         $result = $this->isUsuario($usuario);
-        $param_id_etapa = 1;
+        // $param_id_etapa = 1;
         if($result == "OK")
         {
             $user_login  = Users::get_registro($usuario);
             $nombre = $user_login->nombreyApellido;
 
-            // $pasosEtapas  = PasosEtapas::get_registro(param_id_etapa);
 
-            $orderby = " ORDER BY paso1s.id ASC ";
-            $limit = " LIMIT 500"; 
-    
-            $data = DB::select(DB::raw("SELECT paso1s.organismo_financiador,  paso1s.nombre_proyecto as proyecto, paso1s.monto, paso1s.monto_recibido, paso1s.tipo_rendicion, paso1s.fecha_inicio, paso1s.fecha_finalizacion 
-            FROM paso1s
-            WHERE paso1s.id_etapas = '" . $param_id_etapa . "' "
-                    . $orderby." ".$limit));
-
-
-            return json_encode($data, JSON_UNESCAPED_UNICODE);
-
-        }
-        else
-        {
-            $message = "Inicie sesion";
-            $status_error = false;
-            $status_info = true;
-            $esEmp = false;
-
-            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
-            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
-        }
-    }
-
-    public function verdatosdelconvenio2($param_id_etapa, Request $request)
-    {
-        $usuario = $request->session()->get('usuario');
-        $result = $this->isUsuario($usuario);
-
-        if($result == "OK")
-        {
-            $user_login  = Users::get_registro($usuario);
-            $nombre = $user_login->nombreyApellido;
-            $registro  = Paso1::get_registro($param_id_etapa);
-            $no_hay_datos = false;
-            $inicio = "";
-            $esEmp = true;
-            $status_ok = false;
-
-            return view('empleado.datosconvenio2', compact('inicio', 'esEmp', 'nombre', 'usuario', 'registro'));
-        }
-        else
-        {
-			$message = "Inicie sesion";
-			$status_error = false;
-            $status_info = true;
-            $esEmp = false;
-
-            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
-            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
-        }
-    }
-
-    public function datosdelconvenio2(Request $request)
-    {
-        $usuario = $request->session()->get('usuario');
-        $result = $this->isUsuario($usuario);
-        $param_id_etapa = 1;
-        if($result == "OK")
-        {
-            $user_login  = Users::get_registro($usuario);
-            $nombre = $user_login->nombreyApellido;
+            $param_id_etapa = $request->opcion;
 
             // $pasosEtapas  = PasosEtapas::get_registro(param_id_etapa);
 
             $orderby = " ORDER BY compras.id ASC ";
             $limit = " LIMIT 500"; 
     
-            $data = DB::select(DB::raw("SELECT compras.orden_compra, contabilidads.nro_factura, DATE_FORMAT( contabilidads.fecha_emision,'%d/%m/%Y') AS fecha_emision, contabilidads.beneficiario, contabilidads.cuit, contabilidads.importe, contabilidads.cae, contabilidads.nro_pago, DATE_FORMAT( tesorerias.fecha_pago,'%d/%m/%Y') AS fecha_pago
+            $data = DB::select(DB::raw("SELECT compras.orden_compra, compras.importe_compra, contabilidads.nro_factura, DATE_FORMAT( contabilidads.fecha_emision,'%d/%m/%Y') AS fecha_emision, contabilidads.beneficiario, contabilidads.cuit, contabilidads.importe, contabilidads.cae, contabilidads.nro_pago, DATE_FORMAT( tesorerias.fecha_pago,'%d/%m/%Y') AS fecha_pago
             FROM compras
             LEFT JOIN contabilidads ON contabilidads.id_compra = compras.id
             LEFT JOIN tesorerias ON tesorerias.id_compra = compras.id
@@ -699,6 +675,7 @@ class EmpleadoController extends Controller
             $compras = new Compra;
             $compras->id_etapas = $request->id_etapas;
             $compras->orden_compra = $request->orden_compra;
+            $compras->importe_compra = $request->importe;
             
 
             $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/compras';
@@ -930,13 +907,6 @@ class EmpleadoController extends Controller
             }
 
             $contabilidad->save();
-
-
-            
-            $paso1  = Paso1::get_registro($request->id_etapas);
-            $sumar = $paso1->monto_recibido + $request->importe;
-            $paso1->monto_recibido = $sumar;
-            $paso1->save();
 
             $no_hay_datos = false;
             $inicio = "";

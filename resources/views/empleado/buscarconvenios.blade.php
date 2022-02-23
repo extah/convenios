@@ -62,7 +62,7 @@
                       <th>CONVENIO PENDIENTE DE RENDICION</th>
                       <th>CONVENIO RENDIDO</th>
                       <th>CONVENIO FINALIZADO</th>
-                      <th>VER</th>
+                      <th>ACCIONES</th>
                   </tr>    
               </thead>
               <tbody>
@@ -222,8 +222,8 @@ $(document).ready(function() {
                         { data: "paso3" },    
                         { data: "paso4" },   
                         { data: "finalizo" },  
-                        {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnVer'><i class='fas fa-eye'></i></button></div></div>"},
-                        
+                        {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnVer'><i class='fas fa-eye'></i></button><button class='btn btn-secondary btn-sm btnEditar'><i class='fas fa-edit'></i></button></div></div>"},
+                        // {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='fas fa-edit'></i></button><button class='btn btn-danger btn-sm btnBorrar'><i class='fas fa-trash-alt'></i></button></div></div>"},
                     ],
         responsive: {
         },
@@ -401,7 +401,7 @@ $(document).ready(function() {
             });			        										     			
         });
 
-        //Borrar
+        //VER CONVENIO
         $(document).on("click", ".btnVer", function(){
             
             fila = $(this).closest("tr");         
@@ -418,11 +418,32 @@ $(document).ready(function() {
                 var hora = $(this).closest("tr").find('td:eq(5)').text();
             }
 
-            var url = "{{route('empleado.verconvenio', '')}}"+"/"+id;
-            window.open(url, "Convenio")
+            var url = "{{route('empleado.verdatosdelconvenio', '')}}"+"/"+id;
+            window.open(url, "Ver convenio")
 
         }) 
 
+        // editar
+        $(document).on("click", ".btnEditar", function(){
+            
+            fila = $(this).closest("tr");         
+
+            if($(this).parents("tr").hasClass('child')){ //vemos si el actual row es child row
+                var id = $(this).parents("tr").prev().find('td:eq(0)').text(); //si es asi, nos regresamos al row anterior, es decir, al padre y obtenemos el id
+                var paciente = $(this).parents("tr").prev().find('td:eq(3)').text();
+                var fecha = $(this).parents("tr").prev().find('td:eq(4)').text();
+                var hora = $(this).parents("tr").prev().find('td:eq(5)').text();
+            } else {
+                var id = $(this).closest("tr").find('td:eq(0)').text(); //si no lo es, seguimos capturando el id del actual row
+                var paciente = $(this).closest("tr").find('td:eq(3)').text();
+                var fecha = $(this).closest("tr").find('td:eq(4)').text();
+                var hora = $(this).closest("tr").find('td:eq(5)').text();
+            }
+
+            var url = "{{route('empleado.verconvenio', '')}}"+"/"+id;
+            window.open(url, "Editar convenio")
+
+        }) 
     });                 
 
 </script>

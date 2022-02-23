@@ -70,12 +70,19 @@
                 </div>
 
                 <div class="col-md-6">
+                  <label for="importe" class="form-label"><b>IMPORTE TOTAL</b></label>
+                  <input type="number" step=".01" class="form-control" id="importe" name="importe" min="0" value="0.00" placeholder="ingrese el importe" required>
+                </div>
+
+                <div class="col-md-6">
                   <label for="pdf_orden_compra" class="form-label"><b>ADJUNTAR PDF ORDEN DE COMPRA</b></label>
                   <div class="input-group mb-3">
                     <input type="file" class="form-control" id="pdf_orden_compra" name="pdf_orden_compra" accept=".pdf" required>
                     <label class="input-group-text" for="pdf">SUBIR</label>
                   </div>
                 </div>
+
+
 
                 <div class="form-group" >
                   <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
@@ -134,8 +141,8 @@
                 </div>
 
                 <div class="col-md-6">
-                  <label for="monto" class="form-label"><b>MONTO</b></label>
-                  <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="0.00" placeholder="ingrese el monto" required>
+                  <label for="importe" class="form-label"><b>IMPORTE</b></label>
+                  <input type="number" step=".01" class="form-control" id="importe" name="importe" min="0" value="0.00" placeholder="ingrese el importe" required>
                 </div>
 
                 {{-- <div class="form-group" >
@@ -158,14 +165,14 @@
           @csrf
           
           <div class="row g-3">
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
               <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
               <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
                 @foreach ( $compra  as $key)
                     <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
                 @endforeach
               </select>
-            </div>
+            </div> --}}
 
               <div class="col-sm-6">
                 <form action="">
@@ -307,7 +314,7 @@
                   </div>
                   <div class="col-md-3">
                       <label for="cae" class="form-label"><b>CAE</b></label>
-                      <input type="number" class="form-control" id="cae" name="cae" min="0" placeholder="ingrese el numero CAE" required>
+                      <input type="text"pattern="[0-9]{11}" class="form-control" id="cae" name="cae" minlength="11" maxlength="11" placeholder="ingrese el numero CAE" required>
                   </div>
                   <div class="col-md-3">
                       <label for="nro_pago" class="form-label"><b>N° DE PAGO</b></label>
@@ -442,8 +449,8 @@
             <div class="col-md-6">
               {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
 
-              <label for="monto_pagado" class="form-label"><b>MONTO ABONADO</b></label>
-              <input type="number" class="form-control" id="monto_pagado" name="monto_pagado" min="0" step="0.01" value="0.00" disabled="true" required/>
+              <label for="importe_pagado" class="form-label"><b>importe ABONADO</b></label>
+              <input type="number" class="form-control" id="importe_pagado" name="importe_pagado" min="0" step="0.01" value="0.00" disabled="true" required/>
             </div>
 
             <div class="form-group" >
@@ -606,7 +613,7 @@
     document.getElementById("pdf").disabled = false;
     $("#captcha").show();
     
-    document.getElementById("monto_pagado").disabled = false;
+    document.getElementById("importe_pagado").disabled = false;
     document.getElementById("boton_guardar").disabled = false;
     document.getElementById("boton_editar").disabled = true;
   }

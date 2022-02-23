@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Paso3 extends Model
 {
     protected $fillable = [
-        'id_etapas', 'condicion_rendicion', 'nombre_archivo',
+        'id_etapas', 'id_compra', 'observacion',
     ];
     public $timestamps  = true;
     //

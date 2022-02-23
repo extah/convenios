@@ -17,6 +17,7 @@ class CreateComprasTable extends Migration
             $table->id();
             $table->bigInteger('id_etapas')->nullable();
             $table->string('orden_compra', 255)->nullable();
+            $table->double('importe_compra', 15, 2)->default(0)->nullable(); 
             $table->string('nombre_archivo', 255)->nullable();
             $table->timestamps();
         });

@@ -16,8 +16,8 @@ class CreatePaso3sTable extends Migration
         Schema::create('paso3s', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_etapas')->nullable();
-            $table->string('condicion_rendicion', 255)->nullable();
-            $table->string('nombre_archivo', 255)->nullable();
+            $table->bigInteger('id_compra')->nullable();
+            $table->text('observacion', 255)->nullable();
             $table->timestamps();
         });
     }

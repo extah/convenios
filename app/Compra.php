@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Compra extends Model
 {
     protected $fillable = [
-        'id_etapas', 'orden_compra', 'nombre_archivo',
+        'id_etapas', 'orden_compra', 'importe_compra','nombre_archivo',
     ];
     public $timestamps  = true;
 

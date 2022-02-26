@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tesoreria extends Model
 {
     protected $fillable = [
-        'id_etapas', 'id_compra', 'fecha_pago','nombre_archivo_pago',
+        'id_etapas', 'id_compra', 'id_contabilidad', 'fecha_pago','nombre_archivo_pago',
     ];
     public $timestamps  = true;
 

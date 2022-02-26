@@ -17,6 +17,7 @@ class CreateTesoreriasTable extends Migration
             $table->id();
             $table->bigInteger('id_etapas')->nullable();
             $table->bigInteger('id_compra')->nullable();
+            $table->bigInteger('id_contabilidad')->nullable();
             $table->date('fecha_pago', 0)->nullable();
             $table->string('nombre_archivo_pago', 255)->nullable();
             $table->timestamps();

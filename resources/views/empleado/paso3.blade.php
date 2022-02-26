@@ -29,7 +29,9 @@
 <article class="container col-12 mx-auto p-0"> 
 
   {{-- CONVENIO FIRMADO --}}
-  @if (true)
+  
+  @if ($if_paso1 == 1)
+  
     <div class="row">
         <div class="col-sm-12  p-1">
           <div class="card">
@@ -56,16 +58,24 @@
   {{-- COMPRA --}}
   @if (true)
     <div class="row">
-      @foreach ($compra as $comp)
+      @foreach($arreglo_completo as $arreglo)
         <div class="col-sm-6  p-1">
           <div class="card">
             
-            <div class="card-header"  style="background-color: #3f4348; color:beige">COMPRA N° : {{ $comp->orden_compra }}</div>
+            <div class="card-header"  style="background-color: #3f4348; color:beige">COMPRA N° :  {{ $arreglo[0] }}</div>
             <div class="card-body">
-              <h5 class="card-title">Emma</h5>
-              <p class="card-text">
+              @for ($i = 1; $i < count($arreglo) ; $i++)
+                  <h5>*{{ $arreglo[$i] }}</h5>
+              @endfor
+              {{-- @foreach ($arreglo as $item)
+                  <h5>*{{ $item }}</h5>
+              @endforeach --}}
+              {{-- @foreach ($arreglo as $key1)
+                 <h5 class="card-title">*{{ $key1 }}</h5>
+              @endforeach --}}
+              {{-- <p class="card-text"> --}}
                 {{-- {{ $paso1[0]->nombre_proyecto }} --}}
-              </p>
+              {{-- </p> --}}
               {{-- <a href="{{route('empleado.verconvenio', '')}}" + "/"+id;" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
               {{-- <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso1'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
               

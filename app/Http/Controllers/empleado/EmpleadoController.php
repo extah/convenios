@@ -500,16 +500,19 @@ class EmpleadoController extends Controller
                     $registro  = Paso2::get_registro($id_etapa);
                     $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
                     $compra  = Compra::get_registro($id_etapa);
+                    $contabilidad = Contabilidad::get_registro($id_etapa);
                     // return $compra;
-                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
+                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra', 'contabilidad'));
                 } else {
                     if ($paso == 'paso3') {
                         // $registro  = Paso3::get_registro($id_etapa);
-                        $compra  = Compra::get_registro($id_etapa);
-                        $paso1 = DB::select(DB::raw("SELECT paso1s.monto, paso1s.fecha_inicio, paso1s.fecha_finalizacion, paso1s.fecha_rendicion, paso1s.monto_recibido, paso1s.nombre_archivo
+                        $if_paso1 = false;
+
+                        // PASOS 1
+                        $paso1 = DB::select(DB::raw("SELECT paso1s.monto, paso1s.fecha_inicio, paso1s.fecha_finalizacion, paso1s.fecha_rendicion, paso1s.monto_recibido, paso1s.nombre_archivo, paso1s.tipo_rendicion
                         FROM paso1s
                         WHERE paso1s.id_etapas = '" . $id_etapa . "' "));
-                        // return $paso1;
+
                         if(count($paso1) > 0)
                         {
                             $datos_paso1 = array();
@@ -536,15 +539,93 @@ class EmpleadoController extends Controller
 
                             if($paso1[0]->nombre_archivo == null)
                             {
-                                $datos_paso1['nombre_archivo'] = "Cargar el convenio firmado en PDF";
+                                $datos_paso1['nombre_archivo'] = "Falta cargar el convenio firmado en PDF";
                             }
+
+                            $if_paso1 = true;
+
+                            // COMPRAS
+                            $compra  = Compra::get_registro($id_etapa);
+                            
+                            $arreglo_completo = array();
+                            $monto_compra = 0;
+
+                            if(count($compra) > 0)
+                            {
+                                // recorro compras
+                                $i = 0;
+                                foreach ($compra as $key => $compra_value) {
+                                    $arreglo = array();
+                                    // "id": 1,
+                                    // "id_etapas": 1,
+                                    // "orden_compra": "123456",
+                                    // "importe_compra": 100,
+                                    // "nombre_archivo": "ddjj_horaria.pdf",
+                                    // "created_at": "2022-02-22T22:46:05.000000Z",
+                                    // "updated_at": "2022-02-22T22:46:05.000000Z"
+                                    $monto_compra += $compra_value->importe_compra;
+                                    $json_1 = $compra_value->orden_compra;
+
+
+                                    // FISICA DE OBRA O ENTREGA
+                                    $fisica = $paso1[0]->tipo_rendicion;
+
+                                    if ($fisica == 'obra') {
+
+                                        $fisica  = Fisica_obra::get_registro($id_etapa);
+                                        
+                                    }
+                                    else {
+                                        // $fisica  = Fisica_entrega::get_registro($id_etapa);
+                                    }
+
+                                    // return $fisica;
+                                    // recorro fisica
+                                    $suma_importe_fisica = 0;
+
+                                    foreach ($fisica as $key => $fisica_value) {
+
+                                        $suma_importe_fisica += $fisica_value->monto;
+
+                                    }
+
+                                    if ($suma_importe_fisica < $compra_value->importe_compra) {
+                                        $resto_importe_fisica = $compra_value->importe_compra - $suma_importe_fisica;
+                                        $json_2 = "Para completar el monto de la compra generada, falta crear una o mas fisica. Resta : $" . $resto_importe_fisica;
+                                    }
+                                    // return $json;
+
+                                    // $arreglo = $json;
+                                    $i++;
+                                    array_push($arreglo, $json_1, $json_2);
+                                    // $arreglo[$i] = $json;
+
+                                    $arreglo_completo[$compra_value->orden_compra] = $arreglo;
+                                    
+                                }
+                                // $arreglo = htmlspecialchars($arreglo[], ENT_QUOTES, 'UTF-8');
+                                if($monto_compra < $paso1[0]->monto){
+                                    $resto_compra = $paso1[0]->monto - $monto_compra;
+                                    $datos_paso1['compra'] = "Para completar el monto total del convenio, falta crear una o mas compras. Resta : $" . $resto_compra;
+                                }
+
+                                // $arreglo = array();
+                                // for ($x = 1; $x <= 10; $x++)
+                                // {
+                                //     array_push($arreglo, $json);
+                                    
+                                // }
+                                // return $arreglo_completo;
+                                
+
+                            }
+
                             
                         }
 
-                        // $paso1  = Paso1::get_registro($id_etapa);
-                        // return $paso1;
 
-                         return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1'));
+
+                         return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1', 'if_paso1', 'arreglo_completo'));
                     } else {
                         if ($paso == 'paso4') {
                             $registro  = Paso4::get_registro($id_etapa);
@@ -612,8 +693,8 @@ class EmpleadoController extends Controller
             $data = DB::select(DB::raw("SELECT compras.orden_compra, compras.importe_compra, contabilidads.nro_factura, DATE_FORMAT( contabilidads.fecha_emision,'%d/%m/%Y') AS fecha_emision, contabilidads.beneficiario, contabilidads.cuit, contabilidads.importe, contabilidads.cae, contabilidads.nro_pago, DATE_FORMAT( tesorerias.fecha_pago,'%d/%m/%Y') AS fecha_pago
             FROM compras
             LEFT JOIN contabilidads ON contabilidads.id_compra = compras.id
-            LEFT JOIN tesorerias ON tesorerias.id_compra = compras.id
-            WHERE compras.id_etapas = '" . $param_id_etapa . "' "
+            LEFT JOIN tesorerias ON tesorerias.id_contabilidad = contabilidads.id
+            WHERE compras.id_etapas = '" . $param_id_etapa . "'"
                     . $orderby." ".$limit));
 
             return json_encode($data, JSON_UNESCAPED_UNICODE);
@@ -751,6 +832,7 @@ class EmpleadoController extends Controller
         $usuario = $request->session()->get('usuario');
         // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
+        return $request;
 
         if($result == "OK")
         {
@@ -764,7 +846,7 @@ class EmpleadoController extends Controller
             $fisica_obra->id_compra = $request->orden_compra;
             $fisica_obra->nro_certificado = $request->nro_certificado;
             $fisica_obra->porcentaje = $request->avance_obra;
-            $fisica_obra->monto = $request->monto;
+            $fisica_obra->monto = $request->importe;
 
             $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/fisica_obra';
             $path = storage_path($nombre_carpeta);
@@ -954,6 +1036,7 @@ class EmpleadoController extends Controller
             $tesoreria = new Tesoreria;
             $tesoreria->id_etapas = $request->id_etapas;
             $tesoreria->id_compra = $request->orden_compra;
+            $tesoreria->id_contabilidad = $request->nro_factura;
             $tesoreria->fecha_pago = $request->fecha_pago;
             // $contabilidad->nombre_archivo_pago
 

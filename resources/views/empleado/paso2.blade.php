@@ -113,14 +113,14 @@
             <div class="card-body">
               <div class="row g-3">
 
-                  <div class="col-md-6">
-                    <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
-                    <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
-                      @foreach ( $compra  as $key)
-                          <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
-                      @endforeach
-                    </select>
-                  </div>
+                <div class="col-md-6">
+                  <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                  <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                    @foreach ( $compra  as $key)
+                        <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                    @endforeach
+                  </select>
+                </div>
 
                 <div class="col-md-6">
                     <label for="nro_certificado" class="form-label"><b>N° DE CERTIFICADO</b></label>
@@ -166,7 +166,7 @@
           
           <div class="row g-3">
             {{-- <div class="col-md-6">
-              <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+              <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
               <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
                 @foreach ( $compra  as $key)
                     <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
@@ -283,13 +283,14 @@
                 <div class="row g-3">
 
                   <div class="col-md-6">
-                    <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                    <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
                     <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
                       @foreach ( $compra  as $key)
                           <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
                       @endforeach
                     </select>
                   </div>
+
 
                   <div class="col-md-3">
                       <label fior="nro_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
@@ -367,10 +368,19 @@
                   <div class="row g-3">
 
                     <div class="col-md-6">
-                      <label for="orden_compra" class="form-label"><b>ASIGNAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                      <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
                       <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
                         @foreach ( $compra  as $key)
                             <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="nro_factura" class="form-label"><b>SELECCIONAR NÚMERO DE FACTURA</b></label>
+                      <select name="nro_factura" id="nro_factura" class="form-control text-center" required>
+                        @foreach ( $contabilidad  as $conta)
+                            <option value="{{ $conta->id }}">{{ $conta->nro_factura }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -408,71 +418,12 @@
 
 
 
-        <!-- <form id="form_guardardatos" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
-          @csrf
-          <div class="row g-3">
-            <div class="col-md-6">
-                {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
-
-                <label for="select_ejecucion" class="form-label"><b>TIPO DE EJECUCIÓN</b></label>
-                <select name="select_ejecucion" id="select_ejecucion" class="form-control text-center" disabled="true" onchange="showDiv(this)" required>
-                  <option value="obra">Obra</option>
-                  <option value="producto" >Entrega de producto</option>          
-                </select>
-
-            </div>
-            <div id="entrega_producto" style="display: none;" class="col-md-6">
-              {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
-
-              <label for="select_entrega_producto" class="form-label"><b>PRODUCTO ENTREGADO</b></label>
-              <select name="select_entrega_producto" id="select_entrega_producto" class="form-control text-center" onchange="showproducto(this)" required>
-                <option value="municipalidad">Municipalidad</option>
-                <option value="beneficiario" >Otro beneficiario</option>          
-              </select>
-
-          </div>
-
-            <div id="elegir_archivos" class="col-md-6">
-              <label id="obra" for="pdf" class="form-label"><b>SUBIR CERTIFICADO DE OBRA Y FORMULARIOS CORRESPONDIENTE</b></label>
-              <div id="producto">
-                <label id="producto_municipalidad" for="pdf" class="form-label" style="display: none;"><b>SUBIR REMITO</b></label>
-                <label id="producto_beneficiario" for="pdf" class="form-label" style="display: none;"><b>SUBIR ACTA DE ENTREGA</b></label>
-              </div>
-
-              <div class="input-group mb-3">
-                <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" multiple disabled="true" required>
-                <label class="input-group-text" for="pdf">SUBIR</label>
-              </div>
-
-            </div>
-
-            <div class="col-md-6">
-              {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
-
-              <label for="importe_pagado" class="form-label"><b>importe ABONADO</b></label>
-              <input type="number" class="form-control" id="importe_pagado" name="importe_pagado" min="0" step="0.01" value="0.00" disabled="true" required/>
-            </div>
-
-            <div class="form-group" >
-              <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-' style='display:none;'></div>
-              <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
-            </div>
-
-
-            <div class="col-md-6 d-grid gap-2">
-              <button id="boton_editar" type="button" class="btn btn-secondary btn-lg" onclick="sacarReadOnly()">Editar</button>
-            </div>
-              <div class="d-grid gap-2 col-md-6 mx-auto">
-                <button id="boton_guardar" type="submit" class="btn btn-primary btn-lg" disabled="true">Guardar</button>
-              </div>
-              @if (!empty($registro))
+ 
+              {{-- @if (!empty($registro))
                 <input id="id_etapas" name="id_etapas" type="hidden" value="{{ $registro->id_etapas}}">        
               @else 
                 <input id="id_etapas" name="id_etapas" type="hidden" value="{{ $id_etapas }}">  
-              @endif
-            
-          </div>
-        </form>   -->
+              @endif --}}
         
     </div>	
 

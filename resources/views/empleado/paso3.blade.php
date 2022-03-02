@@ -39,7 +39,7 @@
             <div class="card-header text-center"  style="background-color: #9e151c; color:beige"><b>CONVENIO FIRMADO</b></div>
             <div class="card-body">
               @foreach ($datos_paso1 as $dato_paso1)
-                <h5 class="card-title">*{{ $dato_paso1 }}</h5>
+                <h5 class="card-title"><b>* </b>{{ $dato_paso1 }}</h5>
               @endforeach
               {{-- <h5 class="card-title">Emma</h5> --}}
               <p class="card-text">
@@ -62,23 +62,11 @@
         <div class="col-sm-6  p-1">
           <div class="card">
             
-            <div class="card-header"  style="background-color: #3f4348; color:beige">COMPRA N° :  {{ $arreglo[0] }}</div>
+            <div class="card-header"  style="background-color: #3f4348; color:beige"><b>COMPRA N° :  {{ $arreglo[0] }}</b></div>
             <div class="card-body">
               @for ($i = 1; $i < count($arreglo) ; $i++)
-                  <h5>*{{ $arreglo[$i] }}</h5>
-              @endfor
-              {{-- @foreach ($arreglo as $item)
-                  <h5>*{{ $item }}</h5>
-              @endforeach --}}
-              {{-- @foreach ($arreglo as $key1)
-                 <h5 class="card-title">*{{ $key1 }}</h5>
-              @endforeach --}}
-              {{-- <p class="card-text"> --}}
-                {{-- {{ $paso1[0]->nombre_proyecto }} --}}
-              {{-- </p> --}}
-              {{-- <a href="{{route('empleado.verconvenio', '')}}" + "/"+id;" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
-              {{-- <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso1'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
-              
+                  <h5><b>* </b>{{ $arreglo[$i] }}</h5>
+              @endfor   
             </div>
           </div>
         </div>

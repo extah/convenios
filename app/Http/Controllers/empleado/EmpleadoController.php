@@ -565,6 +565,7 @@ class EmpleadoController extends Controller
                                     // "updated_at": "2022-02-22T22:46:05.000000Z"
                                     $monto_compra += $compra_value->importe_compra;
                                     $json_1 = $compra_value->orden_compra;
+                                    $json_2 = "";
 
 
                                     // FISICA DE OBRA O ENTREGA
@@ -712,7 +713,21 @@ class EmpleadoController extends Controller
         }
     }
 
-    public function verpdfconvenio($id_etapa, $paso, $pdf, Request $request)
+    public function verpdfconvenio($id_etapa, Request $request)
+    {
+        $nombre = "Emma";
+        $esEmp = true;
+        $paso1  = Paso1::get_registro($id_etapa);
+        $compras  = Compra::get_registro($id_etapa);
+        $fisica_obras  = Fisica_obra::get_registro($id_etapa);
+        $contabilidads  = Contabilidad::get_registro($id_etapa);
+        $tesorerias = Tesoreria::get_registro($id_etapa);
+
+        // return $paso1;
+        return view('empleado.verpdfs', compact('nombre', 'esEmp', 'paso1', 'compras', 'fisica_obras', 'contabilidads', 'tesorerias'));
+    }
+
+    public function verpdf($id_etapa, Request $request)
     {
         // return $pdf;
 
@@ -832,7 +847,7 @@ class EmpleadoController extends Controller
         $usuario = $request->session()->get('usuario');
         // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
-        return $request;
+        // return $request;
 
         if($result == "OK")
         {

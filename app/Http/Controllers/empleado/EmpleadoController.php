@@ -727,26 +727,26 @@ class EmpleadoController extends Controller
         return view('empleado.verpdfs', compact('nombre', 'esEmp', 'paso1', 'compras', 'fisica_obras', 'contabilidads', 'tesorerias'));
     }
 
-    public function verpdf($id_etapa, Request $request)
+    public function verpdf($id_etapa, $tipo, $nombre_archivo, Request $request)
     {
-        // return $pdf;
+        // return $nombre_archivo;
 
         // $filename = 'test.pdf';
         // $path = storage_path($filename);
         $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
-        if($paso == "paso1")
-        {
-            // $pasos  = Paso1::get_registro($id_etapa);
-            $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/firma'. '/' . $pdf;
-        }
-        elseif($paso == "paso2")
-        {
-            // $pasos  = Paso2::get_registro($id_etapa);
-            $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/ejecucion'. '/' . $pdf;
-        }
-       
-        // return $pasos1;
-        // $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/ejecucion'. '/' . $pdf;
+        $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/'. $tipo . '/' . $nombre_archivo;
+
+        // if($tipo == "compras")
+        // {
+            
+        //     $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/firma'. '/' . $pdf;
+        // }
+        // elseif($paso == "paso2")
+        // {
+            
+        //     $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/ejecucion'. '/' . $pdf;
+        // }
+
         $path = storage_path($filename);
 
         return Response::make(file_get_contents($path), 200, [

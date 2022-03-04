@@ -41,13 +41,9 @@
               @foreach ($datos_paso1 as $dato_paso1)
                 <h4 class="card-title"><b>* </b>{{ $dato_paso1 }}</h4>
               @endforeach
-              {{-- <h4 class="card-title">Emma</h4> --}}
               <p class="card-text">
                 {{-- {{ $paso1[0]->nombre_proyecto }} --}}
               </p>
-              {{-- <a href="{{route('empleado.verconvenio', '')}}" + "/"+id;" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
-              {{-- <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso1'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
-              
             </div>
           </div>
         </div>

@@ -2,14 +2,52 @@
 
 @section('css')
 
-
-            <!-- <link rel="stylesheet" href="{{ asset('css/login.css') }}"> -->
             <link href="{{ asset('/assets/bootstrap-datepicker-1.7.1/css/bootstrap-datepicker.min.css') }}" rel="stylesheet"/>
             <style>
                 .formItem{
                     display: block;
                     text-align: center;
                     line-height: 200%;
+                }
+                .btn-primary {
+                color: rgba(255, 255, 255, 0.87);;
+                background-color: #321fdb !important;
+                border-color: #321fdb !important
+                }
+
+                .btn-primary:hover {
+                color: rgba(255, 255, 255, 0.87);
+                background-color: #5141e0 !important;
+                border-color: #5141e0 !important
+                }
+
+                .btn-primary:focus,
+                .btn-primary.focus {
+                box-shadow: 0 0 0 .2rem rgba(50, 31, 219, 0.5);
+                }
+
+                .btn-primary.disabled,
+                .btn-primary:disabled {
+                color: rgba(255, 255, 255, 0.87);
+                background-color: #321fdb;
+                border-color: #4735df
+                } 
+
+                .btn-primary:active{
+                    background-color: #5141e0 !important;
+                    border-color: #5141e0 !important;
+                }
+
+                .btn-convenio {
+                color: rgba(255, 255, 255, 0.87);;
+                background-color: #110768 !important;
+                border-color: #110768 !important
+                }
+
+                .btn-convenio:hover {
+                color: rgba(255, 255, 255, 0.87);
+                background-color: #5141e0 !important;
+                border-color: #5141e0 !important
                 }
             </style>
 @endsection
@@ -18,7 +56,7 @@
 <br>
 <div class="container">
   <div class="col-8 col-sm-6 col-md-6 mx-auto">
-    <div class="card text-white bg-info mb-3" style="max-width: 100rem;">
+    <div class="card text-white bg-primary mb-3" style="max-width: 100rem;">
         <div class="card-body text-center">
           <h5 class="card-title">VER LOS PDF DEL CONVENIO</h5>
         </div>                  
@@ -27,31 +65,41 @@
 </div>
 
 
-<div class="col-11 col-sm-11 col-md-10 col-lg-10 d-flex flex-column mx-auto p-0 my-4 gap-3">
-        @if (true)
-            <div class="col-md-6">
-                <label for="firma" class="form-label"><b>VER CONVENIO FIRMADO POR PDF</b></label>
-                <div class="mb-3 mx-auto">
-                    <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas])}}" target="_blank" class="btn btn-primary btn-lg">
-                        <i class="fas fa-eye" aria-hidden="true" ></i> VER CONVENIO FIRMADO
-                    </a>
-                </div>
+
+<article class="container col-12 mx-auto  p-1">
+        
+            <div class="col-sm-12  p-1">
+                @if (true)
+                    <div class="card text-center">
+                        <div class="card-header" style="background-color: #110768; color:beige">
+                        <B>CONVENIO</B> 
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $paso1->nombre_proyecto }}</h5>
+                            <p class="card-text">Convenio en formato PDF completo y firmado.</p>
+                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'firma', 'nombre_archivo' => $paso1->nombre_archivo])}}" target="_blank" class="btn btn-convenio">
+                                <i class="fas fa-eye" aria-hidden="true" ></i> VER CONVENIO
+                            </a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Última actualización {{ $paso1->updated_at->format('d-m-Y H:i:s') }}
+                        </div>
+                    </div>
+                @endif   
             </div>
-        @endif 
-</div>  
-<article class="container col-12 mx-auto p-0">
-  
+        
+ 
     @if(true)        
         <div class="row">
             @foreach ($compras as $compra)
                 <div class="col-sm-6  p-1">
-                    <div class="card">
+                    <div class="card border-dark" style="">
                         
-                        <div class="card-header text-center"  style="background-color: #0B615E; color:beige"><b>ORDEN DE COMPRA {{ $compra->orden_compra }}</b></div>
+                        <div class="card-header text-center"  style="background-color: #321fdb; color:beige"><b>ORDEN DE COMPRA '{{ $compra->orden_compra }}'</b></div>
                         <div class="card-body">
                             <h5>PDF ORDEN DE COMPRA</h5>
                             <div class="mb-2 mx-auto">
-                                <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas])}}" target="_blank" class="btn btn-primary btn-lg">
+                                <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'compras', 'nombre_archivo' => $compra->nombre_archivo])}}" target="_blank" class="btn btn-primary" >
                                     <i class="fas fa-eye" aria-hidden="true" ></i> {{ $compra->nombre_archivo }}
                                 </a>
                             </div>
@@ -60,7 +108,7 @@
                                 @foreach ($fisica_obras as $fisica_obra)
                                     @if($fisica_obra->id_compra == $compra->id)
                                         <div class="mb-2 mx-auto">
-                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas])}}" target="_blank" class="btn btn-primary btn-lg">
+                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'fisica_obra', 'nombre_archivo' => $fisica_obra->nombre_archivo])}}" target="_blank" class="btn btn-primary">
                                                 <i class="fas fa-eye" aria-hidden="true" ></i> {{ $fisica_obra->nombre_archivo }}
                                             </a>
                                         </div>
@@ -72,12 +120,12 @@
                                 @foreach ($contabilidads as $contabilidad)
                                     @if($contabilidad->id_compra == $compra->id)
                                         <div class="mb-2 mx-auto">
-                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas])}}" target="_blank" class="btn btn-primary btn-lg">
+                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'contabilidad', 'nombre_archivo' => $contabilidad->nombre_archivo_factura])}}" target="_blank" class="btn btn-primary">
                                                 <i class="fas fa-eye" aria-hidden="true" ></i> {{ $contabilidad->nombre_archivo_factura }}
                                             </a>
                                         </div>
                                         <div class="mb-2 mx-auto">
-                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas])}}" target="_blank" class="btn btn-primary btn-lg">
+                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'contabilidad', 'nombre_archivo' => $contabilidad->nombre_archivo_comprobante_afip])}}" target="_blank" class="btn btn-primary">
                                                 <i class="fas fa-eye" aria-hidden="true" ></i> {{ $contabilidad->nombre_archivo_comprobante_afip }}
                                             </a>
                                         </div>
@@ -89,13 +137,16 @@
                                 @foreach ($tesorerias as $tesoreria)
                                     @if($tesoreria->id_compra == $compra->id)
                                         <div class="mb-2 mx-auto">
-                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas])}}" target="_blank" class="btn btn-primary btn-lg">
+                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'tesoreria', 'nombre_archivo' => $tesoreria->nombre_archivo_pago])}}" target="_blank" class="btn btn-primary">
                                                 <i class="fas fa-eye" aria-hidden="true" ></i> {{ $tesoreria->nombre_archivo_pago }}
                                             </a>
                                         </div>
                                     @endif    
                                 @endforeach
                             @endif 
+                        </div>
+                        <div class="card-footer text-muted">
+                            Creada el {{ $compra->created_at->format('d-m-Y H:i:s') }}
                         </div>
                     </div>
                 </div>

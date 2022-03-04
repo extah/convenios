@@ -273,7 +273,6 @@
           <button id="desplegarcontabilidad" type="button" class="btn btn-outline-primary btn-lg text-start" onclick="desplegarContabilidad()"> <i class="far fa-plus-square" style='font-size:23px;color:green'></i>    <b>CONTABILIDAD</b></button>
           <button id="replegarcontabilidad" type="button" class="btn btn-outline-primary btn-lg text-start" onclick="replegarContabilidad()" style="display: none;"> <i class="far fa-minus-square"  style='font-size:23px;color:red'></i>    <b>CONTABILIDAD</b></button>
         </div> 
-
           
           <form id="form_contabilidad" style ="display: none;" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconveniocontabilidad') }}">
             @csrf

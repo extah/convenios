@@ -47,7 +47,7 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::get('/verconvenio/{id}/{paso}',	'empleado\EmpleadoController@verconveniopaso')->name('empleado.verconveniopaso');
 
 	Route::get('/verpdfconvenio/{id}',	'empleado\EmpleadoController@verpdfconvenio')->name('empleado.verpdfconvenio');
-	Route::get('/verpdf/{id}',	'empleado\EmpleadoController@verpdf')->name('empleado.verpdf');
+	Route::get('/verpdf/{id}/{tipo}/{nombre_archivo}',	'empleado\EmpleadoController@verpdf')->name('empleado.verpdf');
 
 
 

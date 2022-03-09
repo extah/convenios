@@ -746,7 +746,6 @@ class EmpleadoController extends Controller
             
         //     $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/ejecucion'. '/' . $pdf;
         // }
-
         $path = storage_path($filename);
 
         return Response::make(file_get_contents($path), 200, [

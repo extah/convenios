@@ -952,7 +952,8 @@ class EmpleadoController extends Controller
 
             $contabilidad = new Contabilidad;
             $contabilidad->id_etapas = $request->id_etapas;
-            $contabilidad->id_compra = $request->orden_compra;
+            $contabilidad->id_compra = $request->orden_compra_conta;
+            $contabilidad->id_fisica = $request->nro_certificado_compra;
             $contabilidad->nro_factura = $request->nro_factura;
             $contabilidad->fecha_emision = $request->fecha_emision;
             $contabilidad->beneficiario = $request->beneficiario;

@@ -282,8 +282,9 @@
                 <div class="row g-3">
 
                   <div class="col-md-6">
-                    <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
-                    <select name="orden_compra" id="orden_compra" class="form-control text-center" onchange="mostrarNroCertificado()" required>
+                    <label for="orden_compra_conta" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                    <select name="orden_compra_conta" id="orden_compra_conta" class="form-control text-center" onchange="mostrarNroCertificado(this)" required>
+                      <option value="">Elegir orden de compra</option>
                       @foreach ( $compras  as $compra)
                           <option value="{{ $compra->id }}">{{ $compra->orden_compra }}</option>
                       @endforeach
@@ -291,11 +292,11 @@
                   </div>
 
                   <div class="col-md-6">
-                    <label for="nro_certificado" class="form-label"><b>SELECCIONAR N° DE CERTIFICADO QUE PERTENECE</b></label>
-                    <select name="nro_certificado" id="nro_certificado" class="form-control text-center" required>
-                      @foreach ( $fisicas  as $fisica)
+                    <label for="nro_certificado_compra" class="form-label"><b>SELECCIONAR N° DE CERTIFICADO QUE PERTENECE</b></label>
+                    <select name="nro_certificado_compra" id="nro_certificado_compra" class="form-control text-center" required>
+                      {{-- @foreach ( $fisicas  as $fisica)
                           <option value="{{ $fisica->id }}">{{ $fisica->nro_certificado }}</option>
-                      @endforeach
+                      @endforeach --}}
                     </select>
                   </div>
 
@@ -563,11 +564,29 @@
 
 <!-- mostrar nro de certificado -->
 <script>
-  function mostrarNroCertificado() {
-    var selectBox = document.getElementById("orden_compra").value;
-    // var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-    alert(selectBox);
+  function mostrarNroCertificado(selectObj) {
+    var compra = selectObj.value;
 
+    select_nro_certificado_compra = document.getElementById("nro_certificado_compra");
+
+    var i, L = select_nro_certificado_compra.options.length - 1;
+    for(i = L; i >= 0; i--) {
+      select_nro_certificado_compra.remove(i);
+    }
+
+    const fisicas = @json($fisicas);
+    // console.log(fisicas);
+
+    for(var fisica of fisicas){
+      if(fisica.id_compra == compra)
+      {
+        option = document.createElement("option");
+        option.value = fisica.id;
+        option.text = fisica.nro_certificado;
+        select_nro_certificado_compra.appendChild(option);
+      }
+
+    }
 
   }
 </script>

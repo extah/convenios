@@ -17,6 +17,7 @@ class CreateContabilidadsTable extends Migration
             $table->id();
             $table->bigInteger('id_etapas')->nullable();
             $table->bigInteger('id_compra')->nullable();
+            $table->bigInteger('id_fisica')->nullable();
             $table->string('nro_factura', 255)->nullable();
             $table->date('fecha_emision', 0)->nullable();
             $table->string('beneficiario', 150)->nullable();

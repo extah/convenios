@@ -499,10 +499,11 @@ class EmpleadoController extends Controller
                     // $registro  = Paso1::get_registro($id_etapa);
                     $registro  = Paso2::get_registro($id_etapa);
                     $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
-                    $compra  = Compra::get_registro($id_etapa);
+                    $compras = Compra::get_registro($id_etapa);
                     $contabilidad = Contabilidad::get_registro($id_etapa);
-                    // return $compra;
-                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra', 'contabilidad'));
+                    $fisicas  = Fisica_obra::get_registro($id_etapa);
+                    // return $compras;
+                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compras', 'contabilidad', 'fisicas'));
                 } else {
                     if ($paso == 'paso3') {
                         // $registro  = Paso3::get_registro($id_etapa);
@@ -715,16 +716,34 @@ class EmpleadoController extends Controller
 
     public function verpdfconvenio($id_etapa, Request $request)
     {
-        $nombre = "Emma";
-        $esEmp = true;
-        $paso1  = Paso1::get_registro($id_etapa);
-        $compras  = Compra::get_registro($id_etapa);
-        $fisica_obras  = Fisica_obra::get_registro($id_etapa);
-        $contabilidads  = Contabilidad::get_registro($id_etapa);
-        $tesorerias = Tesoreria::get_registro($id_etapa);
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);
+        // $param_id_etapa = 1;
+        if($result == "OK")
+        {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
 
-        // return $paso1;
-        return view('empleado.verpdfs', compact('nombre', 'esEmp', 'paso1', 'compras', 'fisica_obras', 'contabilidads', 'tesorerias'));
+            $esEmp = true;
+            $paso1  = Paso1::get_registro($id_etapa);
+            $compras  = Compra::get_registro($id_etapa);
+            $fisica_obras  = Fisica_obra::get_registro($id_etapa);
+            $contabilidads  = Contabilidad::get_registro($id_etapa);
+            $tesorerias = Tesoreria::get_registro($id_etapa);
+
+            // return $paso1;
+            return view('empleado.verpdfs', compact('nombre', 'esEmp', 'paso1', 'compras', 'fisica_obras', 'contabilidads', 'tesorerias'));
+        }
+        else
+        {
+            $message = "Inicie sesion";
+            $status_error = false;
+            $status_info = true;
+            $esEmp = false;
+
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }
     }
 
     public function verpdf($id_etapa, $tipo, $nombre_archivo, Request $request)
@@ -735,17 +754,6 @@ class EmpleadoController extends Controller
         // $path = storage_path($filename);
         $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
         $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/'. $tipo . '/' . $nombre_archivo;
-
-        // if($tipo == "compras")
-        // {
-            
-        //     $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/firma'. '/' . $pdf;
-        // }
-        // elseif($paso == "paso2")
-        // {
-            
-        //     $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/ejecucion'. '/' . $pdf;
-        // }
 
         $path = storage_path($filename);
 

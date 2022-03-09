@@ -116,8 +116,8 @@
                 <div class="col-md-6">
                   <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
                   <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
-                    @foreach ( $compra  as $key)
-                        <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                    @foreach ( $compras  as $compra)
+                        <option value="{{ $compra->id }}">{{ $compra->orden_compra }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -168,8 +168,8 @@
             {{-- <div class="col-md-6">
               <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
               <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
-                @foreach ( $compra  as $key)
-                    <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                @foreach ( $compras  as $compras)
+                    <option value="{{ $compras->id }}">{{ $compras->orden_compra }}</option>
                 @endforeach
               </select>
             </div> --}}
@@ -283,13 +283,21 @@
 
                   <div class="col-md-6">
                     <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
-                    <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
-                      @foreach ( $compra  as $key)
-                          <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                    <select name="orden_compra" id="orden_compra" class="form-control text-center" onchange="mostrarNroCertificado()" required>
+                      @foreach ( $compras  as $compra)
+                          <option value="{{ $compra->id }}">{{ $compra->orden_compra }}</option>
                       @endforeach
                     </select>
                   </div>
 
+                  <div class="col-md-6">
+                    <label for="nro_certificado" class="form-label"><b>SELECCIONAR N° DE CERTIFICADO QUE PERTENECE</b></label>
+                    <select name="nro_certificado" id="nro_certificado" class="form-control text-center" required>
+                      @foreach ( $fisicas  as $fisica)
+                          <option value="{{ $fisica->id }}">{{ $fisica->nro_certificado }}</option>
+                      @endforeach
+                    </select>
+                  </div>
 
                   <div class="col-md-3">
                       <label fior="nro_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>
@@ -369,16 +377,15 @@
                     <div class="col-md-6">
                       <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
                       <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
-                        @foreach ( $compra  as $key)
-                            <option value="{{ $key->id }}">{{ $key->orden_compra }}</option>
+                        @foreach ( $compras  as $compra)
+                            <option value="{{ $compra->id }}">{{ $compra->orden_compra }}</option>
                         @endforeach
                       </select>
                     </div>
-
                     <div class="col-md-6">
                       <label for="nro_factura" class="form-label"><b>SELECCIONAR NÚMERO DE FACTURA</b></label>
                       <select name="nro_factura" id="nro_factura" class="form-control text-center" required>
-                        @foreach ( $contabilidad  as $conta)
+                        @foreach ( $contabilidad as $conta)
                             <option value="{{ $conta->id }}">{{ $conta->nro_factura }}</option>
                         @endforeach
                       </select>
@@ -554,6 +561,16 @@
   }
 </script>
 
+<!-- mostrar nro de certificado -->
+<script>
+  function mostrarNroCertificado() {
+    var selectBox = document.getElementById("orden_compra").value;
+    // var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    alert(selectBox);
+
+
+  }
+</script>
 
 <script>
   function sacarReadOnly() {

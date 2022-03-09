@@ -755,19 +755,6 @@ class EmpleadoController extends Controller
         $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
         $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/'. $tipo . '/' . $nombre_archivo;
 
-<<<<<<< HEAD
-        // if($tipo == "compras")
-        // {
-            
-        //     $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/firma'. '/' . $pdf;
-        // }
-        // elseif($paso == "paso2")
-        // {
-            
-        //     $filename = 'pdf/'. $pasos_etapas->nombre_proyecto . '/ejecucion'. '/' . $pdf;
-        // }
-=======
->>>>>>> 16ef163c67038f4a16fb633fc523401e9cb3dcca
         $path = storage_path($filename);
 
         return Response::make(file_get_contents($path), 200, [

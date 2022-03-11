@@ -276,19 +276,52 @@ $(document).ready(function() {
                     extend:    'excelHtml5',
                     text:      '<i class="fas fa-file-excel"></i> EXCEL ',
                     titleAttr: 'Exportar a Excel',
-                    className: 'btn btn-success'
+                    className: 'btn btn-success',
+                    exportOptions: {
+                        // columns: ':visible',
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                    },
                 },
                 {
                     extend:    'pdfHtml5',
                     text:      '<i class="fas fa-file-pdf"></i> PDF',
                     titleAttr: 'Exportar a PDF',
-                    className: 'btn btn-danger'
+                    className: 'btn btn-danger',
+                    orientation: 'landscape',
+                    pageSize: 'LETTER',
+                    download: 'open',
+                    customize:  function (doc) {
+                        doc.layout = 'lightHorizotalLines;'
+                        doc.pageMargins = [30, 30, 30, 30];
+                        doc.defaultStyle.fontSize = 11;
+                        doc.styles.tableHeader.fontSize = 12;
+                        doc.styles.title.fontSize = 14;
+    
+                        // How do I set column widths to [100,150,150,100,100,'*']  ?
+    
+                    },
+                    exportOptions: {
+                        // columns: ':visible',
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                    },
                 },
                 {
                     extend:    'print',
                     text:      '<i class="fas fa-print"></i> IMPRIMIR',
                     titleAttr: 'Imprimir',
-                    className: 'btn btn-secondary'
+                    className: 'btn btn-secondary',
+                    autoPrint: true,
+                    exportOptions: {
+                        // columns: ':visible',
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                    },
+                    customize: function (win) {
+                        $(win.document.body).find('table').addClass('display').css('font-size', '9px');
+                        $(win.document.body).find('tr:nth-child(odd) td').each(function(index){
+                            $(this).css('background-color','#D0D0D0');
+                        });
+                        $(win.document.body).find('h1').css('text-align','center');
+                    }
                 },
              ]              
         });    

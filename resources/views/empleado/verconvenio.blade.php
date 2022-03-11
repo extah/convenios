@@ -18,10 +18,10 @@
   </div>
 </div>
 
-    <article class="container col-12 mx-auto p-0"> 
+    <article class="container col-12 mx-auto p-2"> 
 
         <div class="row">
-              <div class="col-sm-3  p-1">
+              <div class="col-sm-3  p-2">
                   <div class="card">
                     
                     <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio Firmado</div>
@@ -36,7 +36,7 @@
                     </div>
                   </div>
               </div>
-              <div class="col-sm-3  p-1">
+              <div class="col-sm-3  p-2">
                   <div class="card">
                     
                     <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio en Ejecucion</div>
@@ -50,7 +50,7 @@
                     </div>
                   </div>
               </div>
-              <div class="col-sm-3  p-1">
+              <div class="col-sm-3  p-2">
                   <div class="card">
                     
                     <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio pendiente de Rendicion</div>
@@ -64,7 +64,7 @@
                     </div>
                   </div>
               </div>
-              <div class="col-sm-3  p-1">
+              <div class="col-sm-3  p-2">
                   <div class="card">
                     
                     <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio finalizado Rendido</div>

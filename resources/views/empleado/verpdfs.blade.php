@@ -40,14 +40,14 @@
 
                 .btn-convenio {
                 color: rgba(255, 255, 255, 0.87);;
-                background-color: #110768 !important;
-                border-color: #110768 !important
+                background-color: #407406 !important;
+                border-color: #407406 !important
                 }
 
                 .btn-convenio:hover {
                 color: rgba(255, 255, 255, 0.87);
-                background-color: #5141e0 !important;
-                border-color: #5141e0 !important
+                background-color: #6fc50d !important;
+                border-color: #6fc50d !important
                 }
             </style>
 @endsection
@@ -69,9 +69,9 @@
 <article class="container col-12 mx-auto  p-1">
         
             <div class="col-sm-12  p-1">
-                @if (true)
+                @if ($paso1->nombre_archivo != null)
                     <div class="card text-center">
-                        <div class="card-header" style="background-color: #110768; color:beige">
+                        <div class="card-header" style="background-color: #407406; color:beige">
                         <B>CONVENIO</B> 
                         </div>
                         <div class="card-body">
@@ -88,8 +88,7 @@
                 @endif   
             </div>
         
- 
-    @if(true)        
+    @if($compras->count() > 0)
         <div class="row">
             @foreach ($compras as $compra)
                 <div class="col-sm-6  p-1">
@@ -103,7 +102,7 @@
                                     <i class="fas fa-eye" aria-hidden="true" ></i> {{ $compra->nombre_archivo }}
                                 </a>
                             </div>
-                            @if(true)
+                            @if($fisica_obras->count() > 0)
                                 <h5>PDF FISICA</h5>
                                 @foreach ($fisica_obras as $fisica_obra)
                                     @if($fisica_obra->id_compra == $compra->id)
@@ -115,7 +114,7 @@
                                     @endif    
                                 @endforeach
                             @endif
-                            @if(true)
+                            @if($contabilidads->count() > 0)
                                 <h5>PDF CONTABILIDAD</h5>
                                 @foreach ($contabilidads as $contabilidad)
                                     @if($contabilidad->id_compra == $compra->id)
@@ -132,7 +131,7 @@
                                     @endif    
                                 @endforeach
                             @endif     
-                            @if(true)
+                            @if($tesorerias->count() > 0)
                                 <h5>PDF TESORERIA</h5>
                                 @foreach ($tesorerias as $tesoreria)
                                     @if($tesoreria->id_compra == $compra->id)

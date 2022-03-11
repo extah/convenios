@@ -41,13 +41,23 @@
                     <label for="tipo_rendicion" class="form-label"><b>TIPO DE RENDICIÓN</b></label>
                     <input type="text" step=".01" class="form-control" id="tipo_rendicion" name="tipo_rendicion" min="0" value="{{ $registro->tipo_rendicion }}"  readonly required>
                 </div>    
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <label for="monto" class="form-label"><b>MONTO TOTAL</b></label>
                     <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="{{ $registro->monto }}" readonly required>
                 </div>   
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <label for="monto_recibido" class="form-label"><b>MONTO RECIBIDO</b></label>
                     <input type="number" step=".01" class="form-control" id="monto_recibido" name="monto_recibido" min="0" value="{{ $registro->monto_recibido }}"readonly required>
+                </div>
+                <div class="col-sm-6">
+                        {{-- <p class="card-text"> --}}
+                          {{-- "Ver todos los pdf existentes del convenio" --}}
+                        {{-- </p> --}}
+                        <label for="pdfs" class="form-label"><b>VER TODOS LOS PDF</b></label>
+                        <div>
+                            <a id="pdfs" href="{{url('empleado/verpdfconvenio',['id' => $registro->id])}}" class="btn btn-info"  target="_blank" ><i class="fas fa-eye"></i> VER TODOS LOS PDF</a>
+                        </div>
+                    
                 </div>               
 
             </div> 	

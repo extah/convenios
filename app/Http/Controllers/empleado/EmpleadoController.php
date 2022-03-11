@@ -624,7 +624,10 @@ class EmpleadoController extends Controller
                                     }
 
                                     $i++;
-                                    array_push($arreglo, $json_1, $json_2);
+                                    array_push($arreglo, $json_1);
+                                    if ($json_2 != "") {
+                                        array_push($arreglo, $json_2);
+                                    }
                                     foreach ($json_errores as $json_error => $value) {
                                         array_push($arreglo, $value);
                                     }
@@ -759,7 +762,7 @@ class EmpleadoController extends Controller
             $contabilidads  = Contabilidad::get_registro($id_etapa);
             $tesorerias = Tesoreria::get_registro($id_etapa);
 
-            // return $paso1;
+            // return $compras;
             return view('empleado.verpdfs', compact('nombre', 'esEmp', 'paso1', 'compras', 'fisica_obras', 'contabilidads', 'tesorerias'));
         }
         else

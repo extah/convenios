@@ -36,10 +36,10 @@
         <div class="col-sm-12  p-1">
           <div class="card">
             
-            <div class="card-header text-center"  style="background-color: #9e151c; color:beige"><b>CONVENIO FIRMADO</b></div>
+            <div class="card-header text-center"  style="background-color: #60159e; color:beige"><b>CONVENIO FIRMADO</b></div>
             <div class="card-body">
               @foreach ($datos_paso1 as $dato_paso1)
-                <h4 class="card-title"><b>* </b>{{ $dato_paso1 }}</h4>
+                <h6 class="card-title"><span style="color:rgb(250, 0, 0)">*</span>{{ $dato_paso1 }}</h6>
               @endforeach
               <p class="card-text">
                 {{-- {{ $paso1[0]->nombre_proyecto }} --}}
@@ -58,10 +58,10 @@
         <div class="col-sm-6  p-1">
           <div class="card">
             
-            <div class="card-header"  style="background-color: #3f4348; color:beige"><b>COMPRA N° :  {{ $arreglo[0] }}</b></div>
+            <div class="card-header"  style="background-color: #041a35; color:beige"><b>COMPRA N° :  {{ $arreglo[0] }}</b></div>
             <div class="card-body">
               @for ($i = 1; $i < count($arreglo) ; $i++)
-                  <h4><b>* </b>{{ $arreglo[$i] }}</h4>
+                  <h6><span style="color:rgb(250, 0, 0)">*</span>{{ $arreglo[$i] }}</h6>
               @endfor   
             </div>
           </div>

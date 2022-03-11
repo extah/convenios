@@ -19,4 +19,11 @@ class Fisica_obra extends Model
          $row = Fisica_obra::where('id_etapas', '=', $id_etapas)->get();
          return $row;       
      }
+
+     public static function get_registro_id_compra($id_compra)
+     {
+        //  $row = self::find($id_etapas);
+         $row = Fisica_obra::where('id_compra', '=', $id_compra)->get();
+         return $row;       
+     }
 }

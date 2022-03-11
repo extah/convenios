@@ -475,6 +475,8 @@ class EmpleadoController extends Controller
 
     }
 
+
+    //PASO 3
     public function verconveniopaso($id_etapa, $paso,  Request $request)
     {
 
@@ -520,27 +522,27 @@ class EmpleadoController extends Controller
                             if($paso1[0]->monto > $paso1[0]->monto_recibido)
                             {
                                 $faltante = $paso1[0]->monto - $paso1[0]->monto_recibido;
-                                $datos_paso1['monto_faltante'] = "Falta recibir un total de $" . $faltante;
+                                $datos_paso1['monto_faltante'] = "Falta recibir un total de $" . $faltante. ".";
                             }
 
                             if($paso1[0]->fecha_inicio == null)
                             {
-                                $datos_paso1['fecha_inicio'] = "La fecha de inicio se encuentra vacia";
+                                $datos_paso1['fecha_inicio'] = "La fecha de inicio se encuentra vacia.";
                             }
 
                             if($paso1[0]->fecha_rendicion == null)
                             {
-                                $datos_paso1['fecha_rendicion'] = "La fecha de rendición se encuentra vacia";
+                                $datos_paso1['fecha_rendicion'] = "La fecha de rendición se encuentra vacia.";
                             }
 
                             if($paso1[0]->fecha_finalizacion == null)
                             {
-                                $datos_paso1['fecha_finalizacion'] = "La fecha de finalización se encuentra vacia";
+                                $datos_paso1['fecha_finalizacion'] = "La fecha de finalización se encuentra vacia.";
                             }
 
                             if($paso1[0]->nombre_archivo == null)
                             {
-                                $datos_paso1['nombre_archivo'] = "Falta cargar el convenio firmado en PDF";
+                                $datos_paso1['nombre_archivo'] = "Falta cargar el convenio firmado en PDF.";
                             }
 
                             $if_paso1 = true;
@@ -556,7 +558,9 @@ class EmpleadoController extends Controller
                                 // recorro compras
                                 $i = 0;
                                 foreach ($compra as $key => $compra_value) {
+                                    $resto_importe_fisica = 0;
                                     $arreglo = array();
+                                    $json_errores = array();
                                     // "id": 1,
                                     // "id_etapas": 1,
                                     // "orden_compra": "123456",
@@ -565,6 +569,7 @@ class EmpleadoController extends Controller
                                     // "created_at": "2022-02-22T22:46:05.000000Z",
                                     // "updated_at": "2022-02-22T22:46:05.000000Z"
                                     $monto_compra += $compra_value->importe_compra;
+                                    // array_push($json_errores, $compra_value->orden_compra);
                                     $json_1 = $compra_value->orden_compra;
                                     $json_2 = "";
 
@@ -574,7 +579,8 @@ class EmpleadoController extends Controller
 
                                     if ($fisica == 'obra') {
 
-                                        $fisica  = Fisica_obra::get_registro($id_etapa);
+                                        $fisica  = Fisica_obra::get_registro_id_compra($compra_value->id);
+                                       
                                         
                                     }
                                     else {
@@ -588,18 +594,40 @@ class EmpleadoController extends Controller
                                     foreach ($fisica as $key => $fisica_value) {
 
                                         $suma_importe_fisica += $fisica_value->monto;
+                                        // return $fisica_value;
+                                        $contabilidad = Contabilidad::get_registro_id_fisica($fisica_value->id);
+                                        if ($contabilidad == NULL) {
+                                            $json_3 = "CONTABILIDAD: Falta Crear la factura para 'fisica' con N° de certificado: ". $fisica_value->nro_certificado . ".";
+                                            $json_4 = "TESORERIA: Falta Crear el recibo de pago para 'fisica' con N° de certificado: ". $fisica_value->nro_certificado . ".";
+                                            array_push($json_errores, $json_3, $json_4);
+
+                                            
+                                        }else {
+                                            // return $contabilidad->id;
+                                            $tesoreria =  Tesoreria::get_registro_id_contabilidad($contabilidad->id);
+                                            // return $tesoreria;
+                                            if ($tesoreria == NULL) {
+                                                $json_4 = "TESORERIA: Falta Crear el recibo de pago para la factura " . $contabilidad->nro_factura . ".";
+                                                array_push($json_errores, $json_4);
+                                                // return $contabilidad;
+                                            }
+                                            // return $tesoreria;
+                                        }
+                                        
+
 
                                     }
 
                                     if ($suma_importe_fisica < $compra_value->importe_compra) {
                                         $resto_importe_fisica = $compra_value->importe_compra - $suma_importe_fisica;
-                                        $json_2 = "Para completar el monto de la compra generada, falta crear una o mas 'fisica'. Resta : $" . $resto_importe_fisica;
+                                        $json_2 = "FISICA: Para completar el monto de la compra generada, falta crear una o mas 'fisica'. Resta : $" . $resto_importe_fisica . ".";
                                     }
-                                    // return $json;
 
-                                    // $arreglo = $json;
                                     $i++;
                                     array_push($arreglo, $json_1, $json_2);
+                                    foreach ($json_errores as $json_error => $value) {
+                                        array_push($arreglo, $value);
+                                    }
                                     // $arreglo[$i] = $json;
 
                                     $arreglo_completo[$compra_value->orden_compra] = $arreglo;
@@ -608,7 +636,7 @@ class EmpleadoController extends Controller
                                 // $arreglo = htmlspecialchars($arreglo[], ENT_QUOTES, 'UTF-8');
                                 if($monto_compra < $paso1[0]->monto){
                                     $resto_compra = $paso1[0]->monto - $monto_compra;
-                                    $datos_paso1['compra'] = "Para completar el monto total del convenio, falta crear una o mas 'compras'. Resta : $" . $resto_compra;
+                                    $datos_paso1['compra'] = "Para completar el monto total del convenio, falta crear una o mas 'compras'. Resta : $" . $resto_compra . ".";
                                 }
 
                                 // $arreglo = array();
@@ -863,67 +891,101 @@ class EmpleadoController extends Controller
             $nombre = $user_login->nombreyApellido;
 
             $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);
+            $compra  = Compra::find($request->orden_compra);
+            $fisica_obras  = Fisica_obra::get_registro_id_compra($request->orden_compra);
+            $suma_monto = 0;
 
-            $fisica_obra = new Fisica_obra;
-            $fisica_obra->id_etapas = $request->id_etapas;
-            $fisica_obra->id_compra = $request->orden_compra;
-            $fisica_obra->nro_certificado = $request->nro_certificado;
-            $fisica_obra->porcentaje = $request->avance_obra;
-            $fisica_obra->monto = $request->importe;
-
-            $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/fisica_obra';
-            $path = storage_path($nombre_carpeta);
-
-            if (!file_exists($path)) {
-                mkdir($path, 0775, true);
+            foreach ($fisica_obras as $fisica_obra => $value) {
+                $suma_monto += $value->monto;
+                // "orden_compra": "2",
             }
 
-            if($request->hasFile("pdf_certificado_obra")){
-                $file=$request->file("pdf_certificado_obra");
-                
-                // $nombre = "pdf_".time().".".$file->guessExtension();
-                $nombre_pdf = $file->getClientOriginalName() ;
-                $ruta = $path . "/" . $nombre_pdf;
-                
+            $suma_monto += $request->importe;
+            // return $suma_monto;
 
-                if($file->guessExtension()=="pdf"){
-                    if (file_exists($pasosEtapas->nombre_archivo)) {
-                        //File::delete($image_path);
-                        unlink($nombre_pdf);
-                    }
-                    copy($file, $ruta);
-                    $fisica_obra->nombre_archivo = $nombre_pdf;
-                    // return $ruta;
-                }else{
-                    dd("NO ES UN PDF");
+            if ($suma_monto <= $compra->importe_compra ) {
+
+                $fisica_obra = new Fisica_obra;
+                $fisica_obra->id_etapas = $request->id_etapas;
+                $fisica_obra->id_compra = $request->orden_compra;
+                $fisica_obra->nro_certificado = $request->nro_certificado;
+                $fisica_obra->porcentaje = $request->avance_obra;
+                $fisica_obra->monto = $request->importe;
+    
+                $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/fisica_obra';
+                $path = storage_path($nombre_carpeta);
+    
+                if (!file_exists($path)) {
+                    mkdir($path, 0775, true);
                 }
     
+                if($request->hasFile("pdf_certificado_obra")){
+                    $file=$request->file("pdf_certificado_obra");
+                    
+                    // $nombre = "pdf_".time().".".$file->guessExtension();
+                    $nombre_pdf = $file->getClientOriginalName() ;
+                    $ruta = $path . "/" . $nombre_pdf;
+                    
     
+                    if($file->guessExtension()=="pdf"){
+                        if (file_exists($pasosEtapas->nombre_archivo)) {
+                            //File::delete($image_path);
+                            unlink($nombre_pdf);
+                        }
+                        copy($file, $ruta);
+                        $fisica_obra->nombre_archivo = $nombre_pdf;
+                        // return $ruta;
+                    }else{
+                        dd("NO ES UN PDF");
+                    }
+        
+        
+        
+                }
     
-            }
+                $fisica_obra->save();
+                
+                $no_hay_datos = false;
+                $inicio = "";
+                $esEmp = true;
+                $status_ok = true;
+                $nombreconvenio = "ÉXITO";
+                $message = "Fisica creada";
+                $status_error = false;
 
-            $fisica_obra->save();
+                // return view('empleado.paso1', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+                $id_etapas = $request->id_etapas;
 
-            $no_hay_datos = false;
-            $inicio = "";
-            $esEmp = true;
-            $status_ok = false;
-            $status_convenio = true;
-            $nombreconvenio = "ÉXITO";
-            $message = "Convenio creado";
-            $status_agregado = true;
+                $registro  = Paso2::get_registro($id_etapas);
+                $pasos_etapas  = PasosEtapas::get_registro($id_etapas);
+                $compra  = Compra::get_registro($id_etapas);
+                
 
-            // return view('empleado.paso1', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
-            $id_etapas = $request->id_etapas;
+                // return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
 
-            $registro  = Paso2::get_registro($id_etapas);
-            $pasos_etapas  = PasosEtapas::get_registro($id_etapas);
-            $compra  = Compra::get_registro($id_etapas);
+                return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['status_ok' => $status_ok, 'message' => $message, 'status_error' => $status_error,'registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra,]);
             
+            }else {
+                $no_hay_datos = false;
+                $inicio = "";
+                $esEmp = true;
+                $status_ok = false;
+                $nombreconvenio = "ÉXITO";
+                $message = "El importe $" . $request->importe . " supera el monto de la orden de compra: " . $compra->orden_compra . " con monto: $" . $compra->importe_compra;
+                $status_error = true;
 
-            // return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
+                // return view('empleado.paso1', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+                $id_etapas = $request->id_etapas;
 
-            return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra,]);
+                $registro  = Paso2::get_registro($id_etapas);
+                $pasos_etapas  = PasosEtapas::get_registro($id_etapas);
+                $compra  = Compra::get_registro($id_etapas);
+                
+
+                // return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
+
+                return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['status_ok' => $status_ok, 'message' => $message, 'status_error' => $status_error,'registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra,]);
+            }
         }
         else
         {

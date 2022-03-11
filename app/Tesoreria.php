@@ -19,4 +19,10 @@ class Tesoreria extends Model
          $row = Tesoreria::where('id_etapas', '=', $id_etapas)->get();
          return $row;       
      }
+     public static function get_registro_id_contabilidad($id_contabilidad)
+     {
+        //  $row = self::find($id_etapas);
+         $row = Tesoreria::where('id_contabilidad', '=', $id_contabilidad)->first();
+         return $row;       
+     }
 }

@@ -19,4 +19,5 @@ class Compra extends Model
          $row = Compra::where('id_etapas', '=', $id_etapas)->get();
          return $row;       
      }
+
 }

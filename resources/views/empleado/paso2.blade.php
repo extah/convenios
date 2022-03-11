@@ -116,6 +116,7 @@
                 <div class="col-md-6">
                   <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
                   <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                    <option value="">Elegir orden de compra</option>
                     @foreach ( $compras  as $compra)
                         <option value="{{ $compra->id }}">{{ $compra->orden_compra }}</option>
                     @endforeach
@@ -124,7 +125,7 @@
 
                 <div class="col-md-6">
                     <label for="nro_certificado" class="form-label"><b>N° DE CERTIFICADO</b></label>
-                    <input type="text" class="form-control" id="nro_certificado" name="nro_certificado"  value="" placeholder="ingrese el numero de certificado" required>
+                    <input type="number" class="form-control" id="nro_certificado" name="nro_certificado"  value="" placeholder="ingrese el numero de certificado" required>
                 </div>
 
                 <div class="col-md-6">
@@ -285,6 +286,7 @@
                     <label for="orden_compra_conta" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
                     <select name="orden_compra_conta" id="orden_compra_conta" class="form-control text-center" onchange="mostrarNroCertificado(this)" required>
                       <option value="">Elegir orden de compra</option>
+                      
                       @foreach ( $compras  as $compra)
                           <option value="{{ $compra->id }}">{{ $compra->orden_compra }}</option>
                       @endforeach
@@ -378,6 +380,7 @@
                     <div class="col-md-6">
                       <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
                       <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                        <option value="">Elegir orden de compra</option>
                         @foreach ( $compras  as $compra)
                             <option value="{{ $compra->id }}">{{ $compra->orden_compra }}</option>
                         @endforeach
@@ -724,4 +727,26 @@ function showDiv(element)
       }
     }
   </script>
+
+<script>
+  @if (Session::get('status_ok'))
+          toastr.success( '{{ session('message') }}', 'Éxito', {
+              // "progressBar": true,
+              "closeButton": true,
+              "positionClass": "toast-bottom-right",
+              "timeOut": "10000",
+          });   
+  @endif 
+</script>
+<script>
+  @if (Session::get('status_error'))
+          toastr.info( '{{ session('message') }}', 'Informar', {
+              // "progressBar": true,
+              "closeButton": true,
+              "positionClass": "toast-bottom-right",
+              "timeOut": "10000",
+          });   
+  @endif 
+</script>
+
 @endsection

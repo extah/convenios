@@ -19,4 +19,11 @@ class Contabilidad extends Model
          $row = Contabilidad::where('id_etapas', '=', $id_etapas)->get();
          return $row;       
      }
+
+     public static function get_registro_id_fisica($id_fisica)
+     {
+        //  $row = self::find($id_etapas);
+         $row = Contabilidad::where('id_fisica', '=', $id_fisica)->first();
+         return $row;       
+     }
 }

@@ -43,13 +43,17 @@
                 <label for="monto" class="form-label"><b>MONTO</b></label>
                 <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="0.00" placeholder="ingrese el monto" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="dni" class="form-label"><b>CUENTA BANCARIA</b></label>
                 <select name="select_cuenta" id="select_cuenta" class="form-control text-center" required>
                   <option value="">-Seleccion&aacute el tipo de cuenta-</option>
                   <option value="comun" offset="1">comun</option>
                   <option value="nueva" offset="2">nueva</option>
                 </select>
+            </div>
+            <div class="col-md-3">
+              <label for="cbu" class="form-label"><b>CBU CUENTA BANCARIA</b></label>
+              <input type="number" class="form-control" id="cbu" name="cbu" min="0" placeholder="ingrese el cbu" required>
             </div>
             <div class="col-md-6">
               {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
@@ -60,7 +64,7 @@
                 <option value="producto" >Entrega de producto</option>          
               </select>
 
-          </div>
+            </div>
             {{-- <div class="col-md-3">
               <label for="fecha_carga" class="form-label"><b>FECHA CARGA</b></label>
               <input type="datetime-local" class="form-control" id="fecha_carga" name="fecha_carga" placeholder="ingrese fecha de carga" required>

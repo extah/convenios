@@ -128,6 +128,16 @@
                                                 <i class="fas fa-eye" aria-hidden="true" ></i> {{ $contabilidad->nombre_archivo_comprobante_afip }}
                                             </a>
                                         </div>
+                                        <div class="mb-2 mx-auto">
+                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'contabilidad', 'nombre_archivo' => $contabilidad->nombre_archivo_constancia_inscripcion])}}" target="_blank" class="btn btn-primary">
+                                                <i class="fas fa-eye" aria-hidden="true" ></i> {{ $contabilidad->nombre_archivo_constancia_inscripcion }}
+                                            </a>
+                                        </div>
+                                        <div class="mb-2 mx-auto">
+                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'contabilidad', 'nombre_archivo' => $contabilidad->nombre_archivo_comprobante_actividades])}}" target="_blank" class="btn btn-primary">
+                                                <i class="fas fa-eye" aria-hidden="true" ></i> {{ $contabilidad->nombre_archivo_comprobante_actividades }}
+                                            </a>
+                                        </div>
                                     @endif    
                                 @endforeach
                             @endif     

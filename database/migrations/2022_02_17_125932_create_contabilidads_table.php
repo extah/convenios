@@ -27,6 +27,8 @@ class CreateContabilidadsTable extends Migration
             $table->bigInteger('nro_pago')->nullable();
             $table->string('nombre_archivo_factura', 255)->nullable();
             $table->string('nombre_archivo_comprobante_afip', 255)->nullable();
+            $table->string('nombre_archivo_constancia_inscripcion', 255)->nullable();
+            $table->string('nombre_archivo_comprobante_actividades', 255)->nullable();
             $table->timestamps();
         });
     }

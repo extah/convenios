@@ -162,7 +162,7 @@ class EmpleadoController extends Controller
         $usuario = $request->session()->get('usuario');
         // $nombre = $request->session()->get('nombre');
         $result = $this->isUsuario($usuario);
-
+        // return  $request->cbu;
         if($result == "OK")
         {
             $user_login  = Users::get_registro($usuario);
@@ -193,6 +193,7 @@ class EmpleadoController extends Controller
             $pasos1->nombre_proyecto = $request->nombre_proyecto;
             $pasos1->monto = $request->monto;
             $pasos1->cuenta_bancaria = $request->select_cuenta;
+            $pasos1->cbu = $request->cbu;
             $pasos1->fecha_inicio = $request->fecha_inicio;
             $pasos1->fecha_rendicion = $request->fecha_rendicion;
             $pasos1->fecha_finalizacion =  $request->fecha_finalizacin;
@@ -248,6 +249,7 @@ class EmpleadoController extends Controller
             $pasos1->nombre_proyecto = $request->nombre_proyecto;
             $pasos1->monto = $request->monto;
             $pasos1->cuenta_bancaria = $request->select_cuenta;
+            $pasos1->cbu = $request->cbu;
             $pasos1->fecha_inicio = $request->fecha_inicio;
             $pasos1->fecha_rendicion = $request->fecha_rendicion;
             $pasos1->fecha_finalizacion =  $request->fecha_finalizacion;
@@ -824,7 +826,7 @@ class EmpleadoController extends Controller
                 $file=$request->file("pdf_orden_compra");
                 
                 // $nombre = "pdf_".time().".".$file->guessExtension();
-                $nombre_pdf = $file->getClientOriginalName() ;
+                $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName() ;
                 $ruta = $path . "/" . $nombre_pdf;
                 
 
@@ -926,7 +928,7 @@ class EmpleadoController extends Controller
                     $file=$request->file("pdf_certificado_obra");
                     
                     // $nombre = "pdf_".time().".".$file->guessExtension();
-                    $nombre_pdf = $file->getClientOriginalName() ;
+                    $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName() ;
                     $ruta = $path . "/" . $nombre_pdf;
                     
     
@@ -1040,7 +1042,7 @@ class EmpleadoController extends Controller
             if($request->hasFile("pdf_factura")){
                 $file=$request->file("pdf_factura");
                 
-                $nombre_pdf = $file->getClientOriginalName() ;
+                $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName() ;
                 $ruta = $path . "/" . $nombre_pdf;
                 
 
@@ -1061,7 +1063,7 @@ class EmpleadoController extends Controller
                 $file=$request->file("pdf_afip");
                 
                 // $nombre = "pdf_".time().".".$file->guessExtension();
-                $nombre_pdf = $file->getClientOriginalName() ;
+                $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName() ;
                 $ruta = $path . "/" . $nombre_pdf;
                 
 
@@ -1076,6 +1078,48 @@ class EmpleadoController extends Controller
                     dd("NO ES UN PDF");
                 }
             }
+
+            // PDF INSCRIPCION
+            if($request->hasFile("pdf_inscripcion")){
+                $file=$request->file("pdf_inscripcion");
+                
+                // $nombre = "pdf_".time().".".$file->guessExtension();
+                $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName() ;
+                $ruta = $path . "/" . $nombre_pdf;
+                
+
+                if($file->guessExtension()=="pdf"){
+                    if (file_exists($pasosEtapas->nombre_archivo)) {
+                        //File::delete($image_path);
+                        unlink($nombre_pdf);
+                    }
+                    copy($file, $ruta);
+                    $contabilidad->nombre_archivo_constancia_inscripcion = $nombre_pdf;
+                }else{
+                    dd("NO ES UN PDF");
+                }
+            }
+
+            // PDF ACTIVIDADES
+            if($request->hasFile("pdf_actividades")){
+                $file=$request->file("pdf_actividades");
+                
+                // $nombre = "pdf_".time().".".$file->guessExtension();
+                $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName() ;
+                $ruta = $path . "/" . $nombre_pdf;
+                
+
+                if($file->guessExtension()=="pdf"){
+                    if (file_exists($pasosEtapas->nombre_archivo)) {
+                        //File::delete($image_path);
+                        unlink($nombre_pdf);
+                    }
+                    copy($file, $ruta);
+                    $contabilidad->nombre_archivo_comprobante_actividades = $nombre_pdf;
+                }else{
+                    dd("NO ES UN PDF");
+                }
+            }            
 
             $contabilidad->save();
 
@@ -1140,7 +1184,7 @@ class EmpleadoController extends Controller
             if($request->hasFile("pdf_recibo_pago")){
                 $file=$request->file("pdf_recibo_pago");
                 
-                $nombre_pdf = $file->getClientOriginalName() ;
+                $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName() ;
                 $ruta = $path . "/" . $nombre_pdf;
                 
 
@@ -1270,6 +1314,14 @@ class EmpleadoController extends Controller
 
 
         return $request;
+    }
+
+    //Observacion
+    public function agregarobservacion($id_etapa, Request $request)
+    {
+        $id_etapas = $id_etapa;
+        $esEmp = true;
+        return view('empleado.observacion', compact('esEmp', 'id_etapas'));
     }
 
     public function cerrarsesion(Request $request)
@@ -1407,5 +1459,73 @@ class EmpleadoController extends Controller
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
+
+    //DFE
+    public function modificar_nombre_pdf()
+    {
+        // $fp = fopen("C:/Users/Emma/Desktop/DFE_PDF/tish.txt", "r");
+        // while (!feof($fp)){
+        //     $linea = fgets($fp);
+        //     echo $linea . "                ..                     ";
+        // }
+        // fclose($fp);
+
+
+        $archivofp = fopen("C:/Users/Emma/Desktop/DFE_PDF/prueba.csv", "r");
+        $linea = 0;
+        $row = 0;
+        $arreglo[$row] = array("nombre", "destinatario_cuix", "destinatario_nombre", "destinatario_apellido" ,"archivo", "fecha_disponibilidad");
+
+        while (($datos = fgetcsv($archivofp, 0, ';')) !== FALSE) {
+            $row++;
+            $num = count($datos);
+            $datos_linea = explode(";", $datos[$linea]);
+            $nombre_pdf_original = $datos_linea[0];
+            //cuit_legajo_fecha(añomesdia)_campaña.pdf
+            $nombre_archivo_dfe = $datos_linea[1] . "_" . $datos_linea[2] . "_" . $datos_linea[7] . "_004.pdf" ;
+            $nombre_completo = $datos_linea[9];
+            // $vector_nombre = explode(" ", $nombre_completo);
+            // $apellido = $vector_nombre[0];
+            // $nombre = "";
+
+            
+            $arreglo[$row] = array("Periodo 2", $datos_linea[1], $nombre_completo, "", $nombre_archivo_dfe, "2022-03-15 12:00:00");
+            // return $arreglo[1];
+            //PDF            
+            $path = 'C:/Users/Emma/Desktop/DFE_PDF/02/';
+            $path2 = 'C:/Users/Emma/Desktop/DFE_PDF/02_cambio_nombre/';
+
+            // if (!file_exists($path)) {
+            //     mkdir($path, 0777, true);
+            // }
+            if (!file_exists($path2)) {
+                mkdir($path2, 0775, true);
+            }
+            $archivo = $path . basename($nombre_pdf_original);
+            $tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
+            $ruta = $path2 . $nombre_archivo_dfe;
+            if (copy($archivo, $ruta)) {
+    
+            } else {
+                echo "error en la subida del archivo";
+            }
+
+            
+        }
+        $ruta ="C:/Users/Emma/Desktop/DFE_PDF/02_cambio_nombre/mi_archivo.csv";
+        $this->generarCSV($arreglo, $ruta, $delimitador = ',', $encapsulador = '"');
+        //Cerramos el archivo
+        fclose($archivofp);
+       return "Terminado";
+    }
+
+    function generarCSV($arreglo, $ruta, $delimitador, $encapsulador){
+        $file_handle = fopen($ruta, 'w');
+        foreach ($arreglo as $linea) {
+          fputcsv($file_handle, $linea, $delimitador, $encapsulador);
+        }
+        rewind($file_handle);
+        fclose($file_handle);
+      }
 
 }

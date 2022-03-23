@@ -347,6 +347,20 @@
                       <label class="input-group-text" for="pdf_afip">SUBIR</label>
                     </div>
                   </div>
+                  <div id="elegir_archivos" class="col-md-6">
+                    <label for="pdf_inscripcion" class="form-label"><b>ADJUNTAR PDF DE CONSTANCIA INSCRIPCIÓN</b></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="pdf_inscripcion" name="pdf_inscripcion" accept=".pdf" required>
+                      <label class="input-group-text" for="pdf_inscripcion">SUBIR</label>
+                    </div>
+                  </div>
+                  <div id="elegir_archivos" class="col-md-6">
+                    <label for="pdf_actividades" class="form-label"><b>ADJUNTAR PDF DEL COMPROBANTE DE ACTIVIDADES</b></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="pdf_actividades" name="pdf_actividades" accept=".pdf" required>
+                      <label class="input-group-text" for="pdf_actividades">SUBIR</label>
+                    </div>
+                  </div>
 
                   {{-- <div class="form-group" >
                     <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>

@@ -20,6 +20,7 @@ class CreatePaso1sTable extends Migration
             $table->string('nombre_proyecto', 255)->nullable();
             $table->double('monto', 15, 2)->default(0)->nullable();
             $table->string('cuenta_bancaria', 255)->nullable();
+            $table->string('cbu', 30)->nullable();
             $table->date('fecha_inicio', 0)->nullable();
             $table->date('fecha_rendicion', 0)->nullable();
             $table->date('fecha_finalizacion', 0)->nullable();

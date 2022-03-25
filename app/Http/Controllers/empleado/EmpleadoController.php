@@ -16,6 +16,7 @@ use App\Compra;
 use App\Fisica_obra;
 use App\Contabilidad;
 use App\Tesoreria;
+use App\Observaciones;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Storage;
 
@@ -367,7 +368,7 @@ class EmpleadoController extends Controller
             
             if (is_null($request->opcion)) {
 
-                if(is_null($request->opcion_buscar)){
+                if(is_null($request->opcion_agregar)){
                     
                     if (is_null($request->opcion_proyecto)) {
 
@@ -382,7 +383,7 @@ class EmpleadoController extends Controller
                 else
                 {
                     
-                    $opcion = $request->opcion_buscar;
+                    $opcion = $request->opcion_agregar;
                 }   
                 
             } else {
@@ -1319,9 +1320,92 @@ class EmpleadoController extends Controller
     //Observacion
     public function agregarobservacion($id_etapa, Request $request)
     {
-        $id_etapas = $id_etapa;
+        $conve_id = $id_etapa;
         $esEmp = true;
-        return view('empleado.observacion', compact('esEmp', 'id_etapas'));
+        return view('empleado.observacion', compact('esEmp', 'conve_id'));
+    }
+    // Observacion table post
+    public function datosobservaciones(Request $request)
+    {
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);
+        // $param_id_etapa = 1;
+        if($result == "OK")
+        {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
+
+
+            $param_id_etapa = $request->opcion;
+
+            // $pasosEtapas  = PasosEtapas::get_registro(param_id_etapa);
+
+            $orderby = " ORDER BY observaciones.id ASC ";
+            $limit = " LIMIT 500"; 
+    
+            $data = DB::select(DB::raw("SELECT observaciones.id, observaciones.id_etapas, observaciones.descripcion, DATE_FORMAT( observaciones.created_at,'%d/%m/%Y') AS fecha
+            FROM observaciones
+            WHERE observaciones.id_etapas = '" . $param_id_etapa . "'"
+                    . $orderby." ".$limit));
+
+            return json_encode($data, JSON_UNESCAPED_UNICODE);
+
+        }
+        else
+        {
+            $message = "Inicie sesion";
+            $status_error = false;
+            $status_info = true;
+            $esEmp = false;
+
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }
+    }
+
+    // agregar Observacion post
+    public function agregarobservaciones(Request $request)
+    {
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);
+        // $param_id_etapa = 1;
+        if($result == "OK")
+        {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
+
+
+            $param_id_etapa = $request->opcion_agregar;
+            $descripcion = $request->descripcion;
+
+            $observaciones = new Observaciones;
+            $observaciones->id_etapas = $param_id_etapa;
+            $observaciones->descripcion = $descripcion;
+            $observaciones->save();
+
+            // $pasosEtapas  = PasosEtapas::get_registro(param_id_etapa);
+
+            $orderby = " ORDER BY observaciones.id ASC ";
+            $limit = " LIMIT 500"; 
+    
+            $data = DB::select(DB::raw("SELECT observaciones.id_etapas, observaciones.descripcion, DATE_FORMAT( observaciones.created_at,'%d/%m/%Y') AS fecha
+            FROM observaciones
+            WHERE observaciones.id_etapas = '" . $param_id_etapa . "'"
+                    . $orderby." ".$limit));
+
+            return json_encode($data, JSON_UNESCAPED_UNICODE);
+
+        }
+        else
+        {
+            $message = "Inicie sesion";
+            $status_error = false;
+            $status_info = true;
+            $esEmp = false;
+
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }
     }
 
     public function cerrarsesion(Request $request)
@@ -1444,17 +1528,16 @@ class EmpleadoController extends Controller
     public function prueba(Type $var = null)
     {
         $param_id_etapa = 1;
-        $orderby = " ORDER BY compras.id ASC ";
+
+        // $pasosEtapas  = PasosEtapas::get_registro(param_id_etapa);
+
+        $orderby = " ORDER BY observaciones.id ASC ";
         $limit = " LIMIT 500"; 
 
-        $data = DB::select(DB::raw("SELECT compras.orden_compra, contabilidads.nro_factura, DATE_FORMAT( contabilidads.fecha_emision,'%d/%m/%Y') AS fecha_emision, contabilidads.beneficiario, contabilidads.cuit,
-        contabilidads.importe, contabilidads.cae, contabilidads.nro_pago, DATE_FORMAT( tesorerias.fecha_pago,'%d/%m/%Y') AS fecha_pago
-        FROM compras
-        LEFT JOIN contabilidads ON contabilidads.id_compra = compras.id
-        LEFT JOIN tesorerias ON tesorerias.id_compra = compras.id
-        WHERE compras.id_etapas = 1"
+        $data = DB::select(DB::raw("SELECT observaciones.id_etapas, observaciones.descripcion, DATE_FORMAT( observaciones.created_at,'%d/%m/%Y') AS fecha
+        FROM observaciones
+        WHERE observaciones.id_etapas = '" . $param_id_etapa . "'"
                 . $orderby." ".$limit));
-
 
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }

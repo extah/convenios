@@ -159,7 +159,7 @@ $(document).ready(function() {
          "paging":   true,
          "ordering": true,
          "info":     false,
-         "dom": 'Bfrtilp',
+         "dom": 'Bfrtip',
          'columnDefs': [
                           {'max-width': '20%', 'targets': 0}
                        ],

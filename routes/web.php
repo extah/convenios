@@ -49,7 +49,9 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::get('/verpdfconvenio/{id}',	'empleado\EmpleadoController@verpdfconvenio')->name('empleado.verpdfconvenio');
 	Route::get('/verpdf/{id}/{tipo}/{nombre_archivo}',	'empleado\EmpleadoController@verpdf')->name('empleado.verpdf');
 	Route::get('/agregarobservacion/{id}',	'empleado\EmpleadoController@agregarobservacion')->name('empleado.agregarobservacion');
-
+	Route::post('/datosobservaciones',	'empleado\EmpleadoController@datosobservaciones')->name('empleado.datosobservaciones');
+	Route::post('/agregarobservaciones',	'empleado\EmpleadoController@agregarobservaciones')->name('empleado.agregarobservaciones');
+	
 	Route::get('/modificar_nombre_pdf',	'empleado\EmpleadoController@modificar_nombre_pdf')->name('empleado.modificar_nombre_pdf');
 
 

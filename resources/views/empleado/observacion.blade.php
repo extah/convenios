@@ -85,7 +85,7 @@
                       <div class="col-lg-12 mb-3">
                           <div class="form-group">
                               <label class="formItem" for="descripcion"> <b>DESCRIPCIÓN</b></label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" id="descripcion" name="descripcion" required></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" id="descripcion" name="descripcion" required></textarea>
                           </div> 
                       </div>     
                   </div>

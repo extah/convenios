@@ -51,6 +51,7 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::get('/agregarobservacion/{id}',	'empleado\EmpleadoController@agregarobservacion')->name('empleado.agregarobservacion');
 	Route::post('/datosobservaciones',	'empleado\EmpleadoController@datosobservaciones')->name('empleado.datosobservaciones');
 	Route::post('/agregarobservaciones',	'empleado\EmpleadoController@agregarobservaciones')->name('empleado.agregarobservaciones');
+	Route::post('/eliminarobservaciones',	'empleado\EmpleadoController@eliminarobservaciones')->name('empleado.eliminarobservaciones');
 	
 	Route::get('/modificar_nombre_pdf',	'empleado\EmpleadoController@modificar_nombre_pdf')->name('empleado.modificar_nombre_pdf');
 

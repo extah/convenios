@@ -1320,11 +1320,31 @@ class EmpleadoController extends Controller
     //Observacion
     public function agregarobservacion($id_etapa, Request $request)
     {
-        $conve_id = $id_etapa;
-        $esEmp = true;
-        return view('empleado.observacion', compact('esEmp', 'conve_id'));
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);
+        // $param_id_etapa = 1;
+        if($result == "OK")
+        {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
+            $conve_id = $id_etapa;
+            $esEmp = true;
+            return view('empleado.observacion', compact('esEmp', 'conve_id', 'nombre',));
+
+        }
+        else
+        {
+            $message = "Inicie sesion";
+            $status_error = false;
+            $status_info = true;
+            $esEmp = false;
+
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }    
+
     }
-    // Observacion table post
+    // select Observacion table post
     public function datosobservaciones(Request $request)
     {
         $usuario = $request->session()->get('usuario');
@@ -1388,7 +1408,7 @@ class EmpleadoController extends Controller
             $orderby = " ORDER BY observaciones.id ASC ";
             $limit = " LIMIT 500"; 
     
-            $data = DB::select(DB::raw("SELECT observaciones.id_etapas, observaciones.descripcion, DATE_FORMAT( observaciones.created_at,'%d/%m/%Y') AS fecha
+            $data = DB::select(DB::raw("SELECT observaciones.id, observaciones.id_etapas, observaciones.descripcion, DATE_FORMAT( observaciones.created_at,'%d/%m/%Y') AS fecha
             FROM observaciones
             WHERE observaciones.id_etapas = '" . $param_id_etapa . "'"
                     . $orderby." ".$limit));
@@ -1407,7 +1427,48 @@ class EmpleadoController extends Controller
             return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
         }
     }
+    // eliminar Observacion post
+    public function eliminarobservaciones(Request $request)
+    {
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);
+        // $param_id_etapa = 1;
+        if($result == "OK")
+        {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
 
+
+            $param_id_etapa = $request->opcion_agregar;
+            $id = $request->id;
+
+            $observaciones = Observaciones::find($id);
+            $observaciones->delete();
+
+            // $pasosEtapas  = PasosEtapas::get_registro(param_id_etapa);
+
+            $orderby = " ORDER BY observaciones.id ASC ";
+            $limit = " LIMIT 500"; 
+    
+            $data = DB::select(DB::raw("SELECT observaciones.id, observaciones.id_etapas, observaciones.descripcion, DATE_FORMAT( observaciones.created_at,'%d/%m/%Y') AS fecha
+            FROM observaciones
+            WHERE observaciones.id_etapas = '" . $param_id_etapa . "'"
+                    . $orderby." ".$limit));
+
+            return json_encode($data, JSON_UNESCAPED_UNICODE);
+
+        }
+        else
+        {
+            $message = "Inicie sesion";
+            $status_error = false;
+            $status_info = true;
+            $esEmp = false;
+
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }
+    }
     public function cerrarsesion(Request $request)
     {
 

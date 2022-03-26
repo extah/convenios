@@ -17,7 +17,7 @@
   <div class="col-8 col-sm-6 col-md-6 mx-auto">
     <div class="card text-white bg-info mb-3" style="max-width: 100rem;">
         <div class="card-body text-center">
-          <h4 class="card-title">Datos del convenio</h4>
+          <h4 class="card-title">Observaciónes</h4>
         </div>                  
     </div>
   </div>
@@ -25,19 +25,14 @@
 <div class="container">
     <article class="container col-12 mx-auto p-0">
             <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="conve_id" class="form-label"><b>CONVENIO ID</b></label>
+                <div class="col-md-3">
+                    <label for="conve_id" class="form-label"><b>N° CONVENIO</b></label>
                     <input type="text" class="form-control" id="conve_id" name="conve_id"  value="{{ $conve_id }}"  readonly required>
                 </div> 
             </div> 	
   
     </article>
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex flex-column mx-auto p-0 my-2 gap-1">
-        {{-- <div class="row g-2">
-            <div class="col-md-2">
-                <a class="btn btn-primary btn-rounded" href=''><i class="fas fa-plus-square"></i> Agregar Turno</a>
-            </div>
-        </div> --}}
         <div class="col-md-3">
             <button id="btnAgregar" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalObservacion">
                 <i class="fas fa-plus-square"></i> Agregar observación
@@ -97,7 +92,7 @@
   
                   <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                      <button type="submit" id="btnGuardar" class="btn btn-primary">Buscar</button>
+                      <button type="submit" id="btnGuardar" class="btn btn-primary">Agregar</button>
                   </div>
             </form> 
       </div>
@@ -225,7 +220,8 @@ $(document).ready(function() {
                         className: 'btn btn-secondary',
                         autoPrint: true,
                         exportOptions: {
-                            columns: ':visible',
+                            // columns: ':visible',
+                            columns: [ 0, 1, 2, 3]
                         },
                         customize: function (win) {
                             $(win.document.body).find('table').addClass('display').css('font-size', '9px');
@@ -243,7 +239,7 @@ $(document).ready(function() {
                                 width: 50
                             }
                         ],
-                        columnGap: 5
+                        columnGap: 10
                     }
                 ]              
         });    
@@ -359,48 +355,49 @@ $(document).ready(function() {
 
         //Borrar
         $(document).on("click", ".btnEliminar", function(){
-            fila = $(this).closest("tr");         
+            fila = $(this).closest("tr");  
+                  
 
             if($(this).parents("tr").hasClass('child')){ //vemos si el actual row es child row
                 var id = $(this).parents("tr").prev().find('td:eq(0)').text(); //si es asi, nos regresamos al row anterior, es decir, al padre y obtenemos el id
-                // var paciente = $(this).parents("tr").prev().find('td:eq(3)').text();
-                // var fecha = $(this).parents("tr").prev().find('td:eq(4)').text();
+                var id_convenio = $(this).parents("tr").prev().find('td:eq(1)').text();
+                var descripcion = $(this).parents("tr").prev().find('td:eq(2)').text();
                 // var hora = $(this).parents("tr").prev().find('td:eq(5)').text();
             } else {
                 var id = $(this).closest("tr").find('td:eq(0)').text(); //si no lo es, seguimos capturando el id del actual row
-                // var paciente = $(this).closest("tr").find('td:eq(3)').text();
-                // var fecha = $(this).closest("tr").find('td:eq(4)').text();
+                var id_convenio = $(this).closest("tr").find('td:eq(1)').text();
+                var descripcion = $(this).closest("tr").find('td:eq(2)').text();
                 // var hora = $(this).closest("tr").find('td:eq(5)').text();
             }
-
+            // alert(id_convenio); 
             opcion = 3; //eliminar 
-            // swal({
-            //       title: "Esta seguro de cancelar el turno de " + paciente + " con fecha: "+fecha+" y horario: "+ hora +"hs?",
-            //       icon: "warning",
-            //       buttons: ["No", "Si"],
-            //     })
-            //     .then((willDelete) => {
-            //       if (willDelete) {
-            //         $.ajax({
-            //                     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token_turnos"]').attr('content') },
-            //                     url: "",
-            //                     type: "POST",
-            //                     datatype:"json",      
-            //                     data:  {
-            //                         '_token': $('input[name=_token]').val(),
-            //                         opcion:opcion, id:id},    
-            //                     success: function() {
-            //                         tablaTurnos.row(this).remove().draw(); 
-            //                         swal("Turno cancelado con Exito!!!", {
-            //                         icon: "success",
-            //                         });                
-            //                     }
-            //                 });
+            swal({
+                  title: "Esta seguro de eliminar la observación N° " + id + " con descripción: "+ descripcion +"?",
+                  icon: "warning",
+                  buttons: ["No", "Si"],
+                })
+                .then((willDelete) => {
+                  if (willDelete) {
+                    $.ajax({
+                                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token_turnos"]').attr('content') },
+                                url: "{{route('empleado.eliminarobservaciones')}}",
+                                type: "POST",
+                                datatype:"json",      
+                                data:  {
+                                    '_token': $('input[name=_token]').val(),
+                                    param_id_etapa:id_convenio, id:id},    
+                                success: function() {
+                                    tablaObservacion.row(this).remove().draw(); 
+                                    swal("Observación eliminada con Exito!!!", {
+                                    icon: "success",
+                                    });                
+                                }
+                            });
 
-            //       } else {
-            //         swal("El turno no fue cancelado");
-            //       }
-            //     }); 
+                  } else {
+                    swal("La observación no fue eliminado");
+                  }
+                }); 
         }) 
 
         //ver

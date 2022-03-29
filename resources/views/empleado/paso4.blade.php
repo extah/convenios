@@ -28,30 +28,14 @@
 
     <article class="container col-12 mx-auto p-0">
       <div class="col-11 col-sm-11 col-md-10 col-lg-10 d-flex flex-column mx-auto p-0 my-4 gap-3">
-        @if (!empty($registro))
-            @if ("$registro->nombre_archivo" != '')
-                <div class="col-md-6">
-                <label for="firma" class="form-label"><b>VER PAGOS POR PDF</b></label>
-                <div class="mb-3 mx-auto">
-                    {{-- <button id="firma" class="btn btn-primary btn-lg" ><i class="fas fa-eye"></i> VER CONVENIO</button> --}}
-                    <a href="{{url('empleado/verconvenio',['id' => $registro->id_etapas, 'paso' => 'paso1', 'pdf' => $registro->nombre_archivo])}}" target="_blank" class="btn btn-primary btn-lg">
-                    <i class="fas fa-eye" aria-hidden="true" ></i> VER PAGO
-                </a>
-                </div>
-                </div>
-            @endif 
-        @endif 
-        <form id="form_editardatos" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/editarconvenio') }}">
+        <form id="form_editardatos" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/conveniofinalizadorendido') }}">
           @csrf
           <div class="row g-3">
             <div class="col-md-6">
                 {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
 
-                <label for="select_ejecucion" class="form-label"><b>TIPO DE EJECUCIÓN</b></label>
-                <select name="select_ejecucion" id="select_ejecucion" class="form-control text-center" disabled="true" required>
-                  <option value="obra">obra</option>
-                  <option value="producto" >producto</option>          
-                </select>
+                <label for="dictamen" class="form-label"><b>DICTAMENES</b></label>
+                <input type="text" class="form-control" id="dictamen" name="dictamen"  value="" placeholder="ingrese el dictamen" required>
 
             </div>
             {{-- <div class="col-md-6"> --}}
@@ -60,29 +44,19 @@
             
             {{-- </div> --}}
             <div class="col-md-6">
-              <label for="pdf" class="form-label"><b>SUBIR ARCHIVOS</b></label>
+              <label for="pdf" class="form-label"><b>SUBIR DICTAMENES DE RENDICIÓN</b></label>
               <div class="input-group mb-3">
-                <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" multiple disabled="true" required>
+                <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
                 <label class="input-group-text" for="pdf">Subir</label>
               </div>
+            </div>            
 
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button id="boton_guardar" type="submit" class="btn btn-primary btn-lg" >Guardar</button>
             </div>
-
-            <div class="form-group" >
-              <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-' style='display:none;'></div>
-              <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
-            </div>
-
-
-            <div class="col-md-6 d-grid gap-2">
-              <button id="boton_editar" type="button" class="btn btn-secondary btn-lg" onclick="sacarReadOnly()">Editar</button>
-            </div>
-              <div class="d-grid gap-2 col-6 mx-auto">
-                <button id="boton_guardar" type="submit" class="btn btn-primary btn-lg" disabled="true">Guardar</button>
-              </div>
-              @if (!empty($registro))
-                <input id="id_etapas" name="id_etapas" type="hidden" value="{{ $registro->id_etapas}}">        
-              @endif 
+            @if (!empty($registro))
+              <input id="id_etapas" name="id_etapas" type="hidden" value="{{ $registro->id_etapas}}">        
+            @endif 
             
           </div>
         </form>  
@@ -157,5 +131,15 @@
         return true;
       }
     }
+  </script>
+  <script>
+    @if (Session::get('status_agregado'))
+            toastr.success( 'Dictamen cargado!!!', 'Éxito', {
+                // "progressBar": true,
+                "closeButton": true,
+                "positionClass": "toast-bottom-right",
+                "timeOut": "10000",
+            });   
+    @endif 
   </script>
 @endsection

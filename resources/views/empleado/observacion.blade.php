@@ -74,22 +74,22 @@
             <form action="{{route('empleado.agregarobservaciones')}}" method="POST" id="formTurnos" class="needs-validation" enctype="multipart/form-data">   
                 @csrf
                 <div class="modal-body">
-                  <div class="row">
-                    <div class="col-lg-12 mb-3" style="display:none;">
-                      <!-- <div class="col-lg-12 mb-3"> -->
-                          <div class="form-group">
-                              <label class="formItem" for="opcion_agregar" id="opcion_input"> <b>OPCION</b></label>
-                              <input type="text" class="form-control" id="opcion_agregar" name="opcion_agregar" value="{{ $conve_id }}">
-                          </div> 
-                      </div> 
-                      <div class="col-lg-12 mb-3">
-                          <div class="form-group">
-                              <label class="formItem" for="descripcion"> <b>DESCRIPCIÓN</b></label>
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="display:none;">
+                        <!-- <div class="col-lg-12                                                                                                                 mb-3"> -->
+                            <div class="form-group">
+                                <label class="formItem" for="opcion_agregar" id="opcion_input"> <b>OPCION</b></label>
+                                <input type="text" class="form-control" id="opcion_agregar" name="opcion_agregar" value="{{ $conve_id }}">
+                            </div> 
+                        </div> 
+                        <div class="col-lg-12 mb-3">
+                            <div class="form-group">
+                                <label class="formItem" for="descripcion"> <b>DESCRIPCIÓN</b></label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" id="descripcion" name="descripcion" required></textarea>
-                          </div> 
-                      </div>     
-                  </div>
-  
+                            </div> 
+                        </div>     
+                    </div>
+                </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                       <button type="submit" id="btnGuardar" class="btn btn-primary">Agregar</button>

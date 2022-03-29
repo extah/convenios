@@ -515,6 +515,7 @@ class EmpleadoController extends Controller
                         $if_paso1 = false;
 
                         // PASOS 1
+                        $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
                         $paso1 = DB::select(DB::raw("SELECT paso1s.monto, paso1s.fecha_inicio, paso1s.fecha_finalizacion, paso1s.fecha_rendicion, paso1s.monto_recibido, paso1s.nombre_archivo, paso1s.tipo_rendicion
                         FROM paso1s
                         WHERE paso1s.id_etapas = '" . $id_etapa . "' "));
@@ -606,19 +607,17 @@ class EmpleadoController extends Controller
 
                                             
                                         }else {
-                                            // return $contabilidad->id;
+                                            
                                             $tesoreria =  Tesoreria::get_registro_id_contabilidad($contabilidad->id);
-                                            // return $tesoreria;
+                                            
                                             if ($tesoreria == NULL) {
                                                 $json_4 = "TESORERIA: Falta Crear el recibo de pago para la factura " . $contabilidad->nro_factura . ".";
                                                 array_push($json_errores, $json_4);
-                                                // return $contabilidad;
+                                                
                                             }
-                                            // return $tesoreria;
+                                            
                                         }
                                         
-
-
                                     }
 
                                     if ($suma_importe_fisica < $compra_value->importe_compra) {
@@ -645,6 +644,24 @@ class EmpleadoController extends Controller
                                     $datos_paso1['compra'] = "Para completar el monto total del convenio, falta crear una o mas 'compras'. Resta : $" . $resto_compra . ".";
                                 }
 
+                                if ((count($datos_paso1) > 0) && (count($arreglo) > 0)) {
+                                    if (($pasos_etapas->paso1 == "SI") && ($pasos_etapas->paso2 == "SI") && ($pasos_etapas->paso3 == "SI") && ($pasos_etapas->paso4 == "SI")) {
+                                    }
+                                    else {
+                                        $datos_paso1['etapas'] = "Falta completar una o más etapas";
+                                    }
+                                }
+                                else {
+                                    $pasos_etapas->paso3 = "SI";
+                                    if (($pasos_etapas->paso1 == "SI") && ($pasos_etapas->paso2 == "SI") && ($pasos_etapas->paso3 == "SI") && ($pasos_etapas->paso4 == "SI")) {
+                                        $pasos_etapas->finalizo = "SI";
+                                    }
+                                    $pasos_etapas->save();
+
+                                }
+
+
+
                                 // $arreglo = array();
                                 // for ($x = 1; $x <= 10; $x++)
                                 // {
@@ -664,7 +681,8 @@ class EmpleadoController extends Controller
                          return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1', 'if_paso1', 'arreglo_completo'));
                     } else {
                         if ($paso == 'paso4') {
-                            $registro  = Paso4::get_registro($id_etapa);
+                            // $registro  = Paso4::get_registro($id_etapa);
+                            $registro  = Paso1::get_registro($id_etapa);
                             // return $registro;
                              return view('empleado.paso4', compact('esEmp', 'registro','nombre',));
                         } else {
@@ -1315,6 +1333,65 @@ class EmpleadoController extends Controller
 
 
         return $request;
+    }
+
+    //PASO 4 CONVENIO FINALIZADO RENDIDO
+    public function conveniofinalizadorendido(Request $request)
+    {
+        // return $request;
+        $id_etapas = $request->id_etapas;
+        $dictamen = $request->dictamen;
+        $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);
+        $pasosEtapas->paso4 = "SI";
+        $pasosEtapas->save();
+
+        $paso4 = new Paso4;
+        $paso4->id_etapas = $id_etapas;
+        $paso4->condicion_rendicion = $dictamen;
+
+
+        $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/dictamenes';
+        $path = storage_path($nombre_carpeta);
+
+        if (!file_exists($path)) {
+            mkdir($path, 0775, true);
+        }
+
+         // PDF PAGO
+        if($request->hasFile("pdf")){
+            $file=$request->file("pdf");
+            
+            $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName() ;
+            $ruta = $path . "/" . $nombre_pdf;
+            
+
+            if($file->guessExtension()=="pdf"){
+                if (file_exists($pasosEtapas->nombre_archivo)) {
+                    //File::delete($image_path);
+                    unlink($nombre_pdf);
+                }
+                copy($file, $ruta);
+                $paso4->nombre_archivo = $nombre_pdf;
+            }else{
+                dd("NO ES UN PDF");
+            }
+        }
+
+
+        $paso4->save();
+
+        $no_hay_datos = false;
+        $inicio = "";
+        $esEmp = true;
+        $status_agregado = true;
+
+        $usuario = $request->session()->get('usuario');
+        $user_login  = Users::get_registro($usuario);
+        $nombre = $user_login->nombreyApellido;
+        $registro  = Paso1::get_registro($id_etapas);
+
+        return redirect('empleado/verconvenio/' . $id_etapas .'/paso4')->with(['registro' => $registro, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'status_agregado' => $status_agregado,]);
+     
     }
 
     //Observacion

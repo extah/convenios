@@ -75,7 +75,7 @@
             </div>
             <div class="col-md-3">
               <label for="fecha_finalizacion" class="form-label"><b>FECHA FINALIZACIÓN</b></label>
-              <input type="date" class="form-control" id="fecha_finalizacion" name="fecha_finalizacion" placeholder="ingrese fecha de finalizacón">
+              <input type="date" class="form-control" id="fecha_finalizacion" name="fecha_finalizacion" placeholder="ingrese fecha de finalizacón estimada" required>
             </div>
             <div class="col-md-3">
               <label for="fecha_rendicion" class="form-label"><b>FECHA RENDICION</b></label>

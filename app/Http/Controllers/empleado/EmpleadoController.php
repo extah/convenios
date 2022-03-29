@@ -197,7 +197,7 @@ class EmpleadoController extends Controller
             $pasos1->cbu = $request->cbu;
             $pasos1->fecha_inicio = $request->fecha_inicio;
             $pasos1->fecha_rendicion = $request->fecha_rendicion;
-            $pasos1->fecha_finalizacion =  $request->fecha_finalizacin;
+            $pasos1->fecha_finalizacion =  $request->fecha_finalizacion;
             $pasos1->tipo_rendicion = $request->select_ejecucion;
             $pasos1->save();
 
@@ -362,8 +362,8 @@ class EmpleadoController extends Controller
     public function tablaconvenios(Request $request)
     {
         $usuario = $request->session()->get('usuario');
-        $result = $this->isUsuario($usuario);       
-            
+        $result = $this->isUsuario($usuario); 
+
         if($result == "OK"){
             
             if (is_null($request->opcion)) {
@@ -371,8 +371,15 @@ class EmpleadoController extends Controller
                 if(is_null($request->opcion_agregar)){
                     
                     if (is_null($request->opcion_proyecto)) {
+                                            
+                        if (is_null($request->opcion_buscar)) {
 
-                        $opcion = $request->opcion_finalizado;
+                            $opcion = $request->opcion_finalizado;
+                        }else
+                        {
+                            
+                            $opcion = $request->opcion_buscar;
+                        } 
                     }else
                     {
                         
@@ -413,8 +420,9 @@ class EmpleadoController extends Controller
                     $orderby = " ORDER BY pasos_etapas.id DESC ";
                     $limit = " LIMIT 500"; 
             
-                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.creado,pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.creado, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, DATE_FORMAT(paso1s.fecha_finalizacion, '%d/%m/%Y') as fecha_finalizacion, pasos_etapas.finalizo 
                     FROM pasos_etapas
+                    INNER JOIN paso1s ON pasos_etapas.id = paso1s.id_etapas
                     WHERE pasos_etapas.finalizo = 0 
                     ".$orderby." ".$limit));
                     
@@ -425,9 +433,10 @@ class EmpleadoController extends Controller
                     $orderby = " ORDER BY pasos_etapas.id ASC ";
                     $limit = " LIMIT 500"; 
             
-                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.creado, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, DATE_FORMAT(paso1s.fecha_finalizacion, '%d/%m/%Y') as fecha_finalizacion, pasos_etapas.finalizo 
                     FROM pasos_etapas
-                    WHERE id = " . $nro_convenio . " " . $orderby." ".$limit));
+                    INNER JOIN paso1s ON pasos_etapas.id = paso1s.id_etapas
+                    WHERE pasos_etapas.id = " . $nro_convenio . " " . $orderby." ".$limit));
 
                     break;
                 case 6:
@@ -435,9 +444,10 @@ class EmpleadoController extends Controller
                     $orderby = " ORDER BY pasos_etapas.id ASC ";
                     $limit = " LIMIT 500"; 
             
-                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.creado, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, DATE_FORMAT(paso1s.fecha_finalizacion, '%d/%m/%Y') as fecha_finalizacion, pasos_etapas.finalizo 
                     FROM pasos_etapas
-                    WHERE nombre_proyecto LIKE '%" . $nombre ."%'" 
+                    INNER JOIN paso1s ON pasos_etapas.id = paso1s.id_etapas
+                    WHERE pasos_etapas.nombre_proyecto LIKE '%" . $nombre ."%'" 
                             . $orderby." ".$limit));
 
                     break;    
@@ -446,8 +456,9 @@ class EmpleadoController extends Controller
                     $orderby = " ORDER BY pasos_etapas.id ASC ";
                     $limit = " LIMIT 500"; 
             
-                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, pasos_etapas.finalizo 
+                    $data = DB::select(DB::raw("SELECT pasos_etapas.id,  pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.creado, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, DATE_FORMAT(paso1s.fecha_finalizacion, '%d/%m/%Y') as fecha_finalizacion, pasos_etapas.finalizo 
                     FROM pasos_etapas
+                    INNER JOIN paso1s ON pasos_etapas.id = paso1s.id_etapas
                     WHERE pasos_etapas.finalizo = '" . $estado . "' "
                             . $orderby." ".$limit));
 
@@ -513,6 +524,7 @@ class EmpleadoController extends Controller
                     if ($paso == 'paso3') {
                         // $registro  = Paso3::get_registro($id_etapa);
                         $if_paso1 = false;
+                        $if_compra = false;
 
                         // PASOS 1
                         $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
@@ -548,8 +560,6 @@ class EmpleadoController extends Controller
                             {
                                 $datos_paso1['nombre_archivo'] = "Falta cargar el convenio firmado en PDF.";
                             }
-
-                            $if_paso1 = true;
 
                             // COMPRAS
                             $compra  = Compra::get_registro($id_etapa);
@@ -591,7 +601,6 @@ class EmpleadoController extends Controller
                                         // $fisica  = Fisica_entrega::get_registro($id_etapa);
                                     }
 
-                                    // return $fisica;
                                     // recorro fisica
                                     $suma_importe_fisica = 0;
 
@@ -639,46 +648,45 @@ class EmpleadoController extends Controller
                                     
                                 }
                                 // $arreglo = htmlspecialchars($arreglo[], ENT_QUOTES, 'UTF-8');
-                                if($monto_compra < $paso1[0]->monto){
-                                    $resto_compra = $paso1[0]->monto - $monto_compra;
-                                    $datos_paso1['compra'] = "Para completar el monto total del convenio, falta crear una o mas 'compras'. Resta : $" . $resto_compra . ".";
-                                }
+                                
 
-                                if ((count($datos_paso1) > 0) && (count($arreglo) > 0)) {
-                                    if (($pasos_etapas->paso1 == "SI") && ($pasos_etapas->paso2 == "SI") && ($pasos_etapas->paso3 == "SI") && ($pasos_etapas->paso4 == "SI")) {
-                                    }
-                                    else {
-                                        $datos_paso1['etapas'] = "Falta completar una o más etapas";
-                                    }
+                                if (count($arreglo) > 1) {
+                                    return $arreglo;
+                                    $if_compra = true;
+                                }
+                            }
+                            if($monto_compra < $paso1[0]->monto){
+                                $resto_compra = $paso1[0]->monto - $monto_compra;
+                                $datos_paso1['compra'] = "Para completar el monto total del convenio, falta crear una o mas 'compras'. Resta : $" . $resto_compra . ".";
+                            }
+
+                            if ((count($datos_paso1) > 0) && (count($arreglo_completo) > 0)) {
+                                if (($pasos_etapas->paso1 == "SI") && ($pasos_etapas->paso2 == "SI") && ($pasos_etapas->paso3 == "SI") && ($pasos_etapas->paso4 == "SI")) {
                                 }
                                 else {
-                                    $pasos_etapas->paso3 = "SI";
-                                    if (($pasos_etapas->paso1 == "SI") && ($pasos_etapas->paso2 == "SI") && ($pasos_etapas->paso3 == "SI") && ($pasos_etapas->paso4 == "SI")) {
-                                        $pasos_etapas->finalizo = "SI";
-                                    }
-                                    $pasos_etapas->save();
-
+                                    $datos_paso1['etapas'] = "Falta completar una o más etapas";
                                 }
-
-
-
-                                // $arreglo = array();
-                                // for ($x = 1; $x <= 10; $x++)
-                                // {
-                                //     array_push($arreglo, $json);
-                                    
-                                // }
-                                // return $arreglo_completo;
+                            }
+                            else {
                                 
+                                if (($pasos_etapas->paso1 == "SI") && ($pasos_etapas->paso2 == "SI"))
+                                {
+                                    $pasos_etapas->paso3 = "SI";
+                                }
+                                if (($pasos_etapas->paso1 == "SI") && ($pasos_etapas->paso2 == "SI") && ($pasos_etapas->paso3 == "SI") && ($pasos_etapas->paso4 == "SI")) {
+                                    $pasos_etapas->finalizo = "SI";
+                                }
+                                $pasos_etapas->save();
 
                             }
 
                             
                         }
+                        if (count($datos_paso1) > 0) {
+                            $if_paso1 = true;
+                        }
 
-
-
-                         return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1', 'if_paso1', 'arreglo_completo'));
+                        return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1', 'if_paso1', 'arreglo_completo', 'if_compra'));
                     } else {
                         if ($paso == 'paso4') {
                             // $registro  = Paso4::get_registro($id_etapa);
@@ -782,9 +790,10 @@ class EmpleadoController extends Controller
             $fisica_obras  = Fisica_obra::get_registro($id_etapa);
             $contabilidads  = Contabilidad::get_registro($id_etapa);
             $tesorerias = Tesoreria::get_registro($id_etapa);
+            $paso4  = Paso4::get_registro($id_etapa);
 
             // return $compras;
-            return view('empleado.verpdfs', compact('nombre', 'esEmp', 'paso1', 'compras', 'fisica_obras', 'contabilidads', 'tesorerias'));
+            return view('empleado.verpdfs', compact('nombre', 'esEmp', 'paso1', 'compras', 'fisica_obras', 'contabilidads', 'tesorerias', 'paso4'));
         }
         else
         {
@@ -1184,6 +1193,8 @@ class EmpleadoController extends Controller
             $nombre = $user_login->nombreyApellido;
 
             $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);
+            $pasosEtapas->paso2 = "SI";
+            $pasosEtapas->save();
 
             $tesoreria = new Tesoreria;
             $tesoreria->id_etapas = $request->id_etapas;
@@ -1342,6 +1353,24 @@ class EmpleadoController extends Controller
         $id_etapas = $request->id_etapas;
         $dictamen = $request->dictamen;
         $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);
+        $paso4_cargado = Paso4::get_registro($request->id_etapas);
+
+        $usuario = $request->session()->get('usuario');
+        $user_login  = Users::get_registro($usuario);
+        $nombre = $user_login->nombreyApellido;
+        $registro  = Paso1::get_registro($id_etapas);
+
+        if (count($paso4_cargado) > 0) {
+            $no_hay_datos = false;
+            $inicio = "";
+            $esEmp = true;
+            $status_agregado = false;
+            $status_existe = true;
+
+            return redirect('empleado/verconvenio/' . $id_etapas .'/paso4')->with(['registro' => $registro, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'status_agregado' => $status_agregado, 'status_existe' => $status_existe,]);
+     
+        }
+
         $pasosEtapas->paso4 = "SI";
         $pasosEtapas->save();
 
@@ -1384,13 +1413,9 @@ class EmpleadoController extends Controller
         $inicio = "";
         $esEmp = true;
         $status_agregado = true;
+        $status_existe = false;
 
-        $usuario = $request->session()->get('usuario');
-        $user_login  = Users::get_registro($usuario);
-        $nombre = $user_login->nombreyApellido;
-        $registro  = Paso1::get_registro($id_etapas);
-
-        return redirect('empleado/verconvenio/' . $id_etapas .'/paso4')->with(['registro' => $registro, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'status_agregado' => $status_agregado,]);
+        return redirect('empleado/verconvenio/' . $id_etapas .'/paso4')->with(['registro' => $registro, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'status_agregado' => $status_agregado, 'status_existe' => $status_existe,]);
      
     }
 
@@ -1665,18 +1690,15 @@ class EmpleadoController extends Controller
 
     public function prueba(Type $var = null)
     {
-        $param_id_etapa = 1;
-
-        // $pasosEtapas  = PasosEtapas::get_registro(param_id_etapa);
-
-        $orderby = " ORDER BY observaciones.id ASC ";
+        $nombre = "obra";
+        $orderby = " ORDER BY pasos_etapas.id ASC ";
         $limit = " LIMIT 500"; 
 
-        $data = DB::select(DB::raw("SELECT observaciones.id_etapas, observaciones.descripcion, DATE_FORMAT( observaciones.created_at,'%d/%m/%Y') AS fecha
-        FROM observaciones
-        WHERE observaciones.id_etapas = '" . $param_id_etapa . "'"
+        $data = DB::select(DB::raw("SELECT pasos_etapas.id, pasos_etapas.nombre_proyecto as proyecto, pasos_etapas.paso1, pasos_etapas.paso2, pasos_etapas.paso3, pasos_etapas.paso4, DATE_FORMAT(paso1s.fecha_finalizacion, '%d/%m/%Y') as fecha_finalizacion, pasos_etapas.finalizo 
+        FROM pasos_etapas
+        INNER JOIN paso1s ON pasos_etapas.id = paso1s.id_etapas
+        WHERE pasos_etapas.nombre_proyecto LIKE '%" . $nombre ."%'" 
                 . $orderby." ".$limit));
-
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 

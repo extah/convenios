@@ -8,6 +8,12 @@
             background-color: #04205f;
             color: rgb(226, 226, 226);
         }
+        .table thead,
+                .table tfoot{
+                  background-color: rgb(116, 112, 112);
+                  color: azure;
+
+                }
     </style>
 @endsection
 
@@ -42,7 +48,7 @@
             </div>
             <div class="col-md-3">
                 <button id="btnBuscarPorFinalizado" type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#modalFinalizar">
-                    <i class="fas fa-search"></i> Buscar convenios por finalizado
+                    <i class="fas fa-search"></i> Buscar convenios por estado
                 </button>
             </div>
         </div>
@@ -56,11 +62,12 @@
                   <tr>
                       <th>N° CONVENIO</th>
                       <th>NOMBRE DEL PROYECTO</th>
-                      <th>CONVENIO CREADO POR</th>
+                      {{-- <th>CONVENIO CREADO POR</th> --}}
                       <th>CONVENIO FIRMADO</th>
                       <th>CONVENIO EN EJECUCION</th>
                       <th>CONVENIO PENDIENTE DE RENDICION</th>
                       <th>CONVENIO RENDIDO</th>
+                      <th>FECHA FINALIZACIÓN</th>
                       <th>CONVENIO FINALIZADO</th>
                       <th>ACCIONES</th>
                   </tr>    
@@ -149,7 +156,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background-color: rgb(54, 105, 199)">
-          <h5 class="modal-title" id="finalizarLabel" style="color: blanchedalmond">Buscar convenios por estado de  finalizacion</h5>
+          <h5 class="modal-title" id="finalizarLabel" style="color: blanchedalmond">Buscar convenios por estado de finalizacion</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
             <form action="{{route('empleado.tablaconvenios')}}" method="POST" id="formFinalizo" class="needs-validation" enctype="multipart/form-data">   
@@ -203,127 +210,166 @@ $(document).ready(function() {
     
         tablaConvenios = $('#tablaConvenios').DataTable( 
         {
-        //"dom": '<"dt-buttons"Bf><"clear">lirtp',
-        "ajax":{            
-                        "headers": { 'X-CSRF-TOKEN': $('meta[name="csrf-token_convenios"]').attr('content') },    
-                        "url": "{{route('empleado.tablaconvenios')}}", 
-                        "method": 'post', //usamos el metodo POST
-                        "data":{
-                            '_token': $('input[name=_token]').val(),
-                            opcion:opcion}, //enviamos opcion 1 para que haga un SELECT
-                        "dataSrc":""
+            "createdRow":function(row,data,index)
+            {
+                // alert(data['fecha_finalizacion']);
+                let date = new Date()
+
+                let day = date.getDate()
+                let month = date.getMonth() + 1
+                let year = date.getFullYear()
+                let fecha_actual;
+                if(month < 10){
+                    console.log(`${day}-0${month}-${year}`)
+                    fecha_actual = `${day}/0${month}/${year}`;
+                }else{
+                    console.log(`${day}-${month}-${year}`)
+                    fecha_actual = `${day}/${month}/${year}`;
+                }
+                // alert(restaFechas(fecha_actual,data['fecha_finalizacion']));
+                if (restaFechas(fecha_actual,data['fecha_finalizacion']) < 0 ) {
+                    $('td', row).eq(6).css({
+                        'background-color': '#ff5252',
+                        'color': 'white',
+                    });
+                }
+                else if(restaFechas(fecha_actual,data['fecha_finalizacion']) < 30 ) {
+                    $('td', row).eq(6).css({
+                        'background-color': '#C6C903',
+                        'color': 'white',
+                    });
+                }
+                else
+                {
+                    $('td', row).eq(6).css({
+                        'background-color': '#099E1F',
+                        'color': 'white',
+                    });
+                }
+
+            },
+            //"dom": '<"dt-buttons"Bf><"clear">lirtp',
+            "ajax":{            
+                            "headers": { 'X-CSRF-TOKEN': $('meta[name="csrf-token_convenios"]').attr('content') },    
+                            "url": "{{route('empleado.tablaconvenios')}}", 
+                            "method": 'post', //usamos el metodo POST
+                            "data":{
+                                '_token': $('input[name=_token]').val(),
+                                opcion:opcion}, //enviamos opcion 1 para que haga un SELECT
+                            "dataSrc":""
+                        },
+            "columns": [
+                            { data: "id" },
+                            { data: "proyecto"},
+                            // { data: "creado"},
+                            { data: "paso1" },
+                            { data: "paso2" },
+                            { data: "paso3" },    
+                            { data: "paso4" }, 
+                            { data: "fecha_finalizacion" },   
+                            { data: "finalizo" },  
+                            {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnVer'><i class='fas fa-eye'></i></button><button class='btn btn-secondary btn-sm btnEditar'><i class='fas fa-edit'></i></button></div></div>"},
+                            // {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='fas fa-edit'></i></button><button class='btn btn-danger btn-sm btnBorrar'><i class='fas fa-trash-alt'></i></button></div></div>"},
+                        ],
+            responsive: {
+            },
+            select: true,
+            colReorder: true,
+            "autoWidth": false,
+            "order": [[ 0, "asc" ]],
+            "paging":   true,
+            "ordering": true,
+            "info":     false,
+            "dom": 'Bfrtilp',
+            'columnDefs': [
+                            {'max-width': '20%', 'targets': 0}
+                        ],
+            
+            "language": {
+                            "sProcessing":     "Procesando...",
+                            "sLengthMenu":     "Mostrar _MENU_ registros",
+                            "sZeroRecords":    "No se encontraron resultados",
+                            "sEmptyTable":     "Ningun dato disponible en esta tabla",
+                            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                            "sSearch":         "Buscar:",
+                            "sInfoThousands":  ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst":    "Primero",
+                                "sLast":     "�ltimo",
+                                "sNext":     "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "colvis": "Visibilidad"
+                            }
+                        },   
+                    "buttons":[
+                    //     {
+                    //     extend:    'copyHtml5',
+                    //     text:      '<i class="fas fa-copy"></i> COPIAR ',
+                    //     titleAttr: 'Copiar datos',
+                    //     className: 'btn btn-dark'
+                    // },
+                    {
+                        extend:    'excelHtml5',
+                        text:      '<i class="fas fa-file-excel"></i> EXCEL ',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success',
+                        exportOptions: {
+                            // columns: ':visible',
+                            columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                        },
                     },
-        "columns": [
-                        { data: "id" },
-                        { data: "proyecto"},
-                        { data: "creado"},
-                        { data: "paso1" },
-                        { data: "paso2" },
-                        { data: "paso3" },    
-                        { data: "paso4" },   
-                        { data: "finalizo" },  
-                        {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnVer'><i class='fas fa-eye'></i></button><button class='btn btn-secondary btn-sm btnEditar'><i class='fas fa-edit'></i></button></div></div>"},
-                        // {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='fas fa-edit'></i></button><button class='btn btn-danger btn-sm btnBorrar'><i class='fas fa-trash-alt'></i></button></div></div>"},
-                    ],
-        responsive: {
-        },
-        select: true,
-        colReorder: true,
-        "autoWidth": false,
-         "order": [[ 0, "asc" ]],
-         "paging":   true,
-         "ordering": true,
-         "info":     false,
-         "dom": 'Bfrtilp',
-         'columnDefs': [
-                          {'max-width': '20%', 'targets': 0}
-                       ],
-         
-         "language": {
-                        "sProcessing":     "Procesando...",
-                        "sLengthMenu":     "Mostrar _MENU_ registros",
-                        "sZeroRecords":    "No se encontraron resultados",
-                        "sEmptyTable":     "Ningun dato disponible en esta tabla",
-                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                        "sSearch":         "Buscar:",
-                        "sInfoThousands":  ",",
-                        "sLoadingRecords": "Cargando...",
-                        "oPaginate": {
-                            "sFirst":    "Primero",
-                            "sLast":     "�ltimo",
-                            "sNext":     "Siguiente",
-                            "sPrevious": "Anterior"
+                    {
+                        extend:    'pdfHtml5',
+                        text:      '<i class="fas fa-file-pdf"></i> PDF',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger',
+                        orientation: 'landscape',
+                        pageSize: 'LETTER',
+                        download: 'open',
+                        customize:  function (doc) {
+                            doc.layout = 'lightHorizotalLines;'
+                            doc.pageMargins = [30, 30, 30, 30];
+                            doc.defaultStyle.fontSize = 11;
+                            doc.styles.tableHeader.fontSize = 12;
+                            doc.styles.title.fontSize = 14;
+        
+                            // How do I set column widths to [100,150,150,100,100,'*']  ?
+        
                         },
-                        "oAria": {
-                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        exportOptions: {
+                            // columns: ':visible',
+                            columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
                         },
-                        "buttons": {
-                            "copy": "Copiar",
-                            "colvis": "Visibilidad"
+                    },
+                    {
+                        extend:    'print',
+                        text:      '<i class="fas fa-print"></i> IMPRIMIR',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-secondary',
+                        autoPrint: true,
+                        exportOptions: {
+                            // columns: ':visible',
+                            columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                        },
+                        customize: function (win) {
+                            $(win.document.body).find('table').addClass('display').css('font-size', '9px');
+                            $(win.document.body).find('tr:nth-child(odd) td').each(function(index){
+                                $(this).css('background-color','#D0D0D0');
+                            });
+                            $(win.document.body).find('h1').css('text-align','center');
                         }
-                    },   
-                "buttons":[
-                //     {
-                //     extend:    'copyHtml5',
-                //     text:      '<i class="fas fa-copy"></i> COPIAR ',
-                //     titleAttr: 'Copiar datos',
-                //     className: 'btn btn-dark'
-                // },
-                {
-                    extend:    'excelHtml5',
-                    text:      '<i class="fas fa-file-excel"></i> EXCEL ',
-                    titleAttr: 'Exportar a Excel',
-                    className: 'btn btn-success',
-                    exportOptions: {
-                        // columns: ':visible',
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
                     },
-                },
-                {
-                    extend:    'pdfHtml5',
-                    text:      '<i class="fas fa-file-pdf"></i> PDF',
-                    titleAttr: 'Exportar a PDF',
-                    className: 'btn btn-danger',
-                    orientation: 'landscape',
-                    pageSize: 'LETTER',
-                    download: 'open',
-                    customize:  function (doc) {
-                        doc.layout = 'lightHorizotalLines;'
-                        doc.pageMargins = [30, 30, 30, 30];
-                        doc.defaultStyle.fontSize = 11;
-                        doc.styles.tableHeader.fontSize = 12;
-                        doc.styles.title.fontSize = 14;
-    
-                        // How do I set column widths to [100,150,150,100,100,'*']  ?
-    
-                    },
-                    exportOptions: {
-                        // columns: ':visible',
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-                    },
-                },
-                {
-                    extend:    'print',
-                    text:      '<i class="fas fa-print"></i> IMPRIMIR',
-                    titleAttr: 'Imprimir',
-                    className: 'btn btn-secondary',
-                    autoPrint: true,
-                    exportOptions: {
-                        // columns: ':visible',
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-                    },
-                    customize: function (win) {
-                        $(win.document.body).find('table').addClass('display').css('font-size', '9px');
-                        $(win.document.body).find('tr:nth-child(odd) td').each(function(index){
-                            $(this).css('background-color','#D0D0D0');
-                        });
-                        $(win.document.body).find('h1').css('text-align','center');
-                    }
-                },
-             ]              
+                ]              
         });    
         var fila; //captura la fila, para editar o eliminar
 
@@ -454,7 +500,7 @@ $(document).ready(function() {
             var url = "{{route('empleado.verdatosdelconvenio', '')}}"+"/"+id;
             window.open(url, "Ver convenio")
 
-        }) 
+        }); 
 
         // editar
         $(document).on("click", ".btnEditar", function(){
@@ -476,7 +522,18 @@ $(document).ready(function() {
             var url = "{{route('empleado.verconvenio', '')}}"+"/"+id;
             window.open(url, "Editar convenio")
 
-        }) 
+        });
+        // Función para calcular los días transcurridos entre dos fechas
+        restaFechas = function(f1,f2)
+        {
+        var aFecha1 = f1.split('/');
+        var aFecha2 = f2.split('/');
+        var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
+        var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]);
+        var dif = fFecha2 - fFecha1;
+        var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
+        return dias;
+        }
     });                 
 
 </script>

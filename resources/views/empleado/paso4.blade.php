@@ -11,6 +11,7 @@
                     text-align: center;
                     line-height: 200%;
                 }
+
             </style>
 @endsection
 
@@ -34,8 +35,8 @@
             <div class="col-md-6">
                 {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
 
-                <label for="dictamen" class="form-label"><b>DICTAMENES</b></label>
-                <input type="text" class="form-control" id="dictamen" name="dictamen"  value="" placeholder="ingrese el dictamen" required>
+                <label for="dictamen" class="form-label"><b>DICTÁMENES</b></label>
+                <input type="text" class="form-control" id="dictamen" name="dictamen"  value="" placeholder="ingrese el dictámen" required>
 
             </div>
             {{-- <div class="col-md-6"> --}}
@@ -44,7 +45,7 @@
             
             {{-- </div> --}}
             <div class="col-md-6">
-              <label for="pdf" class="form-label"><b>SUBIR DICTAMENES DE RENDICIÓN</b></label>
+              <label for="pdf" class="form-label"><b>SUBIR DICTÁMEN DE RENDICIÓN</b></label>
               <div class="input-group mb-3">
                 <input type="file" class="form-control" id="pdf" name="pdf" accept=".pdf" required>
                 <label class="input-group-text" for="pdf">Subir</label>
@@ -134,7 +135,7 @@
   </script>
   <script>
     @if (Session::get('status_agregado'))
-            toastr.success( 'Dictamen cargado!!!', 'Éxito', {
+            toastr.success( 'DICTÁMEN CARGADO!!!', 'Éxito', {
                 // "progressBar": true,
                 "closeButton": true,
                 "positionClass": "toast-bottom-right",
@@ -142,4 +143,14 @@
             });   
     @endif 
   </script>
+    <script>
+      @if (Session::get('status_existe'))
+              toastr.info( 'NO SE PUDO CARGAR, POR QUE EXISTE UN DICTÁMEN!!!', 'Informar', {
+                  // "progressBar": true,
+                  "closeButton": true,
+                  "positionClass": "toast-bottom-right",
+                  "timeOut": "10000",
+              });   
+      @endif 
+    </script>
 @endsection

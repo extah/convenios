@@ -49,6 +49,20 @@
                 background-color: #6fc50d !important;
                 border-color: #6fc50d !important
                 }
+
+                .btn-rendicion {
+                color: rgba(255, 255, 255, 0.87);;
+                background-color: #066774 !important;
+                border-color: #066774 !important
+                }
+
+                .btn-rendicion:hover {
+                color: rgba(255, 255, 255, 0.87);
+                background-color: #0aafc5 !important;
+                border-color: #0aafc5 !important
+                }
+
+                
             </style>
 @endsection
 
@@ -85,6 +99,9 @@
                             Última actualización {{ $paso1->updated_at->format('d-m-Y H:i:s') }}
                         </div>
                     </div>
+                @else
+                <h2>*)EL PDF DEL CONVENIO NO EXISTE</h2>
+
                 @endif   
             </div>
         
@@ -161,8 +178,34 @@
                 </div>
             @endforeach    
         </div>
-       
-    @endif          
+    @else
+        <div class="col-sm-12  p-1">
+            <h2>*)NO EXISTEN COMPRAS</h2>
+        </div>
+    @endif
+    
+
+    <div class="col-sm-12  p-1">
+        @if ($paso4 != null)
+            <div class="card text-center">
+                <div class="card-header" style="background-color: #066774; color:beige">
+                <B>DICTÁMEN</B> 
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ $paso4->nombre_proyecto }}</h5>
+                    <p class="card-text">Convenio finalizado rendido en formato PDF.</p>
+                    <a href="{{url('empleado/verpdf',['id' => $paso4->id_etapas, 'tipo' => 'firma', 'nombre_archivo' => $paso4->nombre_archivo])}}" target="_blank" class="btn btn-rendicion">
+                        <i class="fas fa-eye" aria-hidden="true" ></i> VER DICTÁMEN
+                    </a>
+                </div>
+                <div class="card-footer text-muted">
+                    Última actualización {{ $paso1->updated_at->format('d-m-Y H:i:s') }}
+                </div>
+            </div>
+        @else
+            <h2>*)NO EXISTE UN DICTÁMEN</h2>    
+        @endif   
+    </div>          
     	
 </article>
 

@@ -31,18 +31,22 @@
         <form id="form_editardatos" onsubmit="return miFuncion(this)" class="needs-validation" novalidate method="post" action="{{ url('empleado/agregarconvenio') }}">
           @csrf
           <div class="row g-3">
+            
             <div class="col-md-6">
                 <label for="organismo_financiador" class="form-label"><b>ORGANISMO FINANCIADOR</b></label>
                 <input type="text" class="form-control" id="organismo_financiador" name="organismo_financiador" placeholder="ingrese el organismo que financia el proyecto" required>
             </div>
+
             <div class="col-md-6">
                 <label for="nombre_proyecto" class="form-label"><b>NOMBRE DEL PPROYECTO</b></label>
                 <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" placeholder="ingrese el nombre del proyecto" required>
             </div>
+
             <div class="col-md-6">
                 <label for="monto" class="form-label"><b>MONTO</b></label>
                 <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="0.00" placeholder="ingrese el monto" required>
             </div>
+
             <div class="col-md-3">
                 <label for="dni" class="form-label"><b>CUENTA BANCARIA</b></label>
                 <select name="select_cuenta" id="select_cuenta" class="form-control text-center" required>
@@ -51,32 +55,30 @@
                   <option value="nueva" offset="2">nueva</option>
                 </select>
             </div>
+
             <div class="col-md-3">
               <label for="cbu" class="form-label"><b>CBU CUENTA BANCARIA</b></label>
               <input type="number" class="form-control" id="cbu" name="cbu" min="0" placeholder="ingrese el cbu" required>
             </div>
-            <div class="col-md-6">
-              {{-- @php echo "$registro->cuenta_bancaria" @endphp --}}
 
+            <div class="col-md-6">
               <label for="select_ejecucion" class="form-label"><b>TIPO DE EJECUCIÓN</b></label>
               <select name="select_ejecucion" id="select_ejecucion" class="form-control text-center" required>
                 <option value="obra">Obra</option>
                 <option value="producto" >Entrega de producto</option>          
               </select>
-
             </div>
-            {{-- <div class="col-md-3">
-              <label for="fecha_carga" class="form-label"><b>FECHA CARGA</b></label>
-              <input type="datetime-local" class="form-control" id="fecha_carga" name="fecha_carga" placeholder="ingrese fecha de carga" required>
-            </div> --}}
+
             <div class="col-md-3">
               <label for="fecha_inicio" class="form-label"><b>FECHA INICIO</b></label>
               <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" placeholder="ingrese fecha de inicio">
             </div>
+
             <div class="col-md-3">
               <label for="fecha_finalizacion" class="form-label"><b>FECHA FINALIZACIÓN</b></label>
               <input type="date" class="form-control" id="fecha_finalizacion" name="fecha_finalizacion" placeholder="ingrese fecha de finalizacón estimada" required>
             </div>
+
             <div class="col-md-3">
               <label for="fecha_rendicion" class="form-label"><b>FECHA RENDICION</b></label>
               <input type="date" class="form-control" id="fecha_rendicion" name="fecha_rendicion" placeholder="ingrese fecha de rendición">

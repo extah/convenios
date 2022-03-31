@@ -80,9 +80,9 @@
 
 
 
-<article class="container col-12 mx-auto  p-1">
+<article class="container col-sm-12 mx-auto p-1">
         
-            <div class="col-sm-12  p-1">
+            <div class="col-sm-12 mb-3">
                 @if ($paso1->nombre_archivo != null)
                     <div class="card text-center">
                         <div class="card-header" style="background-color: #407406; color:beige">
@@ -108,10 +108,10 @@
     @if($compras->count() > 0)
         <div class="row">
             @foreach ($compras as $compra)
-                <div class="col-sm-6  p-1">
+                <div class="col-sm-6 mb-3">
                     <div class="card border-dark" style="">
                         
-                        <div class="card-header text-center"  style="background-color: #321fdb; color:beige"><b>ORDEN DE COMPRA '{{ $compra->orden_compra }}'</b></div>
+                        <div class="card-header text-center" style="background-color: #321fdb; color:beige"><b>ORDEN DE COMPRA '{{ $compra->orden_compra }}'</b></div>
                         <div class="card-body">
                             <h5>PDF ORDEN DE COMPRA</h5>
                             <div class="mb-2 mx-auto">
@@ -179,13 +179,13 @@
             @endforeach    
         </div>
     @else
-        <div class="col-sm-12  p-1">
+        <div class="col-sm-12 mb-3">
             <h2>*)NO EXISTEN COMPRAS</h2>
         </div>
     @endif
     
 
-    <div class="col-sm-12  p-1">
+    <div class="col-sm-12 mb-3">
         @if ($paso4->count() > 0)
             <div class="card text-center">
                 <div class="card-header" style="background-color: #066774; color:beige">
@@ -208,8 +208,6 @@
     </div>          
     	
 </article>
-
-<br>
 
 @endsection
 

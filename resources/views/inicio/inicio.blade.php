@@ -25,7 +25,7 @@
     background-size: cover;
     margin-left: auto;
     margin-right: auto;
-    border-top: solid 1px rgba(255,255,255,.5);
+    border-top: solid 1px rgba(255,255,255,0.5);
     border-radius: 5px;
     box-shadow: 0px 2px 7px rgba(0,0,0,0.2);
   }
@@ -39,7 +39,7 @@
         <div class="container col-12 col-md-12 col-lg-6 d-flex justify-content-center px-0 my-auto">
             <div class="frame">
             <div class="nav_inicio">
-                <ul class"links">
+                <ul class="links">
                     <li class="li_inicio signin-active"><a class="btn1">Iniciar sesion</a></li>
                     <li class="li_inicio signup-inactive"><a class="btn1">registrarse</a></li>
                 </ul>

@@ -186,15 +186,15 @@
     
 
     <div class="col-sm-12  p-1">
-        @if ($paso4 != null)
+        @if ($paso4->count() > 0)
             <div class="card text-center">
                 <div class="card-header" style="background-color: #066774; color:beige">
                 <B>DICTÁMEN</B> 
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ $paso4->nombre_proyecto }}</h5>
+                    <h5 class="card-title">{{ $paso4[0]->condicion_rendicion }}</h5>
                     <p class="card-text">Convenio finalizado rendido en formato PDF.</p>
-                    <a href="{{url('empleado/verpdf',['id' => $paso4->id_etapas, 'tipo' => 'firma', 'nombre_archivo' => $paso4->nombre_archivo])}}" target="_blank" class="btn btn-rendicion">
+                    <a href="{{url('empleado/verpdf',['id' => $paso4[0]->id_etapas, 'tipo' => 'dictamenes', 'nombre_archivo' => $paso4[0]->nombre_archivo])}}" target="_blank" class="btn btn-rendicion">
                         <i class="fas fa-eye" aria-hidden="true" ></i> VER DICTÁMEN
                     </a>
                 </div>

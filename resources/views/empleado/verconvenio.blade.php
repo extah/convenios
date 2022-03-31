@@ -26,12 +26,13 @@
                     
                     <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio Firmado</div>
                     <div class="card-body">
-                      <h5 class="card-title">{{ $paso1[0]->organismo_financiador }}</h5>
+                      <h5 class="card-title">Organismo: {{ $paso1[0]->organismo_financiador }}</h5>
+                      {{-- <h5>ver y editar datos del convenio</h5> --}}
                       <p class="card-text">
-                        {{ $paso1[0]->nombre_proyecto }}
+                        puede 'ver' y 'editar' datos del convenio firmado.
                       </p>
                       {{-- <a href="{{route('empleado.verconvenio', '')}}" + "/"+id;" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
-                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso1'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
+                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso1'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER/EDITAR</a>
                       
                     </div>
                   </div>
@@ -41,11 +42,11 @@
                     
                     <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio en Ejecucion</div>
                     <div class="card-body">
-                      <h5 class="card-title">{{ $paso1[0]->organismo_financiador }}</h5>
+                      <h5 class="card-title">Organismo: {{ $paso1[0]->organismo_financiador }}</h5>
                       <p class="card-text">
-                        {{ $paso1[0]->nombre_proyecto }}
+                        'agregar' datos de una compra, fisica, contabilidad y/o tesoreria.
                       </p>
-                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso2'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
+                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso2'])}}" class="btn btn-info"><i class="fas fa-eye"></i> AGREGAR</a>
                       
                     </div>
                   </div>
@@ -55,9 +56,9 @@
                     
                     <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio pendiente de Rendicion</div>
                     <div class="card-body">
-                      <h5 class="card-title">{{ $paso1[0]->organismo_financiador }}</h5>
+                      <h5 class="card-title">Organismo: {{ $paso1[0]->organismo_financiador }}</h5>
                       <p class="card-text">
-                        {{ $paso1[0]->nombre_proyecto }}
+                        'ver' datos que faltan para finalizar el convenio.
                       </p>
                       <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso3'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
                       
@@ -69,11 +70,11 @@
                     
                     <div class="card-header"  style="background-color: #3f4348; color:beige">Convenio finalizado Rendido</div>
                     <div class="card-body">
-                      <h5 class="card-title">{{ $paso1[0]->organismo_financiador }}</h5>
+                      <h5 class="card-title">Organismo: {{ $paso1[0]->organismo_financiador }}</h5>
                       <p class="card-text">
-                        {{ $paso1[0]->nombre_proyecto }}
+                        'agregar' un dictamen para finalizar el convenio rendido.
                       </p>
-                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso4'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a>
+                      <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso4'])}}" class="btn btn-info"><i class="fas fa-eye"></i> AGREGAR</a>
                       
                     </div>
                   </div>

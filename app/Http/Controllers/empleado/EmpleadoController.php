@@ -651,7 +651,7 @@ class EmpleadoController extends Controller
                                 
 
                                 if (count($arreglo) > 1) {
-                                    return $arreglo;
+                                    // return $arreglo;
                                     $if_compra = true;
                                 }
                             }

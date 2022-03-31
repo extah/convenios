@@ -73,9 +73,7 @@
             </div> 	
   
     </article>
-
-    <br>
-
+    <hr>
     <div class="col-lg-12"> 
       <div class="table-responsive">  
           <table id="tablaConvenios" class="table table-striped table-hover table-bordered display" cellspacing="0" style="width:100%">

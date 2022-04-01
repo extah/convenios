@@ -220,10 +220,10 @@ $(document).ready(function() {
                 let year = date.getFullYear()
                 let fecha_actual;
                 if(month < 10){
-                    console.log(`${day}-0${month}-${year}`)
+                    // console.log(`${day}-0${month}-${year}`)
                     fecha_actual = `${day}/0${month}/${year}`;
                 }else{
-                    console.log(`${day}-${month}-${year}`)
+                    // console.log(`${day}-${month}-${year}`)
                     fecha_actual = `${day}/${month}/${year}`;
                 }
                 // alert(restaFechas(fecha_actual,data['fecha_finalizacion']));

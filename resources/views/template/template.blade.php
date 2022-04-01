@@ -46,7 +46,7 @@
                       <a class="nav-link active" aria-current="page" title="Iniciar Sesion" href="{{route('inicio.index')}}">Iniciar sesion</a>
                   </li>
                   <li class="nav-item px-lg-2">
-                      <a class="nav-link active" aria-current="page" title="Recibos" href="#">Ver Convenios</a>
+                      <a class="nav-link active" aria-current="page" title="Convenios" href="#">Ver Convenios</a>
                   </li>
                 @endif  
                 @if ($esEmp)

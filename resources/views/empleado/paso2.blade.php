@@ -125,7 +125,7 @@
 
                 <div class="col-md-6">
                     <label for="nro_certificado" class="form-label"><b>N° DE CERTIFICADO</b></label>
-                    <input type="number" class="form-control" id="nro_certificado" name="nro_certificado"  value="" placeholder="ingrese el numero de certificado" required>
+                    <input type="number" class="form-control" id="nro_certificado" name="nro_certificado"  value="" min="0" placeholder="ingrese el numero de certificado" required>
                 </div>
 
                 <div class="col-md-6">
@@ -138,7 +138,7 @@
 
                 <div class="col-md-6">
                   <label for="avance_obra" class="form-label"><b>PORCENTAJE DEL AVANCE DE OBRA</b></label>
-                  <input type="number" class="form-control" id="avance_obra" name="avance_obra"  value="0" placeholder="ingrese el porcentaje de la obra" required>
+                  <input type="number" class="form-control" id="avance_obra" name="avance_obra"  value="0"  min="0" max="100" placeholder="ingrese el porcentaje de la obra" required>
                 </div>
 
                 <div class="col-md-6">
@@ -234,7 +234,7 @@
 
                       <div>
                         <label for="porc_producto_recibido" class="form-label"><b>PORCENTAJE DEL PRODUCTO QUE SE ENTREGO</b></label>
-                        <input type="number" class="form-control" id="porc_producto_recibido" name="porc_producto_recibido"  value="0" placeholder="ingrese el porcentaje del producto recibido" required>
+                        <input type="number" class="form-control" id="porc_producto_recibido" name="porc_producto_recibido"  value="0" min="0" max="100" placeholder="ingrese el porcentaje del producto recibido" required>
                       </div>
 
 
@@ -345,6 +345,20 @@
                     <div class="input-group mb-3">
                       <input type="file" class="form-control" id="pdf_afip" name="pdf_afip" accept=".pdf" required>
                       <label class="input-group-text" for="pdf_afip">SUBIR</label>
+                    </div>
+                  </div>
+                  <div id="elegir_archivos" class="col-md-6">
+                    <label for="pdf_inscripcion" class="form-label"><b>ADJUNTAR PDF DE CONSTANCIA INSCRIPCIÓN</b></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="pdf_inscripcion" name="pdf_inscripcion" accept=".pdf" required>
+                      <label class="input-group-text" for="pdf_inscripcion">SUBIR</label>
+                    </div>
+                  </div>
+                  <div id="elegir_archivos" class="col-md-6">
+                    <label for="pdf_actividades" class="form-label"><b>ADJUNTAR PDF DEL COMPROBANTE DE ACTIVIDADES</b></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="pdf_actividades" name="pdf_actividades" accept=".pdf" required>
+                      <label class="input-group-text" for="pdf_actividades">SUBIR</label>
                     </div>
                   </div>
 

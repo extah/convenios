@@ -49,6 +49,20 @@
                 background-color: #6fc50d !important;
                 border-color: #6fc50d !important
                 }
+
+                .btn-rendicion {
+                color: rgba(255, 255, 255, 0.87);;
+                background-color: #066774 !important;
+                border-color: #066774 !important
+                }
+
+                .btn-rendicion:hover {
+                color: rgba(255, 255, 255, 0.87);
+                background-color: #0aafc5 !important;
+                border-color: #0aafc5 !important
+                }
+
+                
             </style>
 @endsection
 
@@ -66,9 +80,9 @@
 
 
 
-<article class="container col-12 mx-auto  p-1">
+<article class="container col-sm-12 mx-auto p-1">
         
-            <div class="col-sm-12  p-1">
+            <div class="col-sm-12 mb-3">
                 @if ($paso1->nombre_archivo != null)
                     <div class="card text-center">
                         <div class="card-header" style="background-color: #407406; color:beige">
@@ -85,16 +99,19 @@
                             Última actualización {{ $paso1->updated_at->format('d-m-Y H:i:s') }}
                         </div>
                     </div>
+                @else
+                <h2>*)EL PDF DEL CONVENIO NO EXISTE</h2>
+
                 @endif   
             </div>
         
     @if($compras->count() > 0)
         <div class="row">
             @foreach ($compras as $compra)
-                <div class="col-sm-6  p-1">
+                <div class="col-sm-6 mb-3">
                     <div class="card border-dark" style="">
                         
-                        <div class="card-header text-center"  style="background-color: #321fdb; color:beige"><b>ORDEN DE COMPRA '{{ $compra->orden_compra }}'</b></div>
+                        <div class="card-header text-center" style="background-color: #321fdb; color:beige"><b>ORDEN DE COMPRA '{{ $compra->orden_compra }}'</b></div>
                         <div class="card-body">
                             <h5>PDF ORDEN DE COMPRA</h5>
                             <div class="mb-2 mx-auto">
@@ -128,6 +145,16 @@
                                                 <i class="fas fa-eye" aria-hidden="true" ></i> {{ $contabilidad->nombre_archivo_comprobante_afip }}
                                             </a>
                                         </div>
+                                        <div class="mb-2 mx-auto">
+                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'contabilidad', 'nombre_archivo' => $contabilidad->nombre_archivo_constancia_inscripcion])}}" target="_blank" class="btn btn-primary">
+                                                <i class="fas fa-eye" aria-hidden="true" ></i> {{ $contabilidad->nombre_archivo_constancia_inscripcion }}
+                                            </a>
+                                        </div>
+                                        <div class="mb-2 mx-auto">
+                                            <a href="{{url('empleado/verpdf',['id' => $paso1->id_etapas, 'tipo' => 'contabilidad', 'nombre_archivo' => $contabilidad->nombre_archivo_comprobante_actividades])}}" target="_blank" class="btn btn-primary">
+                                                <i class="fas fa-eye" aria-hidden="true" ></i> {{ $contabilidad->nombre_archivo_comprobante_actividades }}
+                                            </a>
+                                        </div>
                                     @endif    
                                 @endforeach
                             @endif     
@@ -151,12 +178,36 @@
                 </div>
             @endforeach    
         </div>
-       
-    @endif          
+    @else
+        <div class="col-sm-12 mb-3">
+            <h2>*)NO EXISTEN COMPRAS</h2>
+        </div>
+    @endif
+    
+
+    <div class="col-sm-12 mb-3">
+        @if ($paso4->count() > 0)
+            <div class="card text-center">
+                <div class="card-header" style="background-color: #066774; color:beige">
+                <B>DICTÁMEN</B> 
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ $paso4[0]->condicion_rendicion }}</h5>
+                    <p class="card-text">Convenio finalizado rendido en formato PDF.</p>
+                    <a href="{{url('empleado/verpdf',['id' => $paso4[0]->id_etapas, 'tipo' => 'dictamenes', 'nombre_archivo' => $paso4[0]->nombre_archivo])}}" target="_blank" class="btn btn-rendicion">
+                        <i class="fas fa-eye" aria-hidden="true" ></i> VER DICTÁMEN
+                    </a>
+                </div>
+                <div class="card-footer text-muted">
+                    Última actualización {{ $paso1->updated_at->format('d-m-Y H:i:s') }}
+                </div>
+            </div>
+        @else
+            <h2>*)NO EXISTE UN DICTÁMEN</h2>    
+        @endif   
+    </div>          
     	
 </article>
-
-<br>
 
 @endsection
 

@@ -53,7 +53,7 @@
                 <label for="monto" class="form-label"><b>MONTO TOTAL</b></label>
                 <input type="number" step=".01" class="form-control" id="monto" name="monto" min="0" value="{{ $registro->monto }}" placeholder="ingrese el monto" readonly required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 @php $comun = ""; @endphp
                 @php $nueva = ""; @endphp
 
@@ -74,6 +74,10 @@
                   <option value="nueva" {{ $nueva }}>nueva</option>
                 </select>
 
+            </div>
+            <div class="col-md-3">
+              <label for="cbu" class="form-label"><b>CBU CUENTA BANCARIA</b></label>
+              <input type="number" class="form-control" id="cbu" name="cbu" min="0" placeholder="ingrese el cbu"  value="{{ $registro->cbu }}" required readonly>
             </div>
 
             <div class="col-md-3">
@@ -152,6 +156,7 @@
   document.getElementById("fecha_inicio").readOnly = false;
   document.getElementById("fecha_finalizacion").readOnly = false;
   document.getElementById("fecha_rendicion").readOnly = false;
+  document.getElementById("cbu").readOnly = false;
 
   document.getElementById("select_cuenta").disabled = false;
   document.getElementById("boton_guardar").disabled = false;

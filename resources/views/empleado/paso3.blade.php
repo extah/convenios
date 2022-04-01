@@ -36,7 +36,7 @@
         <div class="col-sm-12  p-1">
           <div class="card">
             
-            <div class="card-header text-center"  style="background-color: #60159e; color:beige"><b>CONVENIO FIRMADO</b></div>
+            <div class="card-header text-center"  style="background-color: #736f77; color:beige"><b>CONVENIO FIRMADO</b></div>
             <div class="card-body">
               @foreach ($datos_paso1 as $dato_paso1)
                 <h6 class="card-title"><span style="color:rgb(250, 0, 0)">*</span>{{ $dato_paso1 }}</h6>
@@ -49,10 +49,24 @@
         </div>
     </div>
   @else
+  <div class="row">
+    <div class="col-sm-12  p-1">
+      <div class="card">
+        
+        <div class="card-header text-center"  style="background-color: #736f77; color:beige"><b>CONVENIO FIRMADO</b></div>
+        <div class="card-body">
+            <h6 class="card-title"><span style="color:rgb(4, 165, 39)">DATOS COMPLETOS</span></h6>
+            <p class="card-text">
+            {{-- {{ $paso1[0]->nombre_proyecto }} --}}
+          </p>
+        </div>
+      </div>
+    </div>
+</div>
   @endif
 
   {{-- COMPRA --}}
-  @if (true)
+  @if ($if_compra == 1)
     <div class="row">
       @foreach($arreglo_completo as $arreglo)
         <div class="col-sm-6  p-1">
@@ -70,22 +84,41 @@
 
     </div>
   @else
-  <div class="col-sm-12  p-1">
-    <div class="card">
-      
-      <div class="card-header text-center"  style="background-color: #3f4348; color:beige">PROYECTO OBRA 1</div>
-      <div class="card-body">
-        <h4 class="card-title text-center">NO POSEE NINGUNA COMPRA</h4>
-        <p class="card-text">
-          {{-- {{ $paso1[0]->nombre_proyecto }} --}}
-        </p>
-        {{-- <a href="{{route('empleado.verconvenio', '')}}" + "/"+id;" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
-        {{-- <a href="{{url('empleado/verconvenio',['id' => $paso1[0]->id_etapas, 'paso' => 'paso1'])}}" class="btn btn-info"><i class="fas fa-eye"></i> VER</a> --}}
-        
-      </div>
+    <div class="row">
+      @foreach($arreglo_completo as $arreglo)
+        <div class="col-sm-6  p-1">
+          <div class="card">
+            
+            <div class="card-header"  style="background-color: #041a35; color:beige"><b>COMPRA N° :  {{ $arreglo[0] }}</b></div>
+            <div class="card-body">
+                  <h6><span style="color:rgb(5, 129, 36)">DATOS COMPLETOS</span></h6>
+            </div>
+          </div>
+        </div>
+      @endforeach
+
     </div>
-  </div>
   @endif
+
+  @if ($observaciones->count() > 0)
+  
+    <div class="row">
+        <div class="col-sm-12  p-1">
+          <div class="card">
+            
+            <div class="card-header text-center"  style="background-color: #7c2207; color:beige"><b>OBSERVACIÓNES</b></div>
+            <div class="card-body">
+              @foreach ($observaciones as $observacion)
+                <h6 class="card-title"><span style="color:rgb(250, 0, 0)">*</span>{{ $observacion->descripcion }}</h6>
+              @endforeach
+              <p class="card-text">
+                {{-- {{ $paso1[0]->nombre_proyecto }} --}}
+              </p>
+            </div>
+          </div>
+        </div>
+    </div>
+@endif
 
 </article>
 

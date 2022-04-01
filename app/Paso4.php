@@ -14,7 +14,7 @@ class Paso4 extends Model
     public static function get_registro($id_etapas)
     {
        //  $row = self::find($id_etapas);
-        $row = Paso4::where('id_etapas', '=', $id_etapas)->first();
+        $row = Paso4::where('id_etapas', '=', $id_etapas)->get();
         return $row;       
     }
 }

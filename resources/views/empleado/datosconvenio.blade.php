@@ -8,6 +8,12 @@
             background-color: #04205f;
             color: rgb(226, 226, 226);
         }
+        .table thead,
+        .table tfoot{
+            background-color: rgb(116, 112, 112);
+            color: azure;
+
+        }
     </style>
 @endsection
 
@@ -49,7 +55,7 @@
                     <label for="monto_recibido" class="form-label"><b>MONTO RECIBIDO</b></label>
                     <input type="number" step=".01" class="form-control" id="monto_recibido" name="monto_recibido" min="0" value="{{ $registro->monto_recibido }}"readonly required>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                         {{-- <p class="card-text"> --}}
                           {{-- "Ver todos los pdf existentes del convenio" --}}
                         {{-- </p> --}}
@@ -58,14 +64,22 @@
                             <a id="pdfs" href="{{url('empleado/verpdfconvenio',['id' => $registro->id])}}" class="btn btn-info"  target="_blank" ><i class="fas fa-eye"></i> VER TODOS LOS PDF</a>
                         </div>
                     
-                </div>               
+                </div>
+                <div class="col-sm-3">
+                    {{-- <p class="card-text"> --}}
+                      {{-- "Ver todos los pdf existentes del convenio" --}}
+                    {{-- </p> --}}
+                    <label for="observacion" class="form-label"><b>VER OBSERVACIÓNES</b></label>
+                    <div>
+                        <a id="observacion" href="{{url('empleado/agregarobservacion',['id' => $registro->id])}}" class="btn btn-info"  target="_blank" ><i class="fas fa-eye"></i> VER OBSERVACIÓNES</a>
+                    </div>
+                
+                </div>                  
 
             </div> 	
   
     </article>
-
-    <br>
-
+    <hr>
     <div class="col-lg-12"> 
       <div class="table-responsive">  
           <table id="tablaConvenios" class="table table-striped table-hover table-bordered display" cellspacing="0" style="width:100%">

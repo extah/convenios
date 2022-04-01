@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Contabilidad extends Model
 {
     protected $fillable = [
-        'id_etapas', 'id_compra', 'id_fisica','nro_factura','fecha_emision','beneficiario', 'cuit','importe','cae','nro_pago','nombre_archivo_factura','nombre_archivo_comprobante_afip',
+        'id_etapas', 'id_compra', 'id_fisica','nro_factura','fecha_emision','beneficiario', 'cuit','importe','cae','nro_pago','nombre_archivo_factura','nombre_archivo_comprobante_afip', 'nombre_archivo_constancia_inscripcion', 'nombre_archivo_comprobante_actividades',
     ];
     public $timestamps  = true;
 

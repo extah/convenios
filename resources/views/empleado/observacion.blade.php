@@ -8,6 +8,12 @@
             background-color: #04205f;
             color: rgb(226, 226, 226);
         }
+        .table thead,
+        .table tfoot{
+            background-color: rgb(116, 112, 112);
+            color: azure;
+
+        }
     </style>
 @endsection
 

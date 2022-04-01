@@ -36,7 +36,7 @@
         <div class="col-sm-12  p-1">
           <div class="card">
             
-            <div class="card-header text-center"  style="background-color: #60159e; color:beige"><b>CONVENIO FIRMADO</b></div>
+            <div class="card-header text-center"  style="background-color: #736f77; color:beige"><b>CONVENIO FIRMADO</b></div>
             <div class="card-body">
               @foreach ($datos_paso1 as $dato_paso1)
                 <h6 class="card-title"><span style="color:rgb(250, 0, 0)">*</span>{{ $dato_paso1 }}</h6>
@@ -53,7 +53,7 @@
     <div class="col-sm-12  p-1">
       <div class="card">
         
-        <div class="card-header text-center"  style="background-color: #60159e; color:beige"><b>CONVENIO FIRMADO</b></div>
+        <div class="card-header text-center"  style="background-color: #736f77; color:beige"><b>CONVENIO FIRMADO</b></div>
         <div class="card-body">
             <h6 class="card-title"><span style="color:rgb(4, 165, 39)">DATOS COMPLETOS</span></h6>
             <p class="card-text">
@@ -99,6 +99,26 @@
 
     </div>
   @endif
+
+  @if ($observaciones->count() > 0)
+  
+    <div class="row">
+        <div class="col-sm-12  p-1">
+          <div class="card">
+            
+            <div class="card-header text-center"  style="background-color: #7c2207; color:beige"><b>OBSERVACIÓNES</b></div>
+            <div class="card-body">
+              @foreach ($observaciones as $observacion)
+                <h6 class="card-title"><span style="color:rgb(250, 0, 0)">*</span>{{ $observacion->descripcion }}</h6>
+              @endforeach
+              <p class="card-text">
+                {{-- {{ $paso1[0]->nombre_proyecto }} --}}
+              </p>
+            </div>
+          </div>
+        </div>
+    </div>
+@endif
 
 </article>
 

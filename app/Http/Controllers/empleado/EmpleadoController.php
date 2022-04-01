@@ -685,8 +685,11 @@ class EmpleadoController extends Controller
                         if (count($datos_paso1) > 0) {
                             $if_paso1 = true;
                         }
+                        $observaciones = Observaciones::get_registro($id_etapa);
 
-                        return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1', 'if_paso1', 'arreglo_completo', 'if_compra'));
+                        // return $observaciones;
+
+                        return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1', 'if_paso1', 'arreglo_completo', 'if_compra', 'observaciones'));
                     } else {
                         if ($paso == 'paso4') {
                             // $registro  = Paso4::get_registro($id_etapa);

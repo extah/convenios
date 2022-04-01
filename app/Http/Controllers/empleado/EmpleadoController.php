@@ -631,7 +631,7 @@ class EmpleadoController extends Controller
 
                                     if ($suma_importe_fisica < $compra_value->importe_compra) {
                                         $resto_importe_fisica = $compra_value->importe_compra - $suma_importe_fisica;
-                                        $json_2 = "FISICA: Para completar el monto de la compra generada, falta crear una o mas 'fisica'. Resta : $" . $resto_importe_fisica . ".";
+                                        $json_2 = "FISICA: Para completar el monto de la compra generada, falta crear una o mas 'fisica'. Restan: $" . $resto_importe_fisica . ".";
                                     }
 
                                     $i++;
@@ -657,7 +657,7 @@ class EmpleadoController extends Controller
                             }
                             if($monto_compra < $paso1[0]->monto){
                                 $resto_compra = $paso1[0]->monto - $monto_compra;
-                                $datos_paso1['compra'] = "Para completar el monto total del convenio, falta crear una o mas 'compras'. Resta : $" . $resto_compra . ".";
+                                $datos_paso1['compra'] = "Para completar el monto total del convenio, falta crear una o mas 'compras'. Restan: $" . $resto_compra . ".";
                             }
 
                             if ((count($datos_paso1) > 0) && (count($arreglo_completo) > 0)) {

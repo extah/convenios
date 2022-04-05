@@ -14,6 +14,7 @@
                   color: azure;
 
                 }
+                .btn-group { margin-bottom: -45px;z-index: 2;}       
     </style>
 @endsection
 
@@ -248,7 +249,7 @@ $(document).ready(function() {
                 }
 
             },
-            //"dom": '<"dt-buttons"Bf><"clear">lirtp',
+            // "dom": '<"dt-buttons"Bf><"clear">lirtp',
             "ajax":{            
                             "headers": { 'X-CSRF-TOKEN': $('meta[name="csrf-token_convenios"]').attr('content') },    
                             "url": "{{route('empleado.tablaconvenios')}}", 
@@ -268,31 +269,33 @@ $(document).ready(function() {
                             { data: "paso4" }, 
                             { data: "fecha_finalizacion" },   
                             { data: "finalizo" },  
-                            {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnVer'><i class='fas fa-eye'></i></button><button class='btn btn-secondary btn-sm btnEditar'><i class='fas fa-edit'></i></button></div></div>"},
+                            {"defaultContent": "<div class='text-center'><div class=''><button class='btn btn-primary btn-sm btnVer'><i class='fas fa-eye'></i></button><button class='btn btn-secondary btn-sm btnEditar'><i class='fas fa-edit'></i></button></div></div>"},
                             // {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='fas fa-edit'></i></button><button class='btn btn-danger btn-sm btnBorrar'><i class='fas fa-trash-alt'></i></button></div></div>"},
                         ],
             responsive: {
             },
-            select: true,
-            colReorder: true,
+            "select": true,
+            "colReorder": false,
             "autoWidth": false,
             "order": [[ 0, "asc" ]],
             "paging":   true,
-            "ordering": true,
-            "info":     false,
-            "dom": 'Bfrtilp',
+            "ordering": false,
+            "info":     true,
+            // "dom": 'Bfrtilp',
+            dom: 'Bfrtip',
+            // dom: 'B<"clear">lfrtip',
+            lengthChange: false,
             'columnDefs': [
                             {'max-width': '20%', 'targets': 0}
                         ],
-            
             "language": {
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
                             "sZeroRecords":    "No se encontraron resultados",
                             "sEmptyTable":     "Ningun dato disponible en esta tabla",
-                            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                            "sInfo":           "Mostrando convenios del _START_ al _END_ de un total de _TOTAL_ convenios",
+                            "sInfoEmpty":      "Mostrando convenios del 0 al 0 de un total de 0 convenios",
+                            "sInfoFiltered":   "(filtrado de un total de _MAX_ convenios)",
                             "sSearch":         "Buscar:",
                             "sInfoThousands":  ",",
                             "sLoadingRecords": "Cargando...",
@@ -312,12 +315,6 @@ $(document).ready(function() {
                             }
                         },   
                     "buttons":[
-                    //     {
-                    //     extend:    'copyHtml5',
-                    //     text:      '<i class="fas fa-copy"></i> COPIAR ',
-                    //     titleAttr: 'Copiar datos',
-                    //     className: 'btn btn-dark'
-                    // },
                     {
                         extend:    'excelHtml5',
                         text:      '<i class="fas fa-file-excel"></i> EXCEL ',
@@ -370,7 +367,8 @@ $(document).ready(function() {
                         }
                     },
                 ]              
-        });    
+        }); 
+
         var fila; //captura la fila, para editar o eliminar
 
         $("#btnBuscarporNUMERO").click(function(){        

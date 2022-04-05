@@ -14,6 +14,7 @@
             color: azure;
 
         }
+        .btn-group { margin-bottom: -45px;z-index: 2;}
     </style>
 @endsection
 
@@ -45,8 +46,6 @@
             </button>
         </div>
     </div>
-
-    <br>
 
     <div class="col-lg-12"> 
       <div class="table-responsive">  
@@ -142,30 +141,33 @@ $(document).ready(function() {
                         { data: "id_etapas"},
                         { data: "descripcion"},
                         { data: "fecha"},
-                        {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-danger btn-sm btnEliminar'><i class='fa fa-trash-alt'></i></button></div></div>"},
+                        {"defaultContent": "<div class='text-center'><div class=''><button class='btn btn-danger btn-sm btnEliminar'><i class='fa fa-trash-alt'></i></button></div></div>"},
                         
                     ],
         responsive: {
         },
-        select: true,
-        colReorder: true,
+        "select": true,
+        "colReorder": false,
         "autoWidth": false,
-         "order": [[ 0, "DES" ]],
-         "paging":   true,
-         "ordering": true,
-         "info":     false,
-         "dom": 'Bfrtilp',
+        "order": [[ 0, "asc" ]],
+        "paging":   true,
+        "ordering": false,
+        "info":     true,
+        // "dom": 'Bfrtilp',
+        dom: 'Bfrtip',
+        // dom: 'B<"clear">lfrtip',
+        lengthChange: false,
          'columnDefs': [
                           {'max-width': '100%', 'targets': 0}
                        ],
          
          "language": {
                         "sProcessing":     "Procesando...",
-                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sLengthMenu":     "Mostrar _MENU_ observaciónes",
                         "sZeroRecords":    "No se encontraron resultados",
                         "sEmptyTable":     "Ningun dato disponible en esta tabla",
-                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfo":           "Mostrando observaciónes del _START_ al _END_ de un total de _TOTAL_ observaciónes",
+                        "sInfoEmpty":      "Mostrando observaciónes del 0 al 0 de un total de 0 observaciónes",
                         "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
                         "sSearch":         "Buscar:",
                         "sInfoThousands":  ",",
@@ -185,13 +187,8 @@ $(document).ready(function() {
                             "colvis": "Visibilidad"
                         }
                     },   
+
                 "buttons":[
-                    //     {
-                    //     extend:    'copyHtml5',
-                    //     text:      '<i class="fas fa-copy"></i> COPIAR ',
-                    //     titleAttr: 'Copiar datos',
-                    //     className: 'btn btn-dark'
-                    // },
                     {
                         extend:    'excelHtml5',
                         text:      '<i class="fas fa-file-excel"></i> EXCEL ',
@@ -208,15 +205,6 @@ $(document).ready(function() {
                         exportOptions: {
                             columns: [0, 1, 2, 3]
                         }
-                        // customize: function(doc)
-                        // {
-                        //     doc.styles.fontSize = 16;
-                        //     doc.pageMargins = [ 59, 50, 59, 50 ];
-                        //     doc.defaultStyle.border='solid';
-                        //     doc.styles.tableHeader.fillColor = '#d0e9c6';
-                        //     doc.styles.tableHeader.alignment = 'center';
-                        //     doc.styles.tableBodyEven.alignment = 'center';
-                        // }
 
                     },
                     {
@@ -247,9 +235,9 @@ $(document).ready(function() {
                         ],
                         columnGap: 10
                     }
-                ]              
-        });    
-        var fila; //captura la fila, para editar o eliminar
+                ] 
+          
+        });   
 
         $("#btnBuscarporNUMERO").click(function(){        
             fila = $(this).closest("tr");
@@ -361,21 +349,26 @@ $(document).ready(function() {
 
         //Borrar
         $(document).on("click", ".btnEliminar", function(){
-            fila = $(this).closest("tr");  
-                  
+            var fila = $(this).closest("tr");  
+            var delButton = $(this).closest('tr');
 
             if($(this).parents("tr").hasClass('child')){ //vemos si el actual row es child row
                 var id = $(this).parents("tr").prev().find('td:eq(0)').text(); //si es asi, nos regresamos al row anterior, es decir, al padre y obtenemos el id
                 var id_convenio = $(this).parents("tr").prev().find('td:eq(1)').text();
                 var descripcion = $(this).parents("tr").prev().find('td:eq(2)').text();
+                var delButton = $(this).parents('tr');
+
+                // $(this).parents("tr").prev().remove();
                 // var hora = $(this).parents("tr").prev().find('td:eq(5)').text();
             } else {
                 var id = $(this).closest("tr").find('td:eq(0)').text(); //si no lo es, seguimos capturando el id del actual row
                 var id_convenio = $(this).closest("tr").find('td:eq(1)').text();
                 var descripcion = $(this).closest("tr").find('td:eq(2)').text();
                 // var hora = $(this).closest("tr").find('td:eq(5)').text();
+                var delButton = $(this).closest('tr');
+                
             }
-            // alert(id_convenio); 
+            // alert(table); 
             opcion = 3; //eliminar 
             swal({
                   title: "Esta seguro de eliminar la observación N° " + id + " con descripción: "+ descripcion +"?",
@@ -392,8 +385,11 @@ $(document).ready(function() {
                                 data:  {
                                     '_token': $('input[name=_token]').val(),
                                     param_id_etapa:id_convenio, id:id},    
-                                success: function() {
-                                    tablaObservacion.row(this).remove().draw(); 
+                                success: function(data) {
+                                    
+                                    tablaObservacion.row(delButton).remove().draw();
+                                    // fila.remove();
+                                    // tablaObservacion.draw(); 
                                     swal("Observación eliminada con Exito!!!", {
                                     icon: "success",
                                     });                

@@ -119,6 +119,7 @@
                                     <i class="fas fa-eye" aria-hidden="true" ></i> {{ $compra->nombre_archivo }}
                                 </a>
                             </div>
+                            <hr>
                             @if($fisica_obras->count() > 0)
                                 <h5>PDF FISICA</h5>
                                 @foreach ($fisica_obras as $fisica_obra)
@@ -130,7 +131,9 @@
                                         </div>
                                     @endif    
                                 @endforeach
+                                <hr>
                             @endif
+                            
                             @if($contabilidads->count() > 0)
                                 <h5>PDF CONTABILIDAD</h5>
                                 @foreach ($contabilidads as $contabilidad)
@@ -155,7 +158,8 @@
                                                 <i class="fas fa-eye" aria-hidden="true" ></i> {{ $contabilidad->nombre_archivo_comprobante_actividades }}
                                             </a>
                                         </div>
-                                    @endif    
+                                    @endif  
+                                    <hr>  
                                 @endforeach
                             @endif     
                             @if($tesorerias->count() > 0)
@@ -169,6 +173,7 @@
                                         </div>
                                     @endif    
                                 @endforeach
+                                <hr>
                             @endif 
                         </div>
                         <div class="card-footer text-muted">
@@ -192,11 +197,15 @@
                 <B>DICTÁMEN</B> 
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ $paso4[0]->condicion_rendicion }}</h5>
                     <p class="card-text">Convenio finalizado rendido en formato PDF.</p>
-                    <a href="{{url('empleado/verpdf',['id' => $paso4[0]->id_etapas, 'tipo' => 'dictamenes', 'nombre_archivo' => $paso4[0]->nombre_archivo])}}" target="_blank" class="btn btn-rendicion">
-                        <i class="fas fa-eye" aria-hidden="true" ></i> VER DICTÁMEN
-                    </a>
+                    @foreach ($paso4 as $pas4)
+                        <h5 class="card-title">{{ $pas4->condicion_rendicion }}</h5>
+                        
+                        <a href="{{url('empleado/verpdf',['id' => $pas4->id_etapas, 'tipo' => 'dictamenes', 'nombre_archivo' => $pas4->nombre_archivo])}}" target="_blank" class="btn btn-rendicion">
+                            <i class="fas fa-eye" aria-hidden="true" ></i> VER {{$pas4->nombre_archivo}}
+                        </a>
+                        <hr>
+                    @endforeach
                 </div>
                 <div class="card-footer text-muted">
                     Última actualización {{ $paso1->updated_at->format('d-m-Y H:i:s') }}

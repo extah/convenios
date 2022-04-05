@@ -673,9 +673,9 @@ class EmpleadoController extends Controller
                                 {
                                     $pasos_etapas->paso3 = "SI";
                                 }
-                                if (($pasos_etapas->paso1 == "SI") && ($pasos_etapas->paso2 == "SI") && ($pasos_etapas->paso3 == "SI") && ($pasos_etapas->paso4 == "SI")) {
-                                    $pasos_etapas->finalizo = "SI";
-                                }
+                                // if (($pasos_etapas->paso1 == "SI") && ($pasos_etapas->paso2 == "SI") && ($pasos_etapas->paso3 == "SI") && ($pasos_etapas->paso4 == "SI")) {
+                                //     $pasos_etapas->finalizo = "SI";
+                                // }
                                 $pasos_etapas->save();
 
                             }
@@ -1363,16 +1363,16 @@ class EmpleadoController extends Controller
         $nombre = $user_login->nombreyApellido;
         $registro  = Paso1::get_registro($id_etapas);
 
-        if (count($paso4_cargado) > 0) {
-            $no_hay_datos = false;
-            $inicio = "";
-            $esEmp = true;
-            $status_agregado = false;
-            $status_existe = true;
+        // if (count($paso4_cargado) > 0) {
+        //     $no_hay_datos = false;
+        //     $inicio = "";
+        //     $esEmp = true;
+        //     $status_agregado = false;
+        //     $status_existe = true;
 
-            return redirect('empleado/verconvenio/' . $id_etapas .'/paso4')->with(['registro' => $registro, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'status_agregado' => $status_agregado, 'status_existe' => $status_existe,]);
+        //     return redirect('empleado/verconvenio/' . $id_etapas .'/paso4')->with(['registro' => $registro, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'status_agregado' => $status_agregado, 'status_existe' => $status_existe,]);
      
-        }
+        // }
 
         $pasosEtapas->paso4 = "SI";
         $pasosEtapas->save();
@@ -1574,6 +1574,19 @@ class EmpleadoController extends Controller
             return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
         }
     }
+
+    public function finalizarconvenio(Request $request)
+    {
+        
+        $pasosEtapas = PasosEtapas::get_registro($request->id);;
+        $pasosEtapas->finalizo = "SI";
+        $pasosEtapas->save();
+
+        return response()->json([
+            'status' => "200"
+        ]);
+
+    }
     public function cerrarsesion(Request $request)
     {
 
@@ -1766,6 +1779,7 @@ class EmpleadoController extends Controller
     }
 
     function generarCSV($arreglo, $ruta, $delimitador, $encapsulador){
+
         $file_handle = fopen($ruta, 'w');
         foreach ($arreglo as $linea) {
           fputcsv($file_handle, $linea, $delimitador, $encapsulador);
@@ -1773,5 +1787,6 @@ class EmpleadoController extends Controller
         rewind($file_handle);
         fclose($file_handle);
       }
+
 
 }

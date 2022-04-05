@@ -14,6 +14,7 @@
             color: azure;
 
         }
+        .btn-group { margin-bottom: -45px;z-index: 2;}
     </style>
 @endsection
 
@@ -55,26 +56,26 @@
                     <label for="monto_recibido" class="form-label"><b>MONTO RECIBIDO</b></label>
                     <input type="number" step=".01" class="form-control" id="monto_recibido" name="monto_recibido" min="0" value="{{ $registro->monto_recibido }}"readonly required>
                 </div>
-                <div class="col-sm-3">
-                        {{-- <p class="card-text"> --}}
-                          {{-- "Ver todos los pdf existentes del convenio" --}}
-                        {{-- </p> --}}
+                <div class="col-sm-2">
                         <label for="pdfs" class="form-label"><b>VER TODOS LOS PDF</b></label>
                         <div>
-                            <a id="pdfs" href="{{url('empleado/verpdfconvenio',['id' => $registro->id])}}" class="btn btn-info"  target="_blank" ><i class="fas fa-eye"></i> VER TODOS LOS PDF</a>
+                            <a id="pdfs" href="{{url('empleado/verpdfconvenio',['id' => $registro->id])}}" class="btn btn-info"  target="_blank" ><i class="fas fa-eye"></i> <h6>VER TODOS LOS PDF</h6></a>
                         </div>
                     
                 </div>
-                <div class="col-sm-3">
-                    {{-- <p class="card-text"> --}}
-                      {{-- "Ver todos los pdf existentes del convenio" --}}
-                    {{-- </p> --}}
+                <div class="col-sm-2">
                     <label for="observacion" class="form-label"><b>VER OBSERVACIÓNES</b></label>
                     <div>
-                        <a id="observacion" href="{{url('empleado/agregarobservacion',['id' => $registro->id])}}" class="btn btn-info"  target="_blank" ><i class="fas fa-eye"></i> VER OBSERVACIÓNES</a>
+                        <a id="observacion" href="{{url('empleado/agregarobservacion',['id' => $registro->id])}}" class="btn btn-info"  target="_blank" ><i class="fas fa-eye"></i> <h6>VER OBSERVACIÓNES</h6></a>
                     </div>
                 
-                </div>                  
+                </div> 
+                <div class="col-sm-2">
+                    <label for="finalizar" class="form-label"><b>FINALIZAR CONVENIO</b></label>
+                    <div>
+                        <a id="finalizar"  class="btn btn-success"  target="_blank" onclick="finalizar()"><i class="fas fa-hourglass-half"></i> <h6>FINALIZAR CONVENIO</h1></a>
+                    </div>
+                </div>                 
 
             </div> 	
   
@@ -107,7 +108,7 @@
   </div>       
 </div>
 
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('js')
@@ -120,6 +121,52 @@
 <script src='{{ asset("assets/validity/jquery.validity.min.js") }}'></script>
 <script src='{{ asset("assets/validity/jquery.validity.lang.es.js") }}'></script>
 <script src="{{ asset("assets/sweetalert/sweetalert.min.js") }}"></script>
+
+<script>
+    // document.getElementById("finalizar").onclick = function() {myFunction()};
+    
+    function finalizar() {
+    //   document.getElementById("finalizar").innerHTML = "YOU CLICKED ME!";
+        var id = 1;
+      swal({
+                  title: "Esta seguro de finalizar el convenio?",
+                  icon: "warning",
+                  buttons: ["No", "Si"],
+                })
+                .then((willDelete) => {
+                  if (willDelete) {
+                    $.ajax({
+                            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                            type: 'post',
+                            dataType: 'json',
+                            url: '{{ route("empleado.finalizarconvenio") }}',
+                            data: {
+                                '_token': $('input[name=_token]').val(),
+                                'id': $('#conve_id').val()
+                            },
+                            beforeSend: function () {
+                                // console.log('bloqueo botones');
+                            },
+                            complete: function () {
+                                // console.log('desbloqueo botones');
+                            },
+                            success: function (response) {
+                                // console.log(response);
+                                swal("Convenio finalizado con éxito!!!", {
+                                    icon: "success",
+                                });  
+                            },
+                            error: function (jqXHR) {
+                                console.log('boo!');
+                            }
+                        });
+                  } else {
+                    swal("El convenio no fue finalizado");
+                  }
+                });
+    }
+</script>
+
 
 <script>
 
@@ -156,26 +203,29 @@ $(document).ready(function() {
                     ],
         responsive: {
         },
-        select: true,
-        colReorder: true,
+        "select": true,
+        "colReorder": false,
         "autoWidth": false,
-         "order": [[ 0, "DES" ]],
-         "paging":   true,
-         "ordering": true,
-         "info":     false,
-         "dom": 'Bfrtilp',
+        "order": [[ 0, "asc" ]],
+        "paging":   true,
+        "ordering": false,
+        "info":     true,
+        // "dom": 'Bfrtilp',
+        dom: 'Bfrtip',
+        // dom: 'B<"clear">lfrtip',
+        lengthChange: false,
          'columnDefs': [
                           {'max-width': '20%', 'targets': 0}
                        ],
          
          "language": {
                         "sProcessing":     "Procesando...",
-                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sLengthMenu":     "Mostrar _MENU_ compras",
                         "sZeroRecords":    "No se encontraron resultados",
                         "sEmptyTable":     "Ningun dato disponible en esta tabla",
-                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                        "sInfo":           "Mostrando compras del _START_ al _END_ de un total de _TOTAL_ compras",
+                        "sInfoEmpty":      "Mostrando compras del 0 al 0 de un total de 0 compras",
+                        "sInfoFiltered":   "(filtrado de un total de _MAX_ compras)",
                         "sSearch":         "Buscar:",
                         "sInfoThousands":  ",",
                         "sLoadingRecords": "Cargando...",

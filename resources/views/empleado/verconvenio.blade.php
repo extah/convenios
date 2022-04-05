@@ -84,15 +84,13 @@
 
 
 
+
 @endsection
 
 @section('js')
 <script src="{{ asset('/assets/bootstrap-datepicker-1.7.1/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('/assets/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}"></script>
 
-<script>
-
-</script>
 <script>
 	$('#fecha_hasta').datepicker({
 		uiLibrary: 'bootstrap4',

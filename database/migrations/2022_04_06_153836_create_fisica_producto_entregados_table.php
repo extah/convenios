@@ -20,6 +20,7 @@ class CreateFisicaProductoEntregadosTable extends Migration
             $table->string('producto_entregado', 255)->nullable();
             $table->bigInteger('nro_acta')->nullable();
             $table->bigInteger('porcentaje')->nullable();
+            $table->double('monto', 15, 2)->default(0)->nullable();
             $table->string('nombre_archivo', 255)->nullable();
             $table->timestamps();
         });

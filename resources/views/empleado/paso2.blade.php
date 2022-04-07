@@ -198,6 +198,10 @@
                         <input type="number" class="form-control" id="nro_remito" name="nro_remito" value="0" min="0" placeholder="ingrese el número de remito" required>
                       </div>
                       <div>
+                        <label for="monto_recibido" class="form-label"><b>IMPORTE</b></label>
+                        <input type="number" step=".01" class="form-control" id="monto_recibido" name="monto_recibido" min="0" value="0.00" placeholder="ingrese el monto recibido" required>
+                      </div>
+                      <div>
                         <div>
                           {{-- <label id="producto_municipalidad" for="pdf" class="form-label" ><b>ADJUNTAR PDF REMITO</b></label>
                           <label id="producto_beneficiario" for="pdf" class="form-label" style="display: none;"><b>SUBIR ACTA DE ENTREGA</b></label> --}}
@@ -251,6 +255,10 @@
                       <div>
                         <label for="nro_acta" class="form-label"><b>NÚMERO ACTA</b></label>
                         <input type="number" class="form-control" id="nro_acta" name="nro_acta" value="0" min="0" placeholder="ingrese el número del acta" required>
+                      </div>
+                      <div>
+                        <label for="monto_entregado" class="form-label"><b>IMPORTE</b></label>
+                        <input type="number" step=".01" class="form-control" id="monto_entregado" name="monto_entregado" min="0" value="0.00" placeholder="ingrese el monto entregado" required>
                       </div>
                       <div>
                         <div>
@@ -310,9 +318,9 @@
                     </div>
                   @else
                     <div class="col-md-6">
-                      <label for="nro_certificado_compra" class="form-label"><b>SELECCIONAR N° DE CERTIFICADO QUE PERTENECE</b></label>
+                      <label for="nro_certificado_compra" class="form-label"><b>SELECCIONAR N° DE ACTA</b></label>
                       <select name="nro_certificado_compra" id="nro_certificado_compra" class="form-control text-center">
-                        <option value="0">0</option>
+                        {{-- <option value="0">0</option> --}}
                         {{-- @foreach ( $fisicas  as $fisica)
                             <option value="{{ $fisica->id }}">{{ $fisica->nro_certificado }}</option>
                         @endforeach --}}
@@ -612,15 +620,25 @@
     }
 
     const fisicas = @json($fisicas);
+    const pasos_etapas = @json($pasos_etapas);
     // console.log(fisicas);
+    // console.log(pasos_etapas["tipo_rendicion"]);
 
     for(var fisica of fisicas){
       if(fisica.id_compra == compra)
       {
-        option = document.createElement("option");
-        option.value = fisica.id;
-        option.text = fisica.nro_certificado;
-        select_nro_certificado_compra.appendChild(option);
+        if (pasos_etapas["tipo_rendicion"] == "producto") {
+          option = document.createElement("option");
+          option.value = fisica.id;
+          option.text = fisica.nro_acta;
+          select_nro_certificado_compra.appendChild(option);
+        } else {
+          option = document.createElement("option");
+          option.value = fisica.id;
+          option.text = fisica.nro_certificado;
+          select_nro_certificado_compra.appendChild(option);
+        }
+
       }
 
     }

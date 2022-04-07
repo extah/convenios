@@ -519,9 +519,18 @@ class EmpleadoController extends Controller
                     $pasos_etapas  = PasosEtapas::get_registro($id_etapa);
                     $compras = Compra::get_registro($id_etapa);
                     $contabilidad = Contabilidad::get_registro($id_etapa);
-                    $fisicas  = Fisica_obra::get_registro($id_etapa);
+                    // return $pasos_etapas;
+                    if ($pasos_etapas->tipo_rendicion == "producto") {
+                        $fisicas  = Fisica_producto_entregado::get_registro($id_etapa);
+                        // $registro_vector = PasosEtapas::get_registro_vector($id_etapa);
+                        // return $registro_vector;
+                    }
+                    else{
+                        $fisicas  = Fisica_obra::get_registro($id_etapa);
+                    }
+                    
                     // return $compras;
-                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compras', 'contabilidad', 'fisicas'));
+                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compras', 'contabilidad', 'fisicas',));
                 } else {
                     if ($paso == 'paso3') {
                         // $registro  = Paso3::get_registro($id_etapa);
@@ -600,7 +609,7 @@ class EmpleadoController extends Controller
                                         
                                     }
                                     else {
-                                        // $fisica  = Fisica_entrega::get_registro($id_etapa);
+                                        $fisica  = Fisica_producto_entregado::get_registro($compra_value->id);
                                     }
 
                                     // recorro fisica
@@ -611,6 +620,7 @@ class EmpleadoController extends Controller
                                         $suma_importe_fisica += $fisica_value->monto;
                                         // return $fisica_value;
                                         $contabilidad = Contabilidad::get_registro_id_fisica($fisica_value->id);
+                                        // return $contabilidad;
                                         if ($contabilidad == NULL) {
                                             $json_3 = "CONTABILIDAD: Falta Crear la factura para 'fisica' con N° de certificado: ". $fisica_value->nro_certificado . ".";
                                             $json_4 = "TESORERIA: Falta Crear el recibo de pago para 'fisica' con N° de certificado: ". $fisica_value->nro_certificado . ".";
@@ -842,6 +852,38 @@ class EmpleadoController extends Controller
 
             $pasosEtapas  = PasosEtapas::get_registro($request->id_etapas);
 
+            $pasos1  = Paso1::get_registro($request->id_etapas);
+            $compras  = Compra::get_registro($request->id_etapas);
+            // return $pasos1;
+            $importe_total_comrpas = 0;
+            foreach ($compras as $compra) {
+                $importe_total_comrpas += $compra->importe_compra;
+            }
+            if ($importe_total_comrpas >= $pasos1-> monto) {
+                $no_hay_datos = false;
+                $inicio = "";
+                $esEmp = true;
+                $status_ok = false;
+                $status_error = true;
+                $nombreconvenio = "fallo";
+                $message = "No se pudo crear la compra, por que supera el monto total del convenio";
+
+    
+                // return view('empleado.paso1', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+                $id_etapas = $request->id_etapas;
+    
+                $registro  = Paso2::get_registro($id_etapas);
+                $pasos_etapas  = PasosEtapas::get_registro($id_etapas);
+                $compra  = Compra::get_registro($id_etapas);
+                
+    
+                // return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
+                // return $nombre;
+                return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra, 'status_ok' => $status_ok,  'status_error' => $status_error,  'message' => $message,]);
+            
+            }
+            // return $importe_total_comrpas;
+
             $compras = new Compra;
             $compras->id_etapas = $request->id_etapas;
             $compras->orden_compra = $request->orden_compra;
@@ -884,23 +926,17 @@ class EmpleadoController extends Controller
             $no_hay_datos = false;
             $inicio = "";
             $esEmp = true;
-            $status_ok = false;
-            $status_convenio = true;
+            $status_ok = true;
+            $status_error = false;
             $nombreconvenio = "ÉXITO";
-            $message = "Convenio creado";
-            $status_agregado = true;
-
-            // return view('empleado.paso1', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+            $message = "Compra creada";
             $id_etapas = $request->id_etapas;
 
             $registro  = Paso2::get_registro($id_etapas);
             $pasos_etapas  = PasosEtapas::get_registro($id_etapas);
             $compra  = Compra::get_registro($id_etapas);
             
-
-            // return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
-            // return $nombre;
-            return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra,]);
+            return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra, 'status_ok' => $status_ok,  'status_error' => $status_error,  'message' => $message,]);
         }
         else
         {
@@ -1290,6 +1326,7 @@ class EmpleadoController extends Controller
             $fisica_producto_recibido->producto_recibido = $request->select_entrega_producto;
             $fisica_producto_recibido->nro_remito = $request->nro_remito;
             $fisica_producto_recibido->porcentaje = $request->porc_producto_recibido;
+            $fisica_producto_recibido->monto = $request->monto_recibido;
 
             $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/fisica_recibido';
             $path = storage_path($nombre_carpeta);
@@ -1375,6 +1412,7 @@ class EmpleadoController extends Controller
             $fisica_producto_entregado->producto_entregado = $request->select_entrega_producto;
             $fisica_producto_entregado->nro_acta = $request->nro_acta;
             $fisica_producto_entregado->porcentaje = $request->porc_producto_entregado;
+            $fisica_producto_entregado->monto = $request->monto_entregado;
 
             $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/fisica_entregado';
             $path = storage_path($nombre_carpeta);

@@ -31,7 +31,8 @@ Route::group(array('prefix' => 'empleado'), function(){
 	Route::get('/agregar',	'empleado\EmpleadoController@agregar')->name('empleado.agregarnuevoconvenio');
 	Route::post('/agregarconvenio',	'empleado\EmpleadoController@agregarconvenio')->name('empleado.agregarconvenio');
 	Route::post('/editarconvenio',	'empleado\EmpleadoController@editarconvenio')->name('empleado.editarconvenio');
-	Route::post('/ejecucionconvenio',	'empleado\EmpleadoController@ejecucionconvenio')->name('empleado.ejecucionconvenio');
+	Route::post('/ejecucionconveniofisicaproductorecibido',	'empleado\EmpleadoController@ejecucionconveniofisicaproductorecibido')->name('empleado.ejecucionconveniofisicaproductorecibido');
+	Route::post('/ejecucionconveniofisicaproductoentregado',	'empleado\EmpleadoController@ejecucionconveniofisicaproductoentregado')->name('empleado.ejecucionconveniofisicaproductoentregado');
 	Route::post('/ejecucionconveniocompra',	'empleado\EmpleadoController@ejecucionconveniocompra')->name('empleado.ejecucionconveniocompra');
 	Route::post('/ejecucionconveniofisicaobra',	'empleado\EmpleadoController@ejecucionconveniofisicaobra')->name('empleado.ejecucionconveniofisicaobra');
 	Route::post('/ejecucionconveniocontabilidad',	'empleado\EmpleadoController@ejecucionconveniocontabilidad')->name('empleado.ejecucionconveniocontabilidad');

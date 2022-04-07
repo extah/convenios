@@ -162,36 +162,41 @@
           </div>      
         </form> 
         {{-- PRODUCTO ENTREGA --}}
-        <form id="form_entrega_fisica" style ="display: none;" onsubmit="return miFuncion(this)" class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconvenio') }}">
-          @csrf
+        <div id="form_entrega_fisica" style ="display: none;">
+          
           
           <div class="row g-3">
-            {{-- <div class="col-md-6">
-              <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
-              <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
-                @foreach ( $compras  as $compras)
-                    <option value="{{ $compras->id }}">{{ $compras->orden_compra }}</option>
-                @endforeach
-              </select>
-            </div> --}}
-
+              {{-- ejecucion convenio fisica producto recibido --}}
               <div class="col-sm-6">
-                <form action="">
+                <form class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconveniofisicaproductorecibido') }}">
+                  @csrf
                   <div class="card text-white bg-secondary">
                     <div class="card-body">
+
                       <div id="entrega_producto">      
                         <label for="select_entrega_producto" class="form-label"><b>PRODUCTO RECIBIDO</b></label>
                         <select name="select_entrega_producto" id="select_entrega_producto" class="form-control text-center" onchange="showproducto(this)" required>
                           <option value="municipalidad">Municipalidad</option>
-                          {{-- <option value="beneficiario" >Otro beneficiario</option>           --}}
+                          <option value="beneficiario" >Otro beneficiario</option>          
                         </select>
                       </div>
-
+                      <div>
+                        <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                        <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                          <option value="">Elegir orden de compra</option>
+                          @foreach ( $compras  as $compra)
+                              <option value="{{ $compra->id }}">{{ $compra->orden_compra }}</option>
+                          @endforeach
+                        </select>
+                      </div>
                       <div>
                         <label for="porc_producto_recibido" class="form-label"><b>PORCENTAJE DEL PRODUCTO RECIBIDO</b></label>
-                        <input type="number" class="form-control" id="porc_producto_recibido" name="porc_producto_recibido"  value="0" placeholder="ingrese el porcentaje del producto recibido" required>
+                        <input type="number" class="form-control" id="porc_producto_recibido" name="porc_producto_recibido" value="0" min="0" max="100" placeholder="ingrese el porcentaje del producto recibido" required>
                       </div>
-
+                      <div>
+                        <label for="nro_remito" class="form-label"><b>NÚMERO DE REMITO</b></label>
+                        <input type="number" class="form-control" id="nro_remito" name="nro_remito" value="0" min="0" placeholder="ingrese el número de remito" required>
+                      </div>
                       <div>
                         <div>
                           {{-- <label id="producto_municipalidad" for="pdf" class="form-label" ><b>ADJUNTAR PDF REMITO</b></label>
@@ -203,12 +208,9 @@
                           <label class="input-group-text" for="pdf">SUBIR</label>
                         </div>
                       </div>
-
-                      <div class="form-group" >
-                        <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
-                        <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
-                      </div>
-                      <br>
+                      <div>
+                        <input id="id_etapas" name="id_etapas" type="text" value="{{$id_etapas}}" style ="display: none;">
+                      </div> 
                       <div class="d-grid gap-2 col-md-10 mx-auto">
                         <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" ><b>Guardar</b></button>
                       </div>
@@ -219,30 +221,37 @@
               </div>
             
             
-            
+            {{-- ejecucion convenio fisica producto entregado --}}
               <div class="col-sm-6">
-                <form action="">
+                <form class="needs-validation" enctype="multipart/form-data" novalidate method="post" action="{{ url('empleado/ejecucionconveniofisicaproductoentregado') }}">
+                  @csrf
                   <div class="card  text-white bg-secondary">
                     <div class="card-body">
+
                       <div id="entrega_producto">      
-                        <label for="select_entrega_producto" class="form-label"><b>PRODUCTO RECIBIDO</b></label>
+                        <label for="select_entrega_producto" class="form-label"><b>PRODUCTO ENTREGADO</b></label>
                         <select name="select_entrega_producto" id="select_entrega_producto" class="form-control text-center" onchange="showproducto(this)" required>
-                          {{-- <option value="municipalidad">Municipalidad</option> --}}
+                          <option value="municipalidad">Municipalidad</option>
                           <option value="beneficiario" >Otro beneficiario</option>          
                         </select>
                       </div>
-
                       <div>
-                        <label for="porc_producto_recibido" class="form-label"><b>PORCENTAJE DEL PRODUCTO QUE SE ENTREGO</b></label>
-                        <input type="number" class="form-control" id="porc_producto_recibido" name="porc_producto_recibido"  value="0" min="0" max="100" placeholder="ingrese el porcentaje del producto recibido" required>
+                        <label for="orden_compra" class="form-label"><b>SELECCIONAR ORDEN DE COMPRA QUE PERTENECE</b></label>
+                        <select name="orden_compra" id="orden_compra" class="form-control text-center" required>
+                          <option value="">Elegir orden de compra</option>
+                          @foreach ( $compras  as $compra)
+                              <option value="{{ $compra->id }}">{{ $compra->orden_compra }}</option>
+                          @endforeach
+                        </select>
                       </div>
-
-
-
-                      {{-- id="elegir_archivos">
-                        id="producto"> --}}
-                          {{-- <label id="producto_municipalidad" for="pdf" class="form-label" ><b>ADJUNTAR PDF REMITO</b></label> --}}
-                          {{-- <label id="producto_beneficiario" for="pdf" class="form-label" style="display: none;"><b>SUBIR ACTA DE ENTREGA</b></label> --}}
+                      <div>
+                        <label for="porc_producto_entregado" class="form-label"><b>PORCENTAJE DEL PRODUCTO QUE SE ENTREGO</b></label>
+                        <input type="number" class="form-control" id="porc_producto_entregado" name="porc_producto_entregado"  value="0" min="0" max="100" placeholder="ingrese el porcentaje del producto entragado" required>
+                      </div>
+                      <div>
+                        <label for="nro_acta" class="form-label"><b>NÚMERO ACTA</b></label>
+                        <input type="number" class="form-control" id="nro_acta" name="nro_acta" value="0" min="0" placeholder="ingrese el número del acta" required>
+                      </div>
                       <div>
                         <div>
                           <label for="pdf_acta" class="form-label"><b>SUBIR ACTA DE ENTREGA</b></label>
@@ -252,11 +261,9 @@
                           <label class="input-group-text" for="pdf">SUBIR</label>
                         </div>
                       </div>
-                      <div class="form-group" >
-                        <div id="captcha" class='g-recaptcha' data-sitekey='6LfpoScUAAAAAA2usCdAwayw_KQiHe44y5e1Whk-'></div>
-                        <div id='errorRecaptcha' style='display:none; color:#a94442' required>    <span class='glyphicon glyphicon-exclamation-sign'></span>    Por favor, verifica que no seas un robot.</div>
-                      </div>
-                      <br>
+                      <div>
+                        <input id="id_etapas" name="id_etapas" type="text" value="{{$id_etapas}}" style ="display: none;">
+                      </div> 
                       <div class="d-grid gap-2 col-md-10 mx-auto">
                         <button id="boton_guardar" type="submit" class="btn btn-dark btn-lg" ><b>Guardar</b></button>
                       </div>
@@ -267,7 +274,7 @@
               </div>
             
           </div>  
-        
+        </div>  
 
         <!-- CONTABILIDAD -->
         <div class="d-grid gap-2 col-6 mx-auto">
@@ -292,15 +299,28 @@
                       @endforeach
                     </select>
                   </div>
+                  @if ("$pasos_etapas->tipo_rendicion" == "obra")
+                    <div class="col-md-6">
+                      <label for="nro_certificado_compra" class="form-label"><b>SELECCIONAR N° DE CERTIFICADO QUE PERTENECE</b></label>
+                      <select name="nro_certificado_compra" id="nro_certificado_compra" class="form-control text-center" required>
+                        {{-- @foreach ( $fisicas  as $fisica)
+                            <option value="{{ $fisica->id }}">{{ $fisica->nro_certificado }}</option>
+                        @endforeach --}}
+                      </select>
+                    </div>
+                  @else
+                    <div class="col-md-6">
+                      <label for="nro_certificado_compra" class="form-label"><b>SELECCIONAR N° DE CERTIFICADO QUE PERTENECE</b></label>
+                      <select name="nro_certificado_compra" id="nro_certificado_compra" class="form-control text-center">
+                        <option value="0">0</option>
+                        {{-- @foreach ( $fisicas  as $fisica)
+                            <option value="{{ $fisica->id }}">{{ $fisica->nro_certificado }}</option>
+                        @endforeach --}}
+                      </select>
+                    </div>
+                  @endif
+                  
 
-                  <div class="col-md-6">
-                    <label for="nro_certificado_compra" class="form-label"><b>SELECCIONAR N° DE CERTIFICADO QUE PERTENECE</b></label>
-                    <select name="nro_certificado_compra" id="nro_certificado_compra" class="form-control text-center" required>
-                      {{-- @foreach ( $fisicas  as $fisica)
-                          <option value="{{ $fisica->id }}">{{ $fisica->nro_certificado }}</option>
-                      @endforeach --}}
-                    </select>
-                  </div>
 
                   <div class="col-md-3">
                       <label fior="nro_factura" class="form-label"><b>NÚMERO DE FACTURA</b></label>

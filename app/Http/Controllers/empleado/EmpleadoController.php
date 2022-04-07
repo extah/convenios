@@ -17,6 +17,8 @@ use App\Fisica_obra;
 use App\Contabilidad;
 use App\Tesoreria;
 use App\Observaciones;
+use App\Fisica_producto_recibido;
+use App\Fisica_producto_entregado;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Storage;
 
@@ -1265,16 +1267,15 @@ class EmpleadoController extends Controller
         }
     }
 
-    public function ejecucionconvenio(Request $request)
+    //FISICA-PRODUCTO RECIBIDO
+    public function ejecucionconveniofisicaproductorecibido(Request $request)
     {     
         $usuario = $request->session()->get('usuario');
         $result = $this->isUsuario($usuario);  
         // return $request;
 
         if($result == "OK"){
-            $select_ejecucion = $request->select_ejecucion;
-            $select_entrega_producto = $request->select_entrega_producto;
-            $monto_pagado = $request->monto_pagado;
+
             $id_etapas = $request->id_etapas;
 
             $esEmp = true;
@@ -1282,28 +1283,26 @@ class EmpleadoController extends Controller
 
             //buscar el nombre de la carpeta
             $pasosEtapas  = PasosEtapas::get_registro($id_etapas);
+            //creo un objeto
+            $fisica_producto_recibido = new Fisica_producto_recibido;
+            $fisica_producto_recibido->id_etapas = $id_etapas;
+            $fisica_producto_recibido->id_compra = $request->orden_compra;
+            $fisica_producto_recibido->producto_recibido = $request->select_entrega_producto;
+            $fisica_producto_recibido->nro_remito = $request->nro_remito;
+            $fisica_producto_recibido->porcentaje = $request->porc_producto_recibido;
 
-            $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/ejecucion';
+            $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/fisica_recibido';
             $path = storage_path($nombre_carpeta);
 
             if (!file_exists($path)) {
                 mkdir($path, 0775, true);
             }
 
-            if($request->hasFile("pdf")){
-                $file=$request->file("pdf");
+            if($request->hasFile("pdf_remito")){
+                $file=$request->file("pdf_remito");
                 
-                // $nombre = "pdf_".time().".".$file->guessExtension();
-                $nombrepdfproducto = "acta_de_entrega.";
-                
-                if($select_entrega_producto != "municipalidad")
-                {
-                    $nombrepdfproducto = "remito.";
-                }
-
-                $nombre_pdf = $nombrepdfproducto . $file->guessExtension();
-                $ruta = $path . "/" . $nombre_pdf;
-                
+                $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName();
+                $ruta = $path . "/" . $nombre_pdf;                
 
                 if($file->guessExtension()=="pdf"){
                     if (file_exists($pasosEtapas->nombre_proyecto)) {
@@ -1311,7 +1310,7 @@ class EmpleadoController extends Controller
                         unlink($nombre_pdf);
                     }
                     copy($file, $ruta);
-                    // $pasosEtapas->nombre_proyecto = $nombre_pdf;
+                    $fisica_producto_recibido->nombre_archivo = $nombre_pdf;
                     // return $ruta;
                 }else{
                     dd("NO ES UN PDF");
@@ -1320,33 +1319,119 @@ class EmpleadoController extends Controller
     
     
             }
-    
-            // $pasos1->save();
 
-            $pasosEtapas->paso2 = "SI";
-            $pasosEtapas->save();
+            $fisica_producto_recibido->save();
 
-            $pasos2 = new Paso2;
-            $pasos2->id_etapas = $id_etapas;
-            $pasos2->condicion_rendicion = $request->select_ejecucion;
-            $pasos2->receptor = $request->select_entrega_producto;
-            $pasos2->nombre_archivo = $nombre_pdf;
-            // $pasos1->created_at = $request->select_cuenta;
-            $pasos2->save();
 
+            $no_hay_datos = false;
+            $inicio = "";
+            $esEmp = true;
+            $status_ok = true;
+            $status_convenio = false;
+            $nombreconvenio = "ÉXITO";
+            $message = "Fisica-Producto recibido creado";
+            $status_agregado = false;
+
+            // return view('empleado.paso1', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+            $id_etapas = $request->id_etapas;
 
             $registro  = Paso2::get_registro($id_etapas);
-            // return $id_etapas;
-            // return $registro;
-            return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas'));
+            $pasos_etapas  = PasosEtapas::get_registro($id_etapas);
+            $compra  = Compra::get_registro($id_etapas);
+
+            return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra, 'message' => $message, 'status_ok' => $status_ok,]);
         }
-        else{
+        else
+        {
+            $message = "Inicie sesion";
+            $status_error = false;
+            $status_info = true;
+            $esEmp = false;
 
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
         }
+    }
+    //FISICA-PRODUCTO ENTREGADO
+    public function ejecucionconveniofisicaproductoentregado(Request $request)
+    {     
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);  
+        // return $request;
 
+        if($result == "OK"){
 
+            $id_etapas = $request->id_etapas;
 
-        return $request;
+            $esEmp = true;
+            $nombre = $request->session()->get('nombre');
+
+            //buscar el nombre de la carpeta
+            $pasosEtapas  = PasosEtapas::get_registro($id_etapas);
+            //creo un objeto
+            $fisica_producto_entregado = new Fisica_producto_entregado;
+            $fisica_producto_entregado->id_etapas = $id_etapas;
+            $fisica_producto_entregado->id_compra = $request->orden_compra;
+            $fisica_producto_entregado->producto_entregado = $request->select_entrega_producto;
+            $fisica_producto_entregado->nro_acta = $request->nro_acta;
+            $fisica_producto_entregado->porcentaje = $request->porc_producto_entregado;
+
+            $nombre_carpeta = 'pdf/'. $pasosEtapas->nombre_proyecto . '/fisica_entregado';
+            $path = storage_path($nombre_carpeta);
+
+            if (!file_exists($path)) {
+                mkdir($path, 0775, true);
+            }
+
+            if($request->hasFile("pdf_acta")){
+                $file=$request->file("pdf_acta");
+                
+                $nombre_pdf = $request->id_etapas . "_" . $file->getClientOriginalName();
+                $ruta = $path . "/" . $nombre_pdf;                
+
+                if($file->guessExtension()=="pdf"){
+                    if (file_exists($pasosEtapas->nombre_proyecto)) {
+                        //File::delete($image_path);
+                        unlink($nombre_pdf);
+                    }
+                    copy($file, $ruta);
+                    $fisica_producto_entregado->nombre_archivo = $nombre_pdf;
+                    // return $ruta;
+                }else{
+                    dd("NO ES UN PDF");
+                }    
+            }
+
+            $fisica_producto_entregado->save();
+
+            $no_hay_datos = false;
+            $inicio = "";
+            $esEmp = true;
+            $status_ok = true;
+            $status_convenio = false;
+            $nombreconvenio = "ÉXITO";
+            $message = "Fisica-Producto entregado creado";
+            $status_agregado = false;
+
+            // return view('empleado.paso1', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+            $id_etapas = $request->id_etapas;
+
+            $registro  = Paso2::get_registro($id_etapas);
+            $pasos_etapas  = PasosEtapas::get_registro($id_etapas);
+            $compra  = Compra::get_registro($id_etapas);
+
+            return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra, 'message' => $message, 'status_ok' => $status_ok,]);
+        }
+        else
+        {
+            $message = "Inicie sesion";
+            $status_error = false;
+            $status_info = true;
+            $esEmp = false;
+
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }
     }
 
     //PASO 4 CONVENIO FINALIZADO RENDIDO

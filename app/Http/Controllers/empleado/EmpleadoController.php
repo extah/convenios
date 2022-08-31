@@ -44,7 +44,7 @@ class EmpleadoController extends Controller
         $status_info = true;
 
         $login =  DB::select("SELECT * FROM users where email = '" . $usuario . "'" );
-
+        
         if(count($login) == 0)
 		{
             
@@ -52,6 +52,7 @@ class EmpleadoController extends Controller
 			$status_error = true;
             $status_ok = false;
             $esEmp = false;
+            
 			
 			// return view('inicio.inicio', compact('inicio', 'message', 'status_error', 'esEmp'));
             return redirect('inicio')->with(['status_error' => $status_error, 'message' => $message,]);
@@ -71,8 +72,9 @@ class EmpleadoController extends Controller
                 session(['usuario'=>$login[0]->cuit, 'nombre'=>$login[0]->nombreyApellido]);
                 $nombre = $login[0]->nombreyApellido;
                 $cuit = $login[0]->cuit;
-
-                return view('empleado.empleado', compact('inicio', 'esEmp', 'nombre', 'status_ok', 'status_convenio', 'message', ));
+                
+                $user_login  = Users::get_registro($cuit);
+                return view('empleado.empleado', compact('inicio', 'esEmp', 'nombre', 'status_ok', 'status_convenio', 'message', 'user_login',));
                 
             }
             else
@@ -113,7 +115,8 @@ class EmpleadoController extends Controller
             // {
             //     $no_hay_datos = true;
             // }
-            return view('empleado.empleado', compact('inicio', 'esEmp', 'nombre', 'usuario', 'status_ok', 'status_convenio', 'message', 'no_hay_datos'));
+            $user_login  = Users::get_registro($usuario);
+            return view('empleado.empleado', compact('inicio', 'esEmp', 'nombre', 'usuario', 'status_ok', 'status_convenio', 'message', 'no_hay_datos', 'user_login',));
         }
         else
         {
@@ -145,7 +148,7 @@ class EmpleadoController extends Controller
             // $message = "Bienvenido/a ";
             // $datos =  DB::select("SELECT DISTINCT apellido, tipo, nombre, cuil, mes, mes_nom, anio FROM recibos_originales where cuil = " . $usuario . " OR numero_documento = " . $usuario . " ORDER BY anio, mes ASC");
             
-            return view('empleado.agregarnuevoconvenio', compact('inicio', 'esEmp', 'nombre', 'usuario',));
+            return view('empleado.agregarnuevoconvenio', compact('inicio', 'esEmp', 'nombre', 'usuario', 'user_login',));
         }
         else
         {
@@ -212,7 +215,7 @@ class EmpleadoController extends Controller
             $message = "Convenio creado";
             $status_agregado = true;
 
-            return view('empleado.empleado', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message'));
+            return view('empleado.empleado', compact('status_agregado', 'status_ok', 'status_convenio', 'esEmp', 'nombreconvenio', 'nombre', 'message', 'user_login',));
         }
         else
         {
@@ -347,7 +350,7 @@ class EmpleadoController extends Controller
             $esEmp = true;
             $status_ok = false;
 
-            return view('empleado.buscarconvenios', compact('inicio', 'esEmp', 'nombre', 'usuario',));
+            return view('empleado.buscarconvenios', compact('inicio', 'esEmp', 'nombre', 'usuario', 'user_login',));
         }
         else
         {
@@ -483,7 +486,7 @@ class EmpleadoController extends Controller
             $nombre = $user_login->nombreyApellido;
             $paso1 = DB::select("SELECT id_etapas, organismo_financiador, nombre_proyecto, monto, cuenta_bancaria, fecha_inicio, fecha_rendicion, fecha_finalizacion, tipo_rendicion, nombre_archivo, created_at FROM paso1s where id_etapas = " . $id);
             // return ($paso1);
-            return view('empleado.verconvenio', compact('esEmp', 'paso1','nombre',));
+            return view('empleado.verconvenio', compact('esEmp', 'paso1','nombre', 'user_login',));
         }
         else{
 
@@ -511,7 +514,7 @@ class EmpleadoController extends Controller
 
                 $registro  = Paso1::get_registro($id_etapa);
 
-                return view('empleado.paso1', compact('esEmp', 'registro','nombre',));
+                return view('empleado.paso1', compact('esEmp', 'registro','nombre', 'user_login',));
             } else {
                 if ($paso == 'paso2') {
                     // $registro  = Paso1::get_registro($id_etapa);
@@ -530,7 +533,7 @@ class EmpleadoController extends Controller
                     }
                     
                     // return $compras;
-                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compras', 'contabilidad', 'fisicas',));
+                    return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compras', 'contabilidad', 'fisicas', 'user_login',));
                 } else {
                     if ($paso == 'paso3') {
                         // $registro  = Paso3::get_registro($id_etapa);
@@ -701,13 +704,13 @@ class EmpleadoController extends Controller
 
                         // return $observaciones;
 
-                        return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1', 'if_paso1', 'arreglo_completo', 'if_compra', 'observaciones'));
+                        return view('empleado.paso3', compact('esEmp', 'compra','nombre', 'datos_paso1', 'if_paso1', 'arreglo_completo', 'if_compra', 'observaciones', 'user_login',));
                     } else {
                         if ($paso == 'paso4') {
                             // $registro  = Paso4::get_registro($id_etapa);
                             $registro  = Paso1::get_registro($id_etapa);
                             // return $registro;
-                             return view('empleado.paso4', compact('esEmp', 'registro','nombre',));
+                             return view('empleado.paso4', compact('esEmp', 'registro','nombre', 'user_login',));
                         } else {
                             # code...
                         }
@@ -735,7 +738,7 @@ class EmpleadoController extends Controller
             $esEmp = true;
             $status_ok = false;
 
-            return view('empleado.datosconvenio', compact('inicio', 'esEmp', 'nombre', 'usuario', 'registro'));
+            return view('empleado.datosconvenio', compact('inicio', 'esEmp', 'nombre', 'usuario', 'registro', 'user_login'));
         }
         else
         {
@@ -808,7 +811,7 @@ class EmpleadoController extends Controller
             $paso4  = Paso4::get_registro($id_etapa);
 
             // return $compras;
-            return view('empleado.verpdfs', compact('nombre', 'esEmp', 'paso1', 'compras', 'fisica_obras', 'contabilidads', 'tesorerias', 'paso4'));
+            return view('empleado.verpdfs', compact('nombre', 'esEmp', 'paso1', 'compras', 'fisica_obras', 'contabilidads', 'tesorerias', 'paso4', 'user_login'));
         }
         else
         {
@@ -1037,7 +1040,7 @@ class EmpleadoController extends Controller
 
                 // return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
 
-                return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['status_ok' => $status_ok, 'message' => $message, 'status_error' => $status_error,'registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra,]);
+                return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['status_ok' => $status_ok, 'message' => $message, 'status_error' => $status_error,'registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra, 'user_login' => $user_login]);
             
             }else {
                 $no_hay_datos = false;
@@ -1058,7 +1061,7 @@ class EmpleadoController extends Controller
 
                 // return view('empleado.paso2', compact('esEmp', 'registro','nombre', 'id_etapas', 'pasos_etapas', 'compra'));
 
-                return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['status_ok' => $status_ok, 'message' => $message, 'status_error' => $status_error,'registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra,]);
+                return redirect('empleado/verconvenio/' . $id_etapas .'/paso2')->with(['status_ok' => $status_ok, 'message' => $message, 'status_error' => $status_error,'registro' => $registro, 'pasos_etapas' => $pasos_etapas, 'nombre' => $nombre, 'id_etapas' => $id_etapas, 'compra' => $compra, 'user_login' => $user_login,]);
             }
         }
         else
@@ -1557,7 +1560,7 @@ class EmpleadoController extends Controller
             $nombre = $user_login->nombreyApellido;
             $conve_id = $id_etapa;
             $esEmp = true;
-            return view('empleado.observacion', compact('esEmp', 'conve_id', 'nombre',));
+            return view('empleado.observacion', compact('esEmp', 'conve_id', 'nombre', 'user_login'));
 
         }
         else
@@ -1713,23 +1716,23 @@ class EmpleadoController extends Controller
     public function cerrarsesion(Request $request)
     {
 
-        $id = session()->getId();
+        // $id = session()->getId();
 
-        $directory = 'C:\xampp\htdocs\recibodesueldo\storage\framework\sessions';
-        $ignoreFiles = ['.gitignore', '.', '..'];
-        $files = scandir($directory);
+        // $directory = 'C:\xampp\htdocs\recibodesueldo\storage\framework\sessions';
+        // $ignoreFiles = ['.gitignore', '.', '..'];
+        // $files = scandir($directory);
         
-        foreach ($files as $file) {
-            $var = $file;
-            if($var == $id)
-            {
-                if(!in_array($file,$ignoreFiles)) unlink($directory . '/' . $file);
-            }
-            else {
+        // foreach ($files as $file) {
+        //     $var = $file;
+        //     if($var == $id)
+        //     {
+        //         if(!in_array($file,$ignoreFiles)) unlink($directory . '/' . $file);
+        //     }
+        //     else {
 
-            }
-            // if(!in_array($file,$ignoreFiles)) unlink($directory . '/' . $file);
-        }
+        //     }
+        //     // if(!in_array($file,$ignoreFiles)) unlink($directory . '/' . $file);
+        // }
 
         $usuario = $request->session()->get('usuario');
         $result = $this->isUsuario($usuario);
@@ -1805,7 +1808,65 @@ class EmpleadoController extends Controller
             }
         }
     }
+    public function cambiar_contraseña(Request $request)
+    {
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);
+        // $param_id_etapa = 1;
+        if($result == "OK")
+        {
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
+            $esEmp = true;
+            $status_contraseña = false;
+            // $message = "Se modifico la contraseña!!!";
+            $message = "";
 
+            return view('empleado.cambiar_contraseña', compact('esEmp', 'nombre', 'status_contraseña', 'message', 'user_login' ));
+
+        }
+        else
+        {
+            $message = "Inicie sesion";
+            $status_error = false;
+            $status_info = true;
+            $esEmp = false;
+
+            // return view('inicio.inicio', compact('status_error', 'esEmp', 'message', 'status_info'));
+            return redirect('inicio')->with(['status_info' => $status_info, 'message' => $message,]);
+        }
+    }
+
+    public function post_cambiar_contraseña(Request $request)
+    {
+        $usuario = $request->session()->get('usuario');
+        $result = $this->isUsuario($usuario);
+
+
+        // $param_id_etapa = 1;
+        if($result == "OK")
+        {           
+            $user_login  = Users::get_registro($usuario);
+            $nombre = $user_login->nombreyApellido;
+
+            $contrasena = $request->password;
+            $confirmpassword = $request->confirmpassword;
+
+            if ($contrasena == $confirmpassword) {
+                $passhash = password_hash($contrasena, PASSWORD_DEFAULT);
+                DB::table('users')->where('cuit',$usuario)->update(array(
+                    'contrasena'=>$passhash,
+                ));
+            }
+
+            $esEmp = true;
+            $status_contraseña = true;
+            $message = "Se modifico la contraseña!!!";
+            // $message = "";
+
+            return view('empleado.cambiar_contraseña', compact('esEmp', 'nombre', 'status_contraseña', 'message', 'user_login' ));
+        }
+    }
     
     function isUsuario($usuario)
     {
@@ -1853,7 +1914,7 @@ class EmpleadoController extends Controller
         // fclose($fp);
 
 
-        $archivofp = fopen("C:/Users/Emma/Desktop/DFE_PDF/prueba.csv", "r");
+        $archivofp = fopen("C:/Users/Emma/Desktop/DFE_PDF/07/monotributo_2022_07.csv", "r");
         $linea = 0;
         $row = 0;
         $arreglo[$row] = array("nombre", "destinatario_cuix", "destinatario_nombre", "destinatario_apellido" ,"archivo", "fecha_disponibilidad");
@@ -1862,20 +1923,21 @@ class EmpleadoController extends Controller
             $row++;
             $num = count($datos);
             $datos_linea = explode(";", $datos[$linea]);
+            // dd($datos_linea);
             $nombre_pdf_original = $datos_linea[0];
             //cuit_legajo_fecha(añomesdia)_campaña.pdf
-            $nombre_archivo_dfe = $datos_linea[1] . "_" . $datos_linea[2] . "_" . $datos_linea[7] . "_004.pdf" ;
+            $nombre_archivo_dfe = $datos_linea[1] . "_" . $datos_linea[2] . "_" . $datos_linea[7] . "_007.pdf" ;
             $nombre_completo = $datos_linea[9];
             // $vector_nombre = explode(" ", $nombre_completo);
             // $apellido = $vector_nombre[0];
             // $nombre = "";
 
             
-            $arreglo[$row] = array("Periodo 2", $datos_linea[1], $nombre_completo, "", $nombre_archivo_dfe, "2022-03-15 12:00:00");
+            $arreglo[$row] = array("Periodo 7", $datos_linea[1], $nombre_completo, "", $nombre_archivo_dfe, "2022-08-16 12:00:00");
             // return $arreglo[1];
             //PDF            
-            $path = 'C:/Users/Emma/Desktop/DFE_PDF/02/';
-            $path2 = 'C:/Users/Emma/Desktop/DFE_PDF/02_cambio_nombre/';
+            $path = 'C:/Users/Emma/Desktop/DFE_PDF/07/07_descargado/';
+            $path2 = 'C:/Users/Emma/Desktop/DFE_PDF/07/07_cambio_nombre/';
 
             // if (!file_exists($path)) {
             //     mkdir($path, 0777, true);
@@ -1894,7 +1956,7 @@ class EmpleadoController extends Controller
 
             
         }
-        $ruta ="C:/Users/Emma/Desktop/DFE_PDF/02_cambio_nombre/mi_archivo.csv";
+        $ruta ="C:/Users/Emma/Desktop/DFE_PDF/07/07_cambio_nombre/mi_archivo.csv";
         $this->generarCSV($arreglo, $ruta, $delimitador = ',', $encapsulador = '"');
         //Cerramos el archivo
         fclose($archivofp);

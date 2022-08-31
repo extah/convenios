@@ -54,20 +54,18 @@
 
 
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ (($nombre)) ?? '' }}
+                        {{ (($nombre)) ?? '' }} - {{ (($user_login->Secretaria)) ?? '' }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
                       <li><a class="dropdown-item" href="{{route('empleado.indexget')}}">Menu</a></li>
                       <li><a class="dropdown-item" href="{{route('empleado.buscarconvenios')}}">Ver convenios</a></li>
+                      <li><a class="dropdown-item" href="{{route('empleado.cambiar_contraseña')}}">Cambiar contraseña</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="{{route('empleado.cerrarsesion')}}">Cerrar sesion</a></li>
                     </ul>
                   </div>
                 @endif
-
-
               </ul>
-
           </div>
       </div>
     </nav>

@@ -155,5 +155,5 @@
         return true;
       }
     }
-  </script>
+</script>
 @endsection
